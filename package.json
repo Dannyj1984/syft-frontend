@@ -54,5 +54,5 @@
     "resetMocks": false
   },
   
-  "proxy": "https://glacial-sierra-91195.herokuapp.com"
+  "proxy": "https://glacial-sierra-91195.herokuapp.com/"
 }
