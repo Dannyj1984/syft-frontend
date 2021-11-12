@@ -53,5 +53,6 @@
   "jest": {
     "resetMocks": false
   },
-  "proxy": "http://localhost:8080"
+  
+  "proxy": "https://glacial-sierra-91195.herokuapp.com"
 }
