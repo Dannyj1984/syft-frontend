@@ -24,6 +24,13 @@ const EventListItem = (props) => {
   const handleCloseEntrants = () => setShowEntrants(false);
   const handleShowEntrants = () => setShowEntrants(true);
 
+
+  //Tee time modal setup
+  const [showTeeTime, setShowTeeTime] = useState(false);
+
+  const handleCloseTeeTime = () => setShowTeeTime(false);
+  const handleShowTeeTime = () => setShowTeeTime(true);
+
   //const [errors, setErrors] = useState({});
   //const [pendingApiCall, setPendingApiCall] = useState(false);
 
@@ -59,6 +66,7 @@ const EventListItem = (props) => {
           event_id: eventid
         };
         
+        //Enter event
 
         confirmAlert({
           title: 'Do you want to enter this event?',
@@ -81,6 +89,7 @@ const EventListItem = (props) => {
         
       };
 
+      //load data
       useEffect(() => {
           apiCalls
           .getCourseDetails(props.event.id)
@@ -107,7 +116,7 @@ const EventListItem = (props) => {
                         <h5>{props.event.eventname} </h5>
                         <p className="m-0">Course: {courseName}</p>
                         <p className="m-0">Date : {formatDate}</p>
-                        <p className="m-0">Entrants : {props.event.currententrants} / {props.event.maxentrants}</p>
+                        <p className="m-0">Entries : {props.event.currententrants} / {props.event.maxentrants}</p>
                         <p className="m-0">Event Format : {props.event.eventtype}</p>
                         <p className="m-0">Cost : £{props.event.cost}</p>
                         
@@ -124,7 +133,7 @@ const EventListItem = (props) => {
                                 data-placement="left" 
                                 data-toggle="tooltip" 
                                 data-original-title="view"><i
-    className="fa fa-eye"/>
+                                className="fa fa-eye"/>
                               </button>
                       </Link>
                     </div>
@@ -135,7 +144,18 @@ const EventListItem = (props) => {
                           onClick={handleShowLeader}
                           data-toggle="tooltip" 
                           data-original-title="view"><i
-                            className="fa fa-trophy"/>
+                          className="fa fa-trophy"/>
+                      </button>
+                    </div>
+
+                    <div className="float-left btn-group btn-group-m px-2">
+                      <button  
+                          className="btn btn-primary tooltips float-left" 
+                          data-placement="left" 
+                          onClick={handleShowEntrants}
+                          data-toggle="tooltip" 
+                          data-original-title="view"><i
+                          className="fa fa-users"/>
                       </button>
                     </div>
 
@@ -143,10 +163,10 @@ const EventListItem = (props) => {
                       <button  
                           className="btn btn-primary tooltips float-left" 
                           data-placement="left" 
-                          onClick={handleShowEntrants}
+                          onClick={handleShowTeeTime}
                           data-toggle="tooltip" 
                           data-original-title="view"><i
-                            className="fa fa-users"/>
+                          className="fa fa-clock"/>
                       </button>
                     </div>
 
@@ -175,9 +195,10 @@ const EventListItem = (props) => {
                                 Enter
                             </button>
                     </div>
-
+                        {/*Show entrants modal*/}
+                        {/*Need to map over all rows of the entrants for this event and make a new row for each entrant*/}
                 <>
-          
+                        
                   <Modal show={showModalEntrants} onHide={handleCloseEntrants}>
                     <Modal.Header closeButton>
                       <Modal.Title>Entrants for {props.event.eventname} on {formatDate}</Modal.Title>
@@ -199,26 +220,88 @@ const EventListItem = (props) => {
                     </Modal.Footer>
                   </Modal>
               </>
-
+                        {/*Show leaderboard modal*/}
+                        {/*Need to map over all rows of the leaderboard for this even and make a new table row for each entrant*/}
                 <>
-          
+                        
                   <Modal show={showModalLeader} onHide={handleCloseLeader}>
                     <Modal.Header closeButton>
                       <Modal.Title>Leader board for {props.event.eventname} on {formatDate}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    <ol>
-                      <li>Danny Jebb - 41 points</li>
-                      <li>Danny Jebb - 41 points</li>
-                      <li>Danny Jebb - 41 points</li>
-                      <li>Danny Jebb - 41 points</li>
-                      <li>Danny Jebb - 41 points</li>
-                      <li>Danny Jebb - 41 points</li>
-                      <li>Danny Jebb - 41 points</li>
-                    </ol>
+                    <table classname="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Position</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Score</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Danny J</td>
+                          <td>41 pts</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">2</th>
+                          <td>Lee O</td>
+                          <td>39 pts</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">3</th>
+                          <td>Damien H</td>
+                          <td>35pts</td>
+                        </tr>
+                      </tbody>
+                    </table>
                     </Modal.Body>
                     <Modal.Footer>
                       <Button variant="secondary" onClick={handleCloseLeader}>
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+              </>
+                        {/*Show Tee time modal*/}
+                        {/*Need to map over all rows of the tee times and make a new table row for each tee time*/}
+              <>
+                        
+                  <Modal show={showTeeTime} onHide={handleCloseTeeTime}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Tee sheet for {props.event.eventname} on {formatDate}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    <table classname="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Time</th>
+                          <th scope="col">Player 1</th>
+                          <th scope="col">Player 2</th>
+                          <th scope="col">Player 3</th>
+                          <th scope="col">Player 4</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">10:40</th>
+                          <td>Danny J</td>
+                          <td>Mike D</td>
+                          <td>Dan C</td>
+                          <td>James U</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">10:50</th>
+                          <td>Lee O</td>
+                          <td>Mark H</td>
+                          <td>Damien H</td>
+                          <td>Calum C</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleCloseTeeTime}>
                         Close
                       </Button>
                     </Modal.Footer>
