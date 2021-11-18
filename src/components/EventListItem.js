@@ -129,8 +129,14 @@ const EventListItem = (props) => {
       //update tee times
 
       const updateTeeSheet = () => {
-        console.log(teeTimes);
-        window.location.reload();
+        const event = {...props.event}
+        const eventid = event.id;
+        console.log("event is : " + eventid);
+
+
+        apiCalls
+        .updateTeeSheetCall(eventid)
+        .then (window.location.reload());
 
       };
 
