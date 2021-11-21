@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-//const url = 'https://glacial-sierra-91195.herokuapp.com';
+const url = 'https://glacial-sierra-91195.herokuapp.com';
 
-const url = 'http://localhost:8080';
+//const url = 'http://localhost:8080';
 
 //user calls
 
@@ -67,6 +67,10 @@ export const addWin = (userid) => {
 
 export const takeWin = (userid) => {
   return axios.put(url + '/api/1.0/management/user/' + userid);
+}
+
+export const changePassword = (userid, user) => {
+  return axios.put(url + '/api/1.0/user/passwordChange/' + userid, user);
 }
 
 

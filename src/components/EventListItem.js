@@ -358,7 +358,7 @@ const EventListItem = (props) => {
               <>
                         
                   <Modal show={showTeeTime} onHide={handleCloseTeeTime} >
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                       <Modal.Title>Tee sheet for {props.event.eventname} on {formatDate}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>

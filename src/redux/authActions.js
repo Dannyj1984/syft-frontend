@@ -27,6 +27,12 @@ export const signupHandler = (user) => {
   };
 };
 
+export const changePassword = (id, user) => {
+  return async function(dispatch) {
+    await apiCalls.changePassword(id, user);
+  };
+};
+
 //course sign up
 export const courseSignupHandler = (course) => {
   return async function(dispatch) {
