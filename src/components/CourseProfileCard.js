@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CourseImageWithDefault from './CourseImageWithDefault';
 import Input from './Input';
 import ButtonWithProgress from './ButtonWithProgress';
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Table } from "react-bootstrap";
 import * as apiCalls from '../api/apiCalls';
 
 const CourseProfileCard = (props) => {
@@ -29,7 +29,6 @@ const CourseProfileCard = (props) => {
       .getCourseHoles(id)
       .then((response) => {
         setmyDataObject({ ...myDataObject, hole: response.data, loadError: undefined})
-        console.log(response.data);
       })
       .catch((error) => {
         setmyDataObject({ ...myDataObject, loadError: "Hole load failed" });
@@ -154,7 +153,7 @@ const CourseProfileCard = (props) => {
       </div>
 
       
-
+{/*Show holes modal*/}
       <>
         <Modal show={showModalHoles} onHide={handleCloseHoles} >
             <Modal.Header closeButton>
@@ -166,7 +165,24 @@ const CourseProfileCard = (props) => {
                   const { hole, par, stroke, yards} = holes
                   return(
                   <div className="container" key={index}>
-                      <p>Hole: {hole} - Par : {par} - Stroke : {stroke} - Yards : {yards}</p>
+                  <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th scope="col">Hole</th>
+                          <th scope="col">Par</th>
+                          <th scope="col">Stroke</th>
+                          <th scope="col">Yards</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">{hole}</th>
+                          <td>{par}</td>
+                          <td>{stroke}</td>
+                          <td>{yards}</td>
+                        </tr>
+                      </tbody>
+                    </Table>
                       <hr />
                   </div>
                   )

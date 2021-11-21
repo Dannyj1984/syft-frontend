@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const url = 'https://glacial-sierra-91195.herokuapp.com';
+//const url = 'https://glacial-sierra-91195.herokuapp.com';
 
-//const url = 'http://localhost:8080';
+const url = 'http://localhost:8080';
 
 //user calls
 
@@ -125,11 +125,11 @@ export const getEvents = () => {
 };
 
 export const updateEvent = (eventId, body) => {
-  return axios.put(url + '/api/1.0/management/events/' + eventId, body);
+  return axios.put(url + '/api/1.0/management/events/teesheet/' + eventId, body);
 };
 
-export const updateTeeSheetCall = (eventId) => {
-  return axios.put(url + '/api/1.0/management/events/teesheet/' + eventId);
+export const updateTeeSheetCall = (eventId, body) => {
+  return axios.put(url + '/api/1.0/management/events/teesheet/' + eventId, body);
 };
 
 
@@ -143,6 +143,10 @@ export const getCourseDetails = (eventid) => {
 
 export const eventEnter = (entrant) => {
   return axios.post(url + '/api/1.0/management/events/entrants', entrant);
+}
+
+export const getTeesheet = (eventid) => {
+  return axios.get(url + '/api/1.0/event/getTeeSheet/'+ eventid);
 }
 
 //Society calls

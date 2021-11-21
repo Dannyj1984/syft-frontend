@@ -46,7 +46,6 @@ export const eventSignupHandler = (event) => {
 
 export const enterEntrantHandler = (entrant) => {
   return async function(dispatch) {
-    console.log(entrant);
     await apiCalls.eventEnter(entrant);
 
   };

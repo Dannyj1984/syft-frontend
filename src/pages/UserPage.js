@@ -93,7 +93,6 @@ class UserPage extends React.Component{
         mobile: this.state.user.mobile,
         image: this.state.image && this.state.image.split(',')[1]
       };
-      console.log(userUpdate);
       this.setState({ pendingUpdateCall: true });
     apiCalls
       .updateUser(userId, userUpdate)
