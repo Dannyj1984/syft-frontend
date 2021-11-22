@@ -116,7 +116,12 @@ export const signupEvent = (event) => {
 };
 
 export const listEvents = (param = { page: 0, size: 9 }) => {
-  const path = url + `/api/1.0/events?page=${param.page || 0}&size=${param.size || 9}&sort=eventname,asc`;
+  const path = url + `/api/1.0/events?page=${param.page || 0}&size=${param.size || 9}&sort=date,asc`;
+  return axios.get(path);
+};
+
+export const listPreviousEvents = (param = { page: 0, size: 9 }) => {
+  const path = url + `/api/1.0/previousEvents?page=${param.page || 0}&size=${param.size || 9}&sort=date,desc`;
   return axios.get(path);
 };
   
@@ -129,7 +134,7 @@ export const getEvents = () => {
 };
 
 export const updateEvent = (eventId, body) => {
-  return axios.put(url + '/api/1.0/management/events/teesheet/' + eventId, body);
+  return axios.put(url + '/api/1.0/management/events/' + eventId, body);
 };
 
 export const updateTeeSheetCall = (eventId, body) => {

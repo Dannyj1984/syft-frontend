@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import * as apiCalls from '../api/apiCalls';
 import EventListItem from './EventListItem';
+import { Link } from 'react-router-dom';
 
 export const EventList = (props) => {
 
@@ -43,12 +44,20 @@ export const EventList = (props) => {
   return (
           <div >
             <h3 className="card-title m-auto text-center">Events</h3>
+            <Link
+                          to={`/previousEvent`}>
+                              <button  
+                                className="btn btn-primary tooltips float" 
+                                data-placement="left" 
+                                data-toggle="tooltip" 
+                                data-original-title="view"> Previous events
+                              </button>
+                      </Link>
             <hr/>
             <div className="list-group list-group-flush" data-testid="eventgroup">
               <div className="row">
               {content.map((event) => (
                   <div key={event.id} className="col-xl-4 col-m-12 mb-4">
-                 
                   <EventListItem  event={event} events={events} />
                   </div>
                 ))}

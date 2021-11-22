@@ -3,6 +3,7 @@ import logo from '../assets/syft.png';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ProfileImageWithDefault from './ProfileImageWithDefault';
+import Search from './Search';
 
 
 

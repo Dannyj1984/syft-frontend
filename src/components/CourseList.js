@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import * as apiCalls from '../api/apiCalls';
 import CourseListItem from './CourseListItem';
+import Search from './Search';
 
 export const CourseList = (props) => {
 
@@ -41,6 +42,7 @@ export const CourseList = (props) => {
     return (
       <div >
         <h3 className="card-title m-auto text-center">Courses</h3>
+        <Search/>
         <hr/>
         <div className="list-group list-group-flush" data-testid="coursegroup">
           <div className="row">
