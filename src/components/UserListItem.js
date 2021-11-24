@@ -410,7 +410,7 @@ const UserListItem = (props) => {
 
                     {/*Edit handicap, only for handicap admin*/}
                     <div className="float-right btn-group btn-group-m">
-                    {(roleJSON.role === 'HANDICAPADMIN' || roleJSON.role === 'SUPERUSER')  &&
+                    {(roleJSON.role === 'SUPERUSER')  &&
                             <button  
                                 className="btn btn-primary tooltips"  
                                 onClick={handleShow}

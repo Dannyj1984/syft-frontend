@@ -45,14 +45,14 @@ export const EventList = (props) => {
           <div >
             <h3 className="card-title m-auto text-center">Events</h3>
             <Link
-                          to={`/previousEvent`}>
-                              <button  
-                                className="btn btn-primary tooltips float" 
-                                data-placement="left" 
-                                data-toggle="tooltip" 
-                                data-original-title="view"> Previous events
-                              </button>
-                      </Link>
+                  to={`/previousEvent`}>
+                    <button  
+                      className="btn btn-primary tooltips float" 
+                      data-placement="left" 
+                      data-toggle="tooltip" 
+                      data-original-title="view"> Previous events
+                    </button>
+            </Link>
             <hr/>
             <div className="list-group list-group-flush" data-testid="eventgroup">
               <div className="row">

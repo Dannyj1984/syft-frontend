@@ -328,6 +328,13 @@ class TopBar extends React.Component {
               >
                 <i className="fas fa-globe-europe text-info"/> Courses
               </Link>
+              <Link
+                to={`/events`}
+                className="dropdown-item"
+                onClick={this.onClickMember}
+              >
+                <i className="fas fa-calendar text-info"/> Events
+              </Link>
                 <Link
                     to={"login"}
                     className="dropdown-item"
