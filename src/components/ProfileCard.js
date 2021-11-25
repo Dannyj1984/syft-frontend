@@ -135,6 +135,13 @@ const ProfileCard = (props) => {
               haserror={props.errors.mobile && true}
               error={props.errors.mobile}
             />
+            <Input
+              value={cdh}
+              label={`Change CDH for ${username}`}
+              onChange={props.onChangeCDH}
+              haserror={props.errors.cdh && true}
+              error={props.errors.cdh}
+            />
             <input
               type="file"
               onChange={props.onFileSelect}

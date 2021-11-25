@@ -458,7 +458,7 @@ class TopBar extends React.Component {
             </div>
             <div className={dropDownClass} data-testid="drop-down-menu">
               <Link
-                to={`/member${this.props.user.username}`}
+                to={`/member/${this.props.user.username}`}
                 className="dropdown-item"
                 onClick={this.onClickMyProfile}
               >

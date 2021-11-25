@@ -14,6 +14,7 @@ class UserPage extends React.Component{
         originalUsername: undefined,
         originalEmail: undefined,
         originalHomeclub: undefined,
+        originalCDH: undefined,
         originalMobile: undefined,
         originalHandicap: undefined,
         pendingUpdateCall: false,
@@ -77,6 +78,7 @@ class UserPage extends React.Component{
       user.email = this.state.originalEmail;
       user.mobile = this.state.originalMobile;
       this.homeclub = this.state.originalHomeclub;
+      this.cdh = this.state.originalCDH;
     }
       this.setState({
         user,
@@ -86,6 +88,7 @@ class UserPage extends React.Component{
         originalEmail: undefined,
         originalMobile: undefined,
         originalHomeclub: undefined,
+        originalCDH: undefined,
         inEditMode: false,
         inPasswordEditMode: false,
         image: undefined
@@ -103,6 +106,7 @@ class UserPage extends React.Component{
         email: this.state.user.email,
         homeclub: this.state.user.homeclub,
         mobile: this.state.user.mobile,
+        cdh: this.state.user.cdh,
         image: this.state.image && this.state.image.split(',')[1]
       };
       this.setState({ pendingUpdateCall: true });
@@ -120,6 +124,7 @@ class UserPage extends React.Component{
             originalEmail: undefined,
             originalHomeclub:undefined,
             originalMobile: undefined,
+            originalCDH: undefined,
             pendingUpdateCall: false,
             user,
             image: undefined
@@ -193,6 +198,19 @@ class UserPage extends React.Component{
       this.setState({ user, originalMobile, errors });
     };
 
+    onChangeCDH = (event) => {
+      const user = { ...this.state.user };
+      let originalCDH = this.state.originalCDH;
+    if (originalCDH === undefined) {
+      originalCDH = user.cdh;
+    }
+      user.cdh = event.target.value;
+      console.log(user.cdh);
+      const errors = { ...this.state.errors };
+      errors.cdh = undefined;
+      this.setState({ user, originalCDH, errors });
+    };
+
     onChangeHomeclub = (event) => {
       const user = { ...this.state.user };
       let originalHomeclub = this.state.originalHomeclub;
@@ -260,6 +278,7 @@ class UserPage extends React.Component{
           onChangeHomeclub = {this.onChangeHomeclub}
           onChangeMobile = {this.onChangeMobile}
           onChangeEmail = {this.onChangeEmail}
+          onChangeCDH = {this.onChangeCDH}
           pendingUpdateCall={this.state.pendingUpdateCall}
           loadedImage={this.state.image}
           onFileSelect={this.onFileSelect}
