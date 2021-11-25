@@ -415,7 +415,7 @@ const UserListItem = (props) => {
                                 className="btn btn-primary tooltips"  
                                 onClick={handleShow}
                                 data-placement="top" 
-                                data-toggle="tooltip" 
+                                data-toggle="tooltip" y
                                 data-original-title="Delete">
                                 <i className="fa fa-edit"/>
                             </button>

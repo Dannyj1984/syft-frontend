@@ -22,6 +22,7 @@ const [form, setForm] = useState({
 
   const [errors, setErrors] = useState({});
   const [pendingApiCall, setPendingApiCall] = useState(false);
+  console.log("error: " +errors.username);
 
   const onChange = (event) => {
   const { value, name } = event.target;
@@ -66,6 +67,7 @@ const onClickSignup = () => {
         if (apiError.response.data && apiError.response.data.validationErrors) {
           setErrors(apiError.response.data.validationErrors);
         }
+        console.log(apiError.response.data.validationErrors.username);
         setPendingApiCall(false);
       });
   };

@@ -14,7 +14,7 @@ export const EventSignupPage = (props) => {
       date: '',
       info: '',
       maxentrants: '',
-      qualifier: false,
+      qualifier: '',
       cost: 0.00
     
     });
@@ -22,6 +22,7 @@ export const EventSignupPage = (props) => {
   const [errors, setErrors] = useState([]);
   const [pendingApiCall, setPendingApiCall] = useState(false);
   const [courseList, setCoursesList] = useState([]);
+  const [courseSelected, setCourseSelected] = useState(false);
   
 
   useEffect(() => { 
@@ -36,6 +37,12 @@ export const EventSignupPage = (props) => {
 
   const onChange = (event) => {
     const { value, name } = event.target;
+    if(name === "course_id"){
+      setCourseSelected(true);
+    }
+    if(value === ""){
+      setCourseSelected(false);
+    }
 
     setForm((previousForm) => {
       return {
@@ -77,6 +84,7 @@ export const EventSignupPage = (props) => {
         .catch((apiError) => {
           if (apiError.response.data && apiError.response.data.validationErrors) {
             setErrors(apiError.response.data.validationErrors);
+            console.log(apiError.response.data)
           }
           setPendingApiCall(false);
         });
@@ -85,6 +93,9 @@ export const EventSignupPage = (props) => {
         return (
           <div className="container">
             <h1 className="text-center">Register Event</h1>
+            <div>
+            <p className="invalid-feedback">Hello</p>
+            </div>
             <div className="col-12 mb-3">
                 <Input
                 name="eventname"
@@ -158,6 +169,7 @@ export const EventSignupPage = (props) => {
                 name="info"
                 label="Info"
                 placeholder="Info"
+                className="form-select"
                 value={form.info}
                 onChange={onChange}
                 hasError={errors.info && true}
@@ -166,13 +178,17 @@ export const EventSignupPage = (props) => {
             </div>
             <div className="col-12 mb-3">
             <label>Course</label>
-              <select name="course_id" id="course_id" className="form-control" label="Course" placeholder="select" onChange={onChange}>
-                <option value="Please select">Please select</option>
+              <select  name="course_id" id="course_id" className={`form-control ${courseSelected ? "is-valid" : "is-invalid"} `}  label="Course" placeholder="select" onChange={onChange} required>
+                <option selected disabled value="">Please select</option>
                 {courseList.map((courses) => (
                   <option key={courses.courseid}> {courses.courseid} - {courses.courseName} </option>
                 ))}
               </select>
+              <div id="course_idFeedback" className="invalid-feedback">
+                Please select a valid course.
+              </div>
             </div>
+            
             <div className="text-center">
               <ButtonWithProgress
                   onClick={onClickEventRegister}

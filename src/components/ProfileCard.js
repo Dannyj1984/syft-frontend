@@ -56,16 +56,18 @@ const ProfileCard = (props) => {
       .changePassword(id, userPasswordUpdate)
       .then((response) => {
         setPendingApiCall(false);
-        props.history.push('/members');
+        props.history.push('/member/:username');
       })
       .catch((apiError) => {
         if (apiError.response.data && apiError.response.data.validationErrors) {
           setErrors(apiError.response.data.validationErrors);
         }
+        console.log(apiError.response.data)
         setPendingApiCall(false);
       });
   };
 
+  //Check passwords match when updating user password
   let passwordRepeatError;
   const { password, passwordRepeat } = form;
   if (password || passwordRepeat) {
