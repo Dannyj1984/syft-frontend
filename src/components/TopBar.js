@@ -500,8 +500,13 @@ class TopBar extends React.Component {
       </ul>
      );
    }
-
-   let society = JSON.parse(localStorage.getItem('syft-auth')).society.name;
+   let society = '';
+try {
+  society = JSON.parse(localStorage.getItem('syft-auth')).society.name;
+} catch (error) {
+  
+}
+   
     return (
       <div className="bg-white shadow-sm mb-2">
         <div className="container">
