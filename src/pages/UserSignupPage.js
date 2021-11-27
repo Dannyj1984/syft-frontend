@@ -6,6 +6,8 @@ import * as authActions from '../redux/authActions';
 
 export const UserSignupPage = (props) => {
 
+  
+
 const [form, setForm] = useState({
     username: '',
     firstname: '',
@@ -22,7 +24,6 @@ const [form, setForm] = useState({
 
   const [errors, setErrors] = useState({});
   const [pendingApiCall, setPendingApiCall] = useState(false);
-  console.log("error: " +errors.username);
 
   const onChange = (event) => {
   const { value, name } = event.target;
@@ -44,6 +45,7 @@ const [form, setForm] = useState({
 
 const onClickSignup = () => {
 
+  //Set the user details to be sent to the server
   const user = {
       username: form.username.toLowerCase(),
       firstname: form.firstname,
@@ -53,7 +55,10 @@ const onClickSignup = () => {
       cdh: form.cdh,
       homeclub: form.homeclub,
       mobile: form.mobile,
-      password: form.password
+      password: form.password,
+      society: {
+        id: JSON.parse(localStorage.getItem('syft-auth')).society.id
+      }
 
     };
     setPendingApiCall(true);

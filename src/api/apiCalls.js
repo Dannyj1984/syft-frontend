@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-//const url = 'https://glacial-sierra-91195.herokuapp.com';
+const url = 'https://glacial-sierra-91195.herokuapp.com';
 
-const url = 'http://localhost:8080';
+//const url = 'http://localhost:8080';
 
 //user calls
+
+let id = '';
 
 export const signup = (user) => {
   return axios.post(url + '/api/1.0/management/users', user);
@@ -25,7 +27,9 @@ export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
 };
 
 export const listUsers = (param = { page: 0, size: 9 }) => {
-  const path = url + `/api/1.0/users?page=${param.page || 0}&size=${param.size || 9}&sort=username,asc`;
+  id = JSON.parse(localStorage.getItem('syft-auth')).society.id;
+  const path = url + `/api/1.0/societyUsers/${id}?page=${param.page || 0}&size=${param.size || 9}&sort=username,asc`;
+  console.log(path);
   return axios.get(path);
 };
 

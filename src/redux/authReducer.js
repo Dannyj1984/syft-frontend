@@ -13,11 +13,15 @@ const initialState = {
   societyHcp: '',
   password: '',
   wins: '',
+  society: {
+    id: ''
+  },
   isLoggedIn: false 
 };
 
 export default function authReducer(state = initialState, action) {
   if (action.type === 'logout-success') {
+    window.localStorage.clear();
     return { ...initialState };
   } else if (action.type === 'login-success') {
     return {

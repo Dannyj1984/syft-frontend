@@ -3,7 +3,7 @@ import logo from '../assets/syft.png';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ProfileImageWithDefault from './ProfileImageWithDefault';
-import Search from './Search';
+import configureStore from '../redux/configureStore';
 
 
 
@@ -500,13 +500,19 @@ class TopBar extends React.Component {
       </ul>
      );
    }
+
+   let society = JSON.parse(localStorage.getItem('syft-auth')).society.name;
     return (
       <div className="bg-white shadow-sm mb-2">
         <div className="container">
           <nav className="navbar navbar-light navbar-expand">
-            <Link to="/" className="navbar-brand">
+          
+            <div className="navbar-brand d-none d-md-block">
               <img src={logo} width="60" alt="Syftgolf" /> SYFT Golf
-            </Link>
+            </div>
+            <div className="navbar-brand d-md-none mt-2">
+              <h5>{society}</h5>
+            </div>
             {links}
           </nav>
         </div>
