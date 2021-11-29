@@ -57,10 +57,10 @@ const onClickSignup = () => {
       mobile: form.mobile,
       password: form.password,
       society: {
-        id: JSON.parse(localStorage.getItem('syft-auth')).society.id
+        id: props.user.society.id
       }
-
     };
+    console.log(user)
     setPendingApiCall(true);
     props.actions
       .postSignup(user)
@@ -226,6 +226,12 @@ UserSignupPage.defaultProps = {
     }
   };
 
+  const mapStateToProps = (state) => {
+    return {
+      user: state
+    };
+  };
+
   const mapDispatchToProps = (dispatch) => {
     return {
       actions: {
@@ -234,4 +240,4 @@ UserSignupPage.defaultProps = {
     };
   };
   
-  export default connect(null, mapDispatchToProps)(UserSignupPage);
+  export default connect(mapStateToProps, mapDispatchToProps)(UserSignupPage);

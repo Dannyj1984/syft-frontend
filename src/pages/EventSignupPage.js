@@ -26,8 +26,9 @@ export const EventSignupPage = (props) => {
   
 
   useEffect(() => { 
+    let id = props.user.society.id;
     setPendingApiCall(true)
-    apiCalls.getCourses()
+    apiCalls.getCourses(id)
     .then((response) => {
       setCoursesList(response.data)
       setPendingApiCall(false)
@@ -71,6 +72,9 @@ export const EventSignupPage = (props) => {
           cost: form.cost,
           course: {
             courseid: form.course_id.split(" ")[0]
+          },
+          society: {
+            id: props.user.society.id
           }
       };
       
@@ -217,6 +221,12 @@ export const EventSignupPage = (props) => {
           }
         };
 
+        const mapStateToProps = (state) => {
+          return {
+            user: state
+          };
+        };
+
         const mapDispatchToProps = (dispatch) => {
             return {
               actions: {
@@ -226,6 +236,6 @@ export const EventSignupPage = (props) => {
           };
 
     export default connect(
-        null,
+        mapStateToProps,
         mapDispatchToProps
       )(EventSignupPage);

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import * as authActions from '../redux/authActions';
 import * as ApiCalls from '../api/apiCalls';
 import PasswordInput from './PasswordInput';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const ProfileCard = (props) => {
   const { username, firstname, surname, handicap, email, image, mobile, cdh, homeclub, wins } = props.user
@@ -59,15 +61,30 @@ const ProfileCard = (props) => {
     ApiCalls
       .changePassword(id, userPasswordUpdate)
       .then((response) => {
-        console.log(response)
+        console.log(response.data.message)
         setPendingApiCall(false);
+        if(response.data.message === "Ah Ah Ah, Dont change test passwords") {
+          confirmAlert({
+            title: 'Naughty Naughty',
+            message: `Ah Ah Ah, don't change test passwords`,
+            buttons: [
+              {
+                label: 'Sorry',
+                onClick: () => props.history.push('/members')
+                  
+              }
+            ]
+          });
+        } else{
         alert("Password changed, please log back in")
         props.history.push('/login');
         const action = {
           type: 'logout-success',
         };
         props.dispatch(action);
+      }
       })
+    
       .catch((apiError) => {
         if (apiError.response.data && apiError.response.data.validationErrors) {
           setErrors(apiError.response.data.validationErrors);

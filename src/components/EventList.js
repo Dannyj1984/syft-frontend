@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import * as apiCalls from '../api/apiCalls';
 import EventListItem from './EventListItem';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 export const EventList = (props) => {
 
@@ -21,8 +22,9 @@ export const EventList = (props) => {
   }, []);
 
   const loadData = (requestedPage = 0) => {
+    let id = props.user.society.id
     apiCalls
-      .listEvents({ page: requestedPage, size: 9 })
+      .listEvents(id,{ page: requestedPage, size: 9 })
       .then((response) => {
         setPage(response.data);
       })
@@ -90,7 +92,15 @@ export const EventList = (props) => {
         );
       };
 
-export default EventList;
+      const mapStateToProps = (state) => {
+        return {
+          user: state
+        };
+      };
+
+export default connect(
+  mapStateToProps
+)(EventList);
 
 // class EventList extends React.Component {
 //   state = {
