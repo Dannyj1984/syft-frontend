@@ -37,6 +37,7 @@ export default function authReducer(state = initialState, action) {
       homeclub: action.payload.homeclub,
       role: action.payload.role,
       mobile: action.payload.mobile,
+      cdh: action.payload.cdh,
       image: action.payload.image
     };
   } else if (action.type === 'event-update-success') {

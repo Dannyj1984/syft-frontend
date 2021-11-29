@@ -4,20 +4,23 @@ import Input from './Input';
 import ButtonWithProgress from './ButtonWithProgress';
 import { connect } from 'react-redux';
 import * as authActions from '../redux/authActions';
+import * as ApiCalls from '../api/apiCalls';
+import PasswordInput from './PasswordInput';
 
 const ProfileCard = (props) => {
-  const { username, firstname, surname, handicap, email, image, mobile, cdh, homeclub, wins } = props.user;
+  const { username, firstname, surname, handicap, email, image, mobile, cdh, homeclub, wins } = props.user
+  const [errors, setErrors] = useState({});
+  const [pendingApiCall, setPendingApiCall] = useState(false);
 
   const [form, setForm] = useState({
     password: '',
     passwordRepeat: ''
   });
 
-  const [errors, setErrors] = useState({});
-  const [pendingApiCall, setPendingApiCall] = useState(false);
-
+  //Change form for password change
   const onChange = (event) => {
     const { value, name } = event.target;
+    console.log(value)
   
       setForm((previousForm) => {
         return {
@@ -38,13 +41,14 @@ const ProfileCard = (props) => {
 
   const showEditPasswordButton = props.isEditable && !props.inPasswordEditMode;
 
+  //Cancel button on password change form
   const onClickCancel = () => {
     setForm({
       password: '',
       passwordRepeat: ''
     });
   };
-
+  //Save password button clicked
   const onClickSavePassword = () => {
     const id = props.user.id;
     const userPasswordUpdate = {
@@ -52,17 +56,25 @@ const ProfileCard = (props) => {
   
       };
       setPendingApiCall(true);
-    props.actions
+    ApiCalls
       .changePassword(id, userPasswordUpdate)
       .then((response) => {
+        console.log(response)
         setPendingApiCall(false);
-        props.history.push('/member/:username');
+        alert("Password changed, please log back in")
+        props.history.push('/login');
+        const action = {
+          type: 'logout-success',
+        };
+        props.dispatch(action);
       })
       .catch((apiError) => {
         if (apiError.response.data && apiError.response.data.validationErrors) {
           setErrors(apiError.response.data.validationErrors);
+          if(apiError){
+            alert('Please check you chosen password matches the criteria')
+          }
         }
-        console.log(apiError.response.data)
         setPendingApiCall(false);
       });
   };
@@ -108,7 +120,7 @@ const ProfileCard = (props) => {
               error={props.errors.username}
             />
             <Input
-              value={handicap}
+              value={props.user.handicap}
               label={`Change handicap for ${username}`}
               onChange={props.onChangeHandicap}
               haserror={props.errors.handicap && true}
@@ -151,34 +163,40 @@ const ProfileCard = (props) => {
           </div>
         )}
 
-        {props.inPasswordEditMode && (
+          {props.inPasswordEditMode && (
+            
           <div className="mb-2">
-            <Input
+            <div className="border">
+              <p>New password should contain -</p>
+              <ul>
+                <li>Minimum 8 characters</li>
+                <li>An upper case character, lower case character and a number</li>
+              </ul>
+            </div>
+            <PasswordInput
               name="password"
               placeholder=" Password"
               value={form.password}
               type="password"
               onChange={onChange}
-              label={`Change password for ${username}`}
+              label={`Change password`}
               haserror={errors.password && true}
               error={errors.password}
             />
-            <Input
+            <PasswordInput
               name="passwordRepeat"
               placeholder="Repeat password"
               value={form.passwordRepeat}
               type="password"
               onChange={onChange}
-              label={`Confirm password change for ${username}`}
-              haserror={errors.repeatPassword && true}
-              error={errors.repeatPassword}
+              label={`Confirm password`}
             />
             </div>
           )}
         
         {showEditButton && (
           <button
-          className="btn btn-outline-success"
+          className="btn btn-outline-success m-2"
           onClick={props.onClickEdit}
         >
             <i className="fas fa-user-edit" /> Edit Details
@@ -245,14 +263,15 @@ const ProfileCard = (props) => {
 
 ProfileCard.defaultProps = {
   actions: {
-    postSignup: () =>
-      new Promise((resolve, reject) => {
-        resolve({});
-      })
-    },
-    history: {
-      push: () => {}
-    }
+    changePassword: () =>
+        new Promise((resolve, reject) => {
+            resolve({});
+        })
+},
+  errors: {},
+  history: {
+    push: () => {}
+}
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -263,4 +282,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProfileCard);
+export default connect(mapDispatchToProps)(ProfileCard);
