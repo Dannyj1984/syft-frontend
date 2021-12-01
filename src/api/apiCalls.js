@@ -181,6 +181,12 @@ export const removeEntrant = (eventid, memberid) => {
   return axios.delete(path);
 }
 
+export const updateScore = (eventid, memberid, score) => {
+  const path = url + '/api/1.0/event/entrant/score/' + eventid + '/'+ memberid + '/'+ score;
+  return axios.put(path);
+}
+//Update an entrants score
+
 //Society calls
 
 export const signupSociety = (society) => {
