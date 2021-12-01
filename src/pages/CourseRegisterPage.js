@@ -117,6 +117,7 @@ export const CourseRegisterPage = (props) => {
             <div className="col-12 mb-3">
             <Input
                 name="slopeRating"
+                type="number"
                 label="Slope rating"
                 placeholder="Slope rating"
                 value={form.slopeRating}

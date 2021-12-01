@@ -8,6 +8,7 @@ import moment from 'moment';
 import * as authActions from '../redux/authActions';
 import { connect } from 'react-redux';
 import Input from './Input';
+import ButtonWithProgress from './ButtonWithProgress';
 
 const EventListItem = (props) => {
 
@@ -19,7 +20,36 @@ const EventListItem = (props) => {
   const [entrants, setEntrants] = useState([]);
   //sorted entrants by score for leaderboard
   const [sortedEntrants, setSortedEntrants] = useState([]);
+  const [showScore, setShowScore] = useState(false);
+  const [score, setScore] = useState(0);
+  const scoreArea = () => {
+    setShowScore(true);
+  }
+  const updateScore = () => {
+   const eventid = props.event.id;
+   const id = props.loggedInUser.id;
+   apiCalls
+   .updateScore(eventid, id, score)
+   .then((response) => {
+     setShowScore(false);
+     confirmAlert({
+       title: 'Thanks for updating your score',
+       message: 'Please see the leaderboard for other scores',
+       buttons: [
+         {
+         label: 'OK',
+         onClick: () =>
+         (window.location.reload())
+         }
+       ]
+     })
+   })
+  }
 
+  //cancel score
+  const cancelScore = () => {
+    setShowScore(false);
+  }
  
 
   //useEffect loading data
@@ -284,6 +314,15 @@ const EventListItem = (props) => {
         });
       };
 
+      //onChange score
+      const onChangeScore = (event) => {
+        const { value } = event.target;
+        setScore(value);
+      }
+
+      
+
+
       //Format date from backend to be DD-MM-YYYY
 
       let yourDate = props.event.date;
@@ -304,7 +343,7 @@ const EventListItem = (props) => {
                 <hr/>
                 
                 <div className="card-body">
-                    <div className="float-left btn-group btn-group-sm px-2">
+                    <div className="float-left btn-group btn-group-m px-2 col-3">
                       <Link
                           to={`/event/${props.event.eventname}`}>
                               <button  
@@ -316,7 +355,7 @@ const EventListItem = (props) => {
                               </button>
                       </Link>
                     </div>
-                    <div className="float-left btn-group btn-group-m px-2">
+                    <div className="float-left btn-group btn-group-m px-2 col-3">
                       <button  
                           className="btn btn-primary tooltips float-left" 
                           data-placement="left" 
@@ -327,7 +366,7 @@ const EventListItem = (props) => {
                       </button>
                     </div>
 
-                    <div className="float-left btn-group btn-group-m px-2">
+                    <div className="float-left btn-group btn-group-m px-2 col-3">
                       <button  
                           className="btn btn-primary tooltips float-left" 
                           data-placement="left" 
@@ -338,7 +377,7 @@ const EventListItem = (props) => {
                       </button>
                     </div>
 
-                    <div className="float-left btn-group btn-group-m">
+                    <div className="float-left btn-group btn-group-m px-2 col-3">
                       <button  
                           className="btn btn-primary tooltips float-left" 
                           data-placement="left" 
@@ -348,8 +387,19 @@ const EventListItem = (props) => {
                           className="fa fa-clock"/>
                       </button>
                     </div>
+                    {entered &&
+                    <div className="float-left btn-group btn-group-m p-2 col-6">
+                            <button  
+                                className="btn btn-primary tooltips float-left" 
+                                onClick={scoreArea} 
+                                data-placement="top" 
+                                data-toggle="tooltip" 
+                                data-original-title="Delete">
+                                Score Entry
+                            </button>
+                    </div>}
 
-                    <div className="float-right btn-group btn-group-m">
+                    <div className="float-right btn-group btn-group-m p-2">
                       {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  &&
                             <button  
                                 className="btn btn-secondary tooltips" 
@@ -361,8 +411,34 @@ const EventListItem = (props) => {
                             </button>
                         }
                     </div>
-                    
-                </div>
+                  </div>
+
+                    {showScore &&
+                    <div className="container row m-2">
+                      <div className="col-4">
+                        <Input 
+                          name="score"
+                          value={score}
+                          type="number"
+                          onChange={onChangeScore} 
+                        />
+                      </div>
+                      <div className="col-3">
+                        <ButtonWithProgress
+                          className="btn btn-primary"
+                          onClick={updateScore}
+                          text="Update"
+                        />
+                      </div>
+                      <div className="col-3">
+                        <ButtonWithProgress
+                          className="btn btn-danger"
+                          onClick={cancelScore}
+                          text="Cancel"
+                        />
+                      </div>
+                    </div>}
+
                         {!entered &&
                 <div className="float-right btn-group btn-group-m">
                             <button  
@@ -764,7 +840,7 @@ const EventListItem = (props) => {
                           </Modal.Footer>
                         </Modal>
                     </>
-            </div>
+          </div>
   );
 };
 
