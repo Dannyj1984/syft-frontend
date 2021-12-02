@@ -40,7 +40,7 @@ export const CourseRegisterPage = (props) => {
 
       const onClickCourseRegister = () => {
         const course = {
-          courseName: form.courseName,
+          courseName: form.courseName.trim(),
           postCode: form.postCode,
           par: form.par,
           courseRating: form.courseRating,

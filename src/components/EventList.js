@@ -27,7 +27,6 @@ export const EventList = (props) => {
       .listEvents(id,{ page: requestedPage, size: 9 })
       .then((response) => {
         setPage(response.data);
-        console.log(response.data)
       })
       .catch((error) => {
         setLoadError("Event load failed" );

@@ -6,8 +6,6 @@ const url = 'http://localhost:8080';
 
 //user calls
 
-let id = '';
-
 export const signup = (user) => {
   return axios.post(url + '/api/1.0/management/users', user);
 };
@@ -25,6 +23,10 @@ export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
     delete axios.defaults.headers.common['Authorization'];
   }
 };
+
+export const userCSV = (id) => {
+  return axios.get(url + `/api/1.0/users/export/${id}`);
+}
 
 export const listUsers = (id, param = { page: 0, size: 9 }) => {
   const path = url + `/api/1.0/societyUsers/${id}?page=${param.page || 0}&size=${param.size || 9}&sort=username,asc`;

@@ -3,6 +3,9 @@ import * as apiCalls from '../api/apiCalls';
 import Search from "./Search";
 import UserListItem from './UserListItem';
 import { connect } from 'react-redux';
+import ExportCSV from "./ExportCSV";
+
+
 
 export const UserList = (props) => {
   const [page, setPage] = useState({
@@ -10,6 +13,7 @@ export const UserList = (props) => {
     number: 0,
     size: 9
   });
+  
 
   const [loadError, setLoadError] = useState();
 
@@ -18,8 +22,7 @@ export const UserList = (props) => {
   }, []);
 
   const loadData = (requestedPage = 0) => {
-    let id = props.user.society.id
-    console.log(id)
+    let id = props.user.society.id  
     apiCalls
       .listUsers(id,{ page: requestedPage, size: 9 })
       .then((response) => {
@@ -43,8 +46,22 @@ export const UserList = (props) => {
 
   return (
     <div>
-      <h3 className="card-title m-auto text-center">Members</h3> 
-      <Search/>
+      {(props.user.role === 'SUPERUSER' || props.user.role === 'ADMIN') &&
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <Search/>
+          </div>
+          <div class="col-sm">
+          <h3 className="card-title m-auto text-center">Members</h3>
+          </div>
+          
+          <div class="col-sm">
+          <ExportCSV />
+          </div>
+        </div>
+      </div>}
+      
       <hr></hr>
       <div className="list-group list-group-flush" data-testid="usergroup">
         <div className="row">
