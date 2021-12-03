@@ -33,6 +33,13 @@ export const listUsers = (id, param = { page: 0, size: 9 }) => {
   return axios.get(path);
 };
 
+
+export const listFilteredUsers = (param = { page: 0, size: 9 }, id, nameFilter) => {
+  const path = url + `/api/1.0/societyFilteredUsers/${id}?query=${nameFilter}&page=${param.page || 0}&size=${param.size || 9}&sort=username,asc`;
+  console.log(path)
+  return axios.get(path);
+};
+
 export const getUser = (username) => {
   return axios.get(url + `/api/1.0/users/${username}`);
 };

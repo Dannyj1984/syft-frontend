@@ -23,7 +23,6 @@ const handleDataFetch = async() => {
   let id = props.user.society.id;
   const response = await apiCalls.userCSV(id);
   setFileData(response.data)
-  console.log(id)
 };
 
 useEffect(()=>{
@@ -40,7 +39,7 @@ return (
       <CSVLink
         headers={fileHeaders}
         data={fileData}
-        fileName={fileName}
+        filename={fileName}
         target="_blank"
       >
         Export to CSV
