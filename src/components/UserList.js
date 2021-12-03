@@ -39,11 +39,11 @@ export const UserList = (props) => {
   console.log(nameFilter)
 }
 const loadFilter = async (requestedPage = 0) => {
-  
+  let name: nameFilter.toLowerCase()
   let id = props.user.society.id 
   setPendingApiCall(true);
   await apiCalls
-    .listFilteredUsers({ page: requestedPage, size: 9 }, id, nameFilter.toLowerCase())
+    .listFilteredUsers({ page: requestedPage, size: 9 }, id, name)
      .then ((response)  => {
       setPage(response.data);
       setLoadError();
