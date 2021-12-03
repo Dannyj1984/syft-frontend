@@ -68,8 +68,9 @@ const loadFilter = async (requestedPage = 0) => {
   };
 
   useEffect(() => {
-    loadData();
-  }, []);
+    //loadData();
+    loadFilter();
+  }, [nameFilter]);
 
   const onClickNext = () => {
     loadData(page.number + 1);
