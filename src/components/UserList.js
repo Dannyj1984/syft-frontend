@@ -36,11 +36,19 @@ export const UserList = (props) => {
 }
 
 const loadFilter = async (requestedPage = 0) => {
+<<<<<<< HEAD
   let name = nameFilter
   let id = props.user.society.id 
   setPendingApiCall(true);
   await apiCalls
     .listFilteredUsers({ page: requestedPage, size: 9 }, id, name.toLowerCase())
+=======
+  let name: nameFilter.toLowerCase()
+  let id = props.user.society.id 
+  setPendingApiCall(true);
+  await apiCalls
+    .listFilteredUsers({ page: requestedPage, size: 9 }, id, name)
+>>>>>>> 767d80f0189cfbebdbbac619e2774c04d4a3bf96
      .then ((response)  => {
       setPage(response.data);
       if(Object.entries(response.data.content).length === 0) {
