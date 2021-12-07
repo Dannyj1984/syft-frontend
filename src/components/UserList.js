@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import * as apiCalls from '../api/apiCalls';
-import Search from "./Search";
 import UserListItem from './UserListItem';
 import { connect } from 'react-redux';
 import ExportCSV from "./ExportCSV";
 import Input from './Input';
-import { useAsync } from 'react-async';
 
 export const UserList = (props) => {
   const [page, setPage] = useState({
@@ -35,21 +33,22 @@ export const UserList = (props) => {
   setNameFilter(value)
   
   loadFilter()
-  console.log(value)
-  console.log(nameFilter)
 }
+
 const loadFilter = async (requestedPage = 0) => {
-  
+  let name = nameFilter
   let id = props.user.society.id 
   setPendingApiCall(true);
   await apiCalls
-    .listFilteredUsers({ page: requestedPage, size: 9 }, id, nameFilter.toLowerCase())
+    .listFilteredUsers({ page: requestedPage, size: 9 }, id, name.toLowerCase())
      .then ((response)  => {
       setPage(response.data);
-      setLoadError();
+      if(Object.entries(response.data.content).length === 0) {
+        setLoadError('No members');
+      }
     })
     .catch((error) => {
-      setLoadError("User load failed" );
+      setLoadError("Member load failed" );
     });
     setPendingApiCall(false);
 };
@@ -81,7 +80,6 @@ const loadFilter = async (requestedPage = 0) => {
   };
 
   const { content, first, last } = page;
-
   
 
   return (
@@ -91,13 +89,13 @@ const loadFilter = async (requestedPage = 0) => {
       <div className="container">
         <div className="row">
           <div className="col-sm">
-          <div className="row">
-            <Input name="nameFilter" value={nameFilter} type="text" placeholder="Search" onChange={onChange} />
-            <button className="btn btn-primary" onClick={clearFilter} >Clear</button>
-        </div>
+            <div className="row">
+              <Input name="nameFilter" value={nameFilter} type="text" placeholder="Search" onChange={onChange} />
+              <button className="btn btn-primary" onClick={clearFilter} >Clear</button>
+            </div>
           </div>
           <div className="col-sm">
-          <h3 className="card-title m-auto text-center">Members</h3>
+            <h3 className="card-title m-auto text-center">Members</h3>
           </div>
           
           <div className="col-sm">
@@ -106,7 +104,7 @@ const loadFilter = async (requestedPage = 0) => {
         </div>
       </div>}
       
-      <hr></hr>
+      <hr />
       {pendingApiCall &&
       <div>
         <span>Loading...</span>

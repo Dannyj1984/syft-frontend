@@ -60,7 +60,6 @@ const onClickSignup = () => {
         id: props.user.society.id
       }
     };
-    console.log(user)
     setPendingApiCall(true);
     props.actions
       .postSignup(user)
@@ -72,7 +71,6 @@ const onClickSignup = () => {
         if (apiError.response.data && apiError.response.data.validationErrors) {
           setErrors(apiError.response.data.validationErrors);
         }
-        console.log(apiError.response.data.validationErrors.username);
         setPendingApiCall(false);
       });
   };

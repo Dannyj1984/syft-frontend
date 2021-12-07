@@ -36,7 +36,6 @@ export const listUsers = (id, param = { page: 0, size: 9 }) => {
 
 export const listFilteredUsers = (param = { page: 0, size: 9 }, id, nameFilter) => {
   const path = url + `/api/1.0/societyFilteredUsers/${id}?query=${nameFilter}&page=${param.page || 0}&size=${param.size || 9}&sort=username,asc`;
-  console.log(path)
   return axios.get(path);
 };
 
@@ -102,6 +101,12 @@ export const listCourses = (id, param = { page: 0, size: 9 }) => {
   const path = url + `/api/1.0/getCourses/${id}?page=${param.page || 0}&size=${param.size || 9}&sort=courseName,asc`;
   return axios.get(path);
 };
+
+//List of filtered courses
+export const listFilteredCourses = (param = { page: 0, size: 9 }, id, nameFilter) => {
+  const path = url + `/api/1.0/societyFilteredCourses/${id}?query=${nameFilter}&page=${param.page || 0}&size=${param.size || 9}&sort=courseName,asc`;
+  return axios.get(path);
+};
   
 export const getCourse = (coursename) => {
   return axios.get(url + `/api/1.0/courses/${coursename}`);
@@ -151,10 +156,13 @@ export const updateEvent = (eventId, body) => {
   return axios.put(url + '/api/1.0/management/events/' + eventId, body);
 };
 
-export const updateTeeSheetCall = (eventId, body) => {
-  return axios.put(url + '/api/1.0/management/events/teesheet/' + eventId, body);
+export const updateTeeSheetCall = (teeSheetId, body) => {
+  return axios.put(url + '/api/1.0/management/events/teesheet/update/' + teeSheetId, body);
 };
 
+export const deleteTeeSheet = (teeSheetId) => {
+  return axios.delete(url + '/api/1.0/management/events/teesheet/delete/' + teeSheetId);
+};
 
 export const deleteEvent = (eventId) => {
   return axios.delete(url + '/api/1.0/management/events/delete/' + eventId);
@@ -169,13 +177,20 @@ export const eventEnter = (entrant) => {
 }
 
 export const getTeesheet = (eventid) => {
-  return axios.get(url + '/api/1.0/event/getTeeSheet/'+ eventid);
+  return axios.get(url + '/api/1.0/event/getNewTeeSheet/'+ eventid);
+}
+
+export const getSingleTeesheet = (teesheetid) => {
+  return axios.get(url + '/api/1.0/event/getASingleTeeSheet/'+ teesheetid);
+}
+
+export const createTeeSheet = (eventid, body) => {
+  return axios.post(url + '/api/1.0/event/teesheet/create/' + eventid, body);
 }
 
 //Add event entrant
 export const addEntrant = (eventid, memberid) => {
   const path = url + '/api/1.0/event/addEntrant/' + eventid + '/'+ memberid;
-  console.log(path);
   return axios.post(path);
 }
 
