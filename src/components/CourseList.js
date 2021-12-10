@@ -82,7 +82,6 @@ export const CourseList = (props) => {
     };
 
     const { content, first, last } = page;
-    console.log(content)
     return (
       <div >
         

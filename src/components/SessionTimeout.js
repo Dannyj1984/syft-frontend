@@ -5,7 +5,6 @@ import SessionTimeoutDialog from './SessionsTimeoutDialog';
             let timeout;
             
             const SessionTimeout = ({isAuthenticated, logOut, dispatch}) => {
-                console.log(dispatch)
             const [timeoutModalOpen, setTimeoutModalOpen] = useState(false);
             const [timeoutCountdown, setTimeoutCountdown] = useState(0);
             const idleTimer = useRef(null);

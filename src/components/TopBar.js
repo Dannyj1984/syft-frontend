@@ -417,7 +417,6 @@ try {
 } catch (error) {
   
 }
-console.log(props)
    
     return (
       <div className="bg-white shadow-sm mb-2">

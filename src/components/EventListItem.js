@@ -290,13 +290,11 @@ const EventListItem = (props) => {
 
       //Get teesheet data for event when loading that modal
       const getTeesheet = () =>  {
-        console.log('getting tee times')
         apiCalls
           .getTeesheet(props.event)
           .then((response) => {
             setTeeTimes(response.data);
             setSortedTeeTimes(teeTimes.sort((a, b) => (a.teetime > b.teetime) ? -1 : 1))
-            console.log(sortedTeeTime)
           }, []);
       }
 
@@ -324,7 +322,6 @@ const EventListItem = (props) => {
         const { value } = event.target;
         setScore(value);
       }
-      console.log(sortedTeeTime)
       
 
 

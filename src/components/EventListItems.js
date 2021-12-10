@@ -146,7 +146,6 @@ const [newTeeTime, setNewTeeTime] = useState({
   )
   .catch((apiError) => {
     setErrors(apiError)
-    console.log(errors)
     setPendingApiCall(false);
   });
 
@@ -439,7 +438,6 @@ const [newTeeTime, setNewTeeTime] = useState({
                 setLoadTeeSheetError('No Tee sheet is setup for this event, please create one');
               }
               setSortedTeeTimes(teeTimes)
-              console.log(sortedTeeTimes)
           ;
       }
 
