@@ -145,6 +145,8 @@ const [newTeeTime, setNewTeeTime] = useState({
   }
   )
   .catch((apiError) => {
+    setErrors(apiError)
+    console.log(errors)
     setPendingApiCall(false);
   });
 
@@ -381,7 +383,23 @@ const [newTeeTime, setNewTeeTime] = useState({
           .getCourseDetails(props.event.id)
           .then((response) => {
             setCourseName(response.data.course);
-          }, []);
+          }, 
+          [])
+          .catch((apiError) => {
+            setErrors(apiError.response);
+          setPendingApiCall(false);
+        });
+          //Get the teesheet for this event
+          apiCalls
+              .getTeesheet(props.event.id)
+              .then((response) => {
+                  setTeeTimes(response.data)
+                  setSortedTeeTimes(teeTimes.sort((a,b) => (a.teetime < b.teetime) ? -1 : 1))
+              })
+              .catch((apiError) => {
+                  setErrors(apiError.response);
+                setPendingApiCall(false);
+              })
           //Get the entrants for this event
           apiCalls
           .getEntrants(eventid)
@@ -403,15 +421,15 @@ const [newTeeTime, setNewTeeTime] = useState({
               } else {
                 setEntered(false);
               }
-              apiCalls
-              .getTeesheet(props.event.id)
-              .then((response) => {
-                  setTeeTimes(response.data)
-                  setSortedTeeTimes(teeTimes.sort((a,b) => (a.teetime < b.teetime) ? -1 : 1))
-              })
+              
               
             }
           })
+          .catch((apiError) => {
+            setErrors(apiError.response);
+          setPendingApiCall(false);
+        })  
+
       }, [sortedTeeTimes, teeTimes]);
 
       //Get teesheet data for event when loading that modal
@@ -685,7 +703,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                             dialogClassName="modal-content-full modal-dialog-full"
                           >
                             <Modal.Header closeButton>
-                              <Modal.Title>Tee times for {props.event.eventname} on {formatDate}</Modal.Title>
+                              <Modal.Title><h3>Tee times for {props.event.eventname} on {formatDate}</h3></Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                             <Table striped bordered hover>
@@ -750,7 +768,15 @@ const [newTeeTime, setNewTeeTime] = useState({
                             </thead>
                                 <tbody>
                                     <tr>
-                                    <th scope="col"><Input name="teetime" value={editTeeTime.teetime} onChange={onChangeEdit} /></th>
+                                    <th 
+                                      scope="col">
+                                      <Input 
+                                        name="teetime" 
+                                        type="time"
+                                        value={editTeeTime.teetime} 
+                                        onChange={onChangeEdit} 
+                                      />
+                                    </th>
                                     <th scope="col"><Input name="player1" value={editTeeTime.player1} onChange={onChangeEdit} /></th>
                                     <th scope="col"><Input name="player2" value={editTeeTime.player2} onChange={onChangeEdit} /></th>
                                     <th scope="col"><Input name="player3" value={editTeeTime.player3} onChange={onChangeEdit} /></th>
