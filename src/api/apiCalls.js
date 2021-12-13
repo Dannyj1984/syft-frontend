@@ -211,6 +211,15 @@ export const updateScore = (eventid, memberid, score) => {
   return axios.put(path);
 }
 
+//Get a list of previous events for a single entrant for profile card
+export const getPreviousEventsForEntrant = (memberid) => {
+  return axios.get(url + '/api/1.0/event/getPreviousEventsForEntrant/' + memberid);
+}
+
+//Get a list of future events for a single entrant for profile card
+export const getUpcomingEventsForEntrant = (memberid) => {
+  return axios.get(url + '/api/1.0/event/getUpcomingEventsForEntrant/' + memberid);
+}
 
 //Society calls
 

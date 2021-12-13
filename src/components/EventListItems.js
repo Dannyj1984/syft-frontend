@@ -31,6 +31,7 @@ const EventListItem = (props) => {
   const scoreArea = () => {
     setShowScore(true);
   }
+  //Update
   const updateScore = () => {
    const eventid = props.event.id;
    const id = props.loggedInUser.id;
@@ -56,9 +57,6 @@ const EventListItem = (props) => {
   const cancelScore = () => {
     setShowScore(false);
   }
- 
-
-  //useEffect loading data
 
 
   //Leadboard modal setup
@@ -379,19 +377,19 @@ const [newTeeTime, setNewTeeTime] = useState({
         const event = props.event;
         const eventid = event.id;
           apiCalls
-          .getCourseDetails(props.event.id)
-          .then((response) => {
-            setCourseName(response.data.course);
-          }, 
-          [])
-          .catch((apiError) => {
-            setErrors(apiError.response);
-          setPendingApiCall(false);
-        });
+            .getCourseDetails(props.event.id)
+            .then((response) => {
+              setCourseName(response.data.course);
+            }, 
+            [])
+            .catch((apiError) => {
+              setErrors(apiError.response);
+            setPendingApiCall(false);
+          });
           //Get the teesheet for this event
           apiCalls
-              .getTeesheet(props.event.id)
-              .then((response) => {
+            .getTeesheet(props.event.id)
+            .then((response) => {
                   setTeeTimes(response.data)
                   setSortedTeeTimes(teeTimes.sort((a,b) => (a.teetime < b.teetime) ? -1 : 1))
               })
