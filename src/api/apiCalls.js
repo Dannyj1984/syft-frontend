@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const url = 'https://glacial-sierra-91195.herokuapp.com';
+//const url = 'https://glacial-sierra-91195.herokuapp.com';
 
-//const url = 'http://localhost:8080';
+const url = 'http://localhost:8080';
 
 //user calls
 
@@ -145,6 +145,8 @@ export const listPreviousEvents = (id, param = { page: 0, size: 9 }) => {
 };
   
 export const getEvent = (eventname) => {
+  const path = url+ `/api/1.0/events/${eventname}`
+  console.log(path);
   return axios.get(url + `/api/1.0/events/${eventname}`);
 };
 

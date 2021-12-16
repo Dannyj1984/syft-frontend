@@ -514,7 +514,8 @@ const [newTeeTime, setNewTeeTime] = useState({
                                 data-placement="left" 
                                 data-toggle="tooltip" 
                                 data-original-title="view"><i
-                                className="fa fa-eye"/>
+                                className="fa fa-eye"
+                                onClick={() => {console.log(`/event/${props.event.eventname}`)}}/>
                               </button>
                       </Link>
                     </div>
