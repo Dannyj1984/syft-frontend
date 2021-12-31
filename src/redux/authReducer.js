@@ -22,7 +22,6 @@ const initialState = {
 export default function authReducer(state = initialState, action) {
   if (action.type === 'logout-success') {
     window.localStorage.clear();
-    window.localStorage.removeItem("teesheet");
     return { ...initialState };
   } else if (action.type === 'login-success') {
     return {

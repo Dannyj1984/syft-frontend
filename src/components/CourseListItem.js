@@ -70,7 +70,7 @@ const CourseListItem = (props) => {
                       <Link
                         to={{
                           pathname: `/holes`, 
-                          state: {courseid: props.course.courseid}
+                          state: {courseid: props.course.id}
                           }} >
                           <button  
                             className="btn btn-primary tooltips float-left" 

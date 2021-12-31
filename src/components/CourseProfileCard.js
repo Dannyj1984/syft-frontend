@@ -161,6 +161,10 @@ const CourseProfileCard = (props) => {
             </Modal.Header>
               <Modal.Body>
               
+                {myDataObject.hole.map((holes, index) => { 
+                  const { hole, par, stroke, yards} = holes
+                  return(
+                  <div className="container" key={index}>
                   <Table striped bordered hover>
                       <thead>
                         <tr>
@@ -170,17 +174,19 @@ const CourseProfileCard = (props) => {
                           <th scope="col">Yards</th>
                         </tr>
                       </thead>
-                      {myDataObject.hole.map(((holes, index) =>
-                      <tbody key={index}>
+                      <tbody>
                         <tr>
-                          <th scope="row">{holes.hole}</th>
-                          <th>{holes.par}</th>
-                          <th>{holes.stroke}</th>
-                          <th>{holes.yards}</th>
+                          <th scope="row">{hole}</th>
+                          <td>{par}</td>
+                          <td>{stroke}</td>
+                          <td>{yards}</td>
                         </tr>
                       </tbody>
-                      ))}
                     </Table>
+                      <hr />
+                  </div>
+                  )
+                })}
                 
               </Modal.Body>
               <Modal.Footer>
