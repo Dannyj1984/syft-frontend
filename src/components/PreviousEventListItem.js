@@ -128,7 +128,13 @@ const PreviousEventListItem = (props) => {
               setEntered(false);
             } else {
               setEntrants(response.data)
-              setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? -1 : 1));
+              //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
+              if(response.data[0].score < 52) {
+                setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? -1 : 1));
+              }
+              if(response.data[0].score > 51) {
+                setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? 1 : -1));
+              }
               //Check if the username of logged in user is present in the array of entrants
               function userEntered(username) {
                 return entrants.some(function(el) {
