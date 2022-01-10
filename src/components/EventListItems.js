@@ -12,6 +12,8 @@ import ButtonWithProgress from './ButtonWithProgress';
 
 const EventListItem = (props) => {
 
+  const thisEventType = props.event.eventtype;
+
   const [errors, setErrors] = useState({});
   const [editErrors, setEditErrors] = useState();
   const [editConfirm, setEditConfirm] = useState();
@@ -494,10 +496,10 @@ const [newTeeTime, setNewTeeTime] = useState({
             } else {
               setEntrants(response.data)
               //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
-              if(response.data[0].score < 52) {
+              if(thisEventType === 'medal') {
                 setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? -1 : 1));
               }
-              if(response.data[0].score > 51) {
+              if(thisEventType === 'Stableford') {
                 setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? 1 : -1));
               }
               //Check if the username of logged in user is present in the array of entrants
