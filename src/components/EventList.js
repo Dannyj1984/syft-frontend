@@ -42,10 +42,19 @@ export const EventList = (props) => {
     };
 
     const { content, first, last } = page;
+    console.log(content.length);
 
+    
   return (
           <div >
+          
             <h3 className="card-title m-auto text-center">Events</h3>
+            {content.length === 0 && 
+            <div>
+              <h3 className="card-title m-auto text-center text-danger">No upcoming events</h3>
+            </div>
+          
+          }
             <Link
                   to={`/previousEvent`}>
                     <button  

@@ -151,6 +151,8 @@ export const EventSignupPage = (props) => {
                   <option>4BBB - Medal</option>
                   <option>4 man team - Stableford</option>
                   <option>4 man team - Medal</option>
+                  <option>Multi round event - Medal</option>
+                  <option>Multi round event - Stableford</option>
               </select>
               <div id="eventtypeFeedback" className="invalid-feedback">
                 Please select a valid event type.
