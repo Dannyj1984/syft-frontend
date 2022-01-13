@@ -499,7 +499,13 @@ const [newTeeTime, setNewTeeTime] = useState({
               if(thisEventType === 'medal') {
                 setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? -1 : 1));
               }
+              if(thisEventType === 'Multi round event - Medal') {
+                setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? -1 : 1));
+              }
               if(thisEventType === 'Stableford') {
+                setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? 1 : -1));
+              }
+              if(thisEventType === 'Multi round event - Stableford') {
                 setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? 1 : -1));
               }
               //Check if the username of logged in user is present in the array of entrants
