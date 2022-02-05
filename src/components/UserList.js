@@ -90,7 +90,7 @@ const loadFilter = async (requestedPage = 0) => {
         <div className="row">
           <div className="col-sm">
             <div className="row">
-              <Input name="nameFilter" value={nameFilter} type="text" placeholder="Search" onChange={onChange} />
+              <Input name="nameFilter" value={nameFilter} type="text" placeholder="Search by firstname" onChange={onChange} />
               <button className="btn btn-primary" onClick={clearFilter} >Clear</button>
             </div>
           </div>
