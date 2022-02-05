@@ -496,7 +496,7 @@ const [newTeeTime, setNewTeeTime] = useState({
             } else {
               setEntrants(response.data)
               //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
-              if(thisEventType === 'medal') {
+              if(thisEventType === 'Medal') {
                 setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? -1 : 1));
               }
               if(thisEventType === 'Stableford') {
@@ -757,8 +757,9 @@ const [newTeeTime, setNewTeeTime] = useState({
                   </Modal>
               </>
                         {/*Show leaderboard modal*/}
-                <>
-                        
+                        <>
+                        {/* modal for stableford event type */}
+                        {thisEventType ==="Stableford" &&
                   <Modal 
                     show={showModalLeader} 
                     onHide={handleCloseLeader} 
@@ -790,7 +791,45 @@ const [newTeeTime, setNewTeeTime] = useState({
                         Close
                       </Button>
                     </Modal.Footer>
-                  </Modal>
+                  </Modal>}
+
+                  {/* Modal for Medal event type */}
+
+                  {thisEventType ==="Medal" &&
+                  <Modal 
+                    show={showModalLeader} 
+                    onHide={handleCloseLeader} 
+                    dialogClassName="custom-modal"
+                  >
+                    <Modal.Header closeButton>
+                      <Modal.Title>Leader board for {props.event.eventname} on {formatDate}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th scope="col">Member</th>
+                          <th scope="col">Score</th>
+                        </tr>
+                      </thead>
+                      {sortedEntrants.map((entrant =>
+                        <tbody key={entrant.username}>
+                        <tr>
+                          <th scope="row">{entrant.firstname} {entrant.surname} ({entrant.handicap})</th>
+                          <th scope="row">{entrant.score}</th>
+                        </tr>
+                        </tbody>
+                      ))}
+                    </Table>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleCloseLeader}>
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>}
+
+                  
               </>
                         {/*Show Tee time modal*/}
                         <>

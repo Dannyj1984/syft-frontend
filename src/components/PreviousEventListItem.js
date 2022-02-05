@@ -147,10 +147,16 @@ const PreviousEventListItem = (props) => {
             } else {
               setEntrants(response.data)
               //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
-              if(thisEventType === "Stableford") {
+              if(thisEventType === 'medal') {
                 setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? -1 : 1));
               }
-              if(thisEventType === "Medal") {
+              if(thisEventType === 'Multi round event - Medal') {
+                setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? -1 : 1));
+              }
+              if(thisEventType === 'Stableford') {
+                setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? 1 : -1));
+              }
+              if(thisEventType === 'Multi round event - Stableford') {
                 setSortedEntrants(entrants.sort((a, b) => (a.score > b.score) ? 1 : -1));
               }
               //Check if the username of logged in user is present in the array of entrants
@@ -295,7 +301,7 @@ const PreviousEventListItem = (props) => {
                     </div>
                     
                 </div>
-
+                        
                 {showScore &&
                     <div className="container row m-2">
                       <div className="col-4">
