@@ -13,7 +13,7 @@ import ButtonWithProgress from './ButtonWithProgress';
 const PreviousEventListItem = (props) => {
 
   //Get the event type
-  const thisEventType = props.event.eventtype;
+  const thisEventType = props.event.type;
 
   //initial setup
   const [courseName, setCourseName] = useState("");
@@ -218,11 +218,11 @@ const PreviousEventListItem = (props) => {
             <div className="card col-12">
                 <div className="card-body">
                     <div className="col-12 card-title align-self-center mb-0">
-                        <h5>{props.event.eventname} </h5>
+                        <h5>{props.event.name} </h5>
                         <p className="m-0">Courses: {courseName}</p>
                         <p className="m-0">Date : {formatDate}</p>
                         <p className="m-0">Entries : {props.event.currententrants} / {props.event.maxentrants}</p>
-                        <p className="m-0">Event Format : {props.event.eventtype}</p>
+                        <p className="m-0">Event Format : {props.event.type}</p>
                         <p className="m-0">Cost : £{props.event.cost}</p>
                         
                     </div>
@@ -232,7 +232,7 @@ const PreviousEventListItem = (props) => {
                 <div className="card-body">
                     <div className="float-left btn-group btn-group-m px-2 col-3">
                       <Link
-                          to={`/event/${props.event.eventname}`}>
+                          to={`/event/${props.event.name}`}>
                               <button  
                                 className="btn btn-primary tooltips float-left" 
                                 data-placement="left" 

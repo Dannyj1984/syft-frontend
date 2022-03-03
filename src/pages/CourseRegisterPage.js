@@ -50,7 +50,7 @@ export const CourseRegisterPage = (props) => {
           };
           setPendingApiCall(true);
         props.actions
-          .postSignupCourse(course)
+          .postSignupCourse(props.user.society.id, course)
           .then((response) => {
             setPendingApiCall(false);
             props.history.push('/courses');
@@ -161,7 +161,7 @@ export const CourseRegisterPage = (props) => {
         const mapDispatchToProps = (dispatch) => {
             return {
               actions: {
-                postSignupCourse: (course) => dispatch(authActions.courseSignupHandler(course))
+                postSignupCourse: (course, societyId) => dispatch(authActions.courseSignupHandler(course, societyId))
               }
             };
           };

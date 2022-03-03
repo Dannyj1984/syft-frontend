@@ -40,7 +40,7 @@ const loadFilter = async (requestedPage = 0) => {
   let id = props.user.society.id 
   setPendingApiCall(true);
   await apiCalls
-    .listFilteredUsers({ page: requestedPage, size: 9 }, id, name.toLowerCase())
+     .listFilteredUsers({ page: requestedPage, size: 9 }, id, name.toLowerCase())
      .then ((response)  => {
       setPage(response.data);
       if(Object.entries(response.data.content).length === 0) {
@@ -67,9 +67,8 @@ const loadFilter = async (requestedPage = 0) => {
   };
 
   useEffect(() => {
-    //loadData();
     loadFilter();
-  }, [nameFilter]);
+  }, []);
 
   const onClickNext = () => {
     loadData(page.number + 1);

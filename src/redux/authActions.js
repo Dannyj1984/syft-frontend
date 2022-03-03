@@ -10,6 +10,7 @@ export const loginSuccess = (loginUserData) => {
 export const loginHandler = (credentials) => {
   return async function(dispatch) {
     const response = await apiCalls.login(credentials);
+    console.log(credentials)
     dispatch(
       loginSuccess({
         ...response.data,
@@ -34,17 +35,17 @@ export const changePassword = (id, user) => {
 };
 
 //course sign up
-export const courseSignupHandler = (course) => {
+export const courseSignupHandler = (course, societyId) => {
   return async function(dispatch) {
-    await apiCalls.signupCourse(course);
+    await apiCalls.signupCourse(societyId, course);
   };
 };
 
 //event sign up
 
-export const eventSignupHandler = (event) => {
+export const eventSignupHandler = (event, societyId, courseId) => {
   return async function(dispatch) {
-    await apiCalls.signupEvent(event);
+    await apiCalls.signupEvent(event, societyId, courseId);
 
   };
 };
