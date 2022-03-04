@@ -41,7 +41,7 @@ export const CourseList = (props) => {
     let id = props.user.society.id 
     setPendingApiCall(true);
     await apiCalls
-      .listFilteredCourses({ page: requestedPage, size: 9 }, id, name.toLowerCase())
+      .listFilteredCourses({ page: requestedPage, size: 9 }, id, name)
        .then ((response)  => {
         setPendingApiCall(false)
         setPage(response.data);
