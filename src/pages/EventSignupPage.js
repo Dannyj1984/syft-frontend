@@ -81,7 +81,6 @@ export const EventSignupPage = (props) => {
 
         let courseId= form.course_id.split(" ")[0];
         let societyId = props.user.society.id;
-        let checked = document.getElementById('ninetyfivepercent');
         const event = {
           name: form.name,
           type: form.type,

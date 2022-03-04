@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 export const EventList = (props) => {
 
-    const [events, setEvents] = useState();
+    const [events] = useState();
 
     const [page, setPage] = useState({
         content: [],
@@ -56,7 +56,7 @@ export const EventList = (props) => {
             <div>
               <h3 className="card-title m-auto text-center text-danger">No upcoming events</h3>
             </div>
-          
+        
           }
             <Link
                   to={`/previousEvent`}>
@@ -69,9 +69,11 @@ export const EventList = (props) => {
             </Link>
             <hr />
           {pendingApiCall &&
-          <div>
-            <span>Loading...</span>
-          </div>}
+            <div className="d-flex">
+          <div className="spinner-border text-black-50 m-auto">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>}
           {!pendingApiCall &&
             <div className="list-group list-group-flush" data-testid="eventgroup">
               <div className="row">

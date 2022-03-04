@@ -8,8 +8,7 @@ import * as ApiCalls from '../api/apiCalls';
 export const CourseRegisterPage = (props) => {
     //state = Json object to add fields to
     const [form, setForm] = useState({
-      courseName: '',
-      postCode: '',
+      name: '',
       par: '',
       courseRating: '',
       slopeRating: ''
@@ -39,15 +38,12 @@ export const CourseRegisterPage = (props) => {
 
       const onClickCourseRegister = () => {
         const course = {
-          courseName: form.courseName.trim(),
-          postCode: form.postCode,
+          name: form.name.trim(),
           par: form.par,
           courseRating: form.courseRating,
-          slopeRating: form.slopeRating,
-          society: {
-            id: props.user.society.id
-          }
+          slopeRating: form.slopeRating
           };
+          console.log(course)
           setPendingApiCall(true);
         props.actions
           .postSignupCourse(props.user.society.id, course)
@@ -68,24 +64,13 @@ export const CourseRegisterPage = (props) => {
             <h1 className="text-center">Register Course</h1>
             <div className="col-12 mb-3">
                 <Input
-                name="courseName"
+                name="name"
                 label="Course Name"
                 placeholder="Course name"
-                value={form.courseName}
+                value={form.name}
                 onChange={onChange}
-                hasError={errors.courseName && true}
-                error={errors.courseName}
-              />
-            </div>
-            <div className="col-12 mb-3">
-            <Input
-                name="postCode"
-                label="Postcode"
-                placeholder="Postcode"
-                value={form.postCode}
-                onChange={onChange}
-                hasError={errors.postCode && true}
-                error={errors.postCode}
+                hasError={errors.name && true}
+                error={errors.name}
               />
             </div>
             <div className="col-12 mb-3">
@@ -161,7 +146,7 @@ export const CourseRegisterPage = (props) => {
         const mapDispatchToProps = (dispatch) => {
             return {
               actions: {
-                postSignupCourse: (course, societyId) => dispatch(authActions.courseSignupHandler(course, societyId))
+                postSignupCourse: (societyId, course) => dispatch(authActions.courseSignupHandler(societyId, course))
               }
             };
           };

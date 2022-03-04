@@ -49,7 +49,8 @@ const EventListItem = (props) => {
   
   
   //sorted entrants by score for leaderboard
-  const [sortedEntrants, setSortedEntrants] = useState([]);
+  const [sortedEntrants, setSortedEntrants] = useState([]); //For stableford scores
+  const [medalEntrants, setMedalEntrants] = useState([]); //for Medal scores
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
   const [playerPerTee, setPlayerPerTee] = useState(0);
@@ -64,6 +65,7 @@ const EventListItem = (props) => {
   //Leadboard modal setup
   const [showModalLeader, setShowLeader] = useState(false);
   const [courseName, setCourseName] = useState("");
+  const [courseSlope, setCourseSlope] = useState("");
 
   const handleCloseLeader = () => setShowLeader(false);
   const handleShowLeader = () => setShowLeader(true);
@@ -405,6 +407,7 @@ const [newTeeTime, setNewTeeTime] = useState({
           .getCourseDetails(eventid)
           .then((response) => {
             setCourseName(response.data.course);
+            setCourseSlope(response.data.courseSlope)
             setPendingApiCall(false)
           })
           .catch((e) => {
@@ -458,16 +461,16 @@ const [newTeeTime, setNewTeeTime] = useState({
         checkIfUserEntered(username)
               //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
       if(thisEventType === 'Medal') {
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score > b.score) ? -1 : 1));
+        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
       }
       if(thisEventType === 'Multi round event - Medal') { 
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score > b.score) ? -1 : 1));
+        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
       }
       if(thisEventType === 'Stableford') {
         setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
       }
       if(thisEventType === 'Multi round event - Stableford') {
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score > b.score) ? 1 : -1));
+        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
       }
       setPendingApiCall(true)
         apiCalls
@@ -528,7 +531,8 @@ const [newTeeTime, setNewTeeTime] = useState({
         .randomiseEntrants(eventId, playerPerTee)
         .then((response) => {
           setPendingApiCall(false)
-          window.location.reload()
+          alert('Tee sheet updated');
+          setTimeout( window.location.reload(), 3000)
         })
         .catch = (e) => {
           console.log(e)
@@ -592,9 +596,6 @@ const [newTeeTime, setNewTeeTime] = useState({
 
       let yourDate = props.event.date;
       const formatDate = moment(yourDate).format('DD-MM-YYYY')
-      if(teeTimes[0] !== undefined) {
-      console.log(teeTimes[0])
-      }
 
   return (
             <div className="card col-12">
@@ -606,6 +607,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                         <p className="m-0">Entries : {props.event.currentEntrants} / {props.event.maxEntrants}</p>
                         <p className="m-0">Event Format : {props.event.type}</p>
                         <p className="m-0">Cost : £{props.event.cost}</p>
+                        <p className="m-0">Playing handicap : {props.event.ninetyFivePercent ? '95%' : '100%'}</p>
                     </div>
                 </div>
                 <hr/>
@@ -714,9 +716,11 @@ const [newTeeTime, setNewTeeTime] = useState({
                     </Modal.Header>
                     {pendingApiCall && 
                     <Modal.Body>
-                      <div>
-                        <span>Loading...</span>
+                    <div className="d-flex">
+                      <div className="spinner-border text-black-50 m-auto">
+                        <span className="sr-only">Loading...</span>
                       </div>
+                    </div>
                     </Modal.Body>
                     }
                     {!pendingApiCall &&
@@ -733,7 +737,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                        entrant.member && 
                         <tbody key={entrant.member.id}>
                           <tr>
-                            <th scope="row">{entrant.member.firstName} {entrant.member.surname} {entrant.member.handicap}</th>
+                            <th >{entrant.member.firstName} {entrant.member.surname} ({entrant.member.handicap})</th>
                           </tr>
                         </tbody>  
                       )}
@@ -773,9 +777,11 @@ const [newTeeTime, setNewTeeTime] = useState({
                     </Modal.Header>
                     {pendingApiCall && 
                     <Modal.Body>
-                      <div>
-                        <span>Loading...</span>
+                    <div className="d-flex">
+                      <div className="spinner-border text-black-50 m-auto">
+                        <span className="sr-only">Loading...</span>
                       </div>
+                    </div>
                     </Modal.Body>
                     }
                     {!pendingApiCall &&
@@ -783,15 +789,18 @@ const [newTeeTime, setNewTeeTime] = useState({
                     <Table striped bordered hover responsive>
                       <thead>
                         <tr>
-                          <th >Member</th>
+                          <th >Member (playing handicap)</th>
                           <th >Score</th>
                         </tr>
                       </thead>
                       {sortedEntrants.map((entrant =>
-                        <tbody key={entrant.username}>
+                        <tbody key={entrant.member.id}>
                         <tr>
-                          <th scope="row">{entrant.member.firstName} {entrant.member.surname} ({entrant.member.handicap})</th>
-                          <th scope="row">{entrant.score}</th>
+                          {!props.event.ninetyFivePercent &&
+                          <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(entrant.member.handicap/113*courseSlope)})</th>}
+                          {props.event.ninetyFivePercent &&
+                          <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(0.95*(entrant.member.handicap/113*courseSlope*0.95))})</th>}
+                          <th >{entrant.score}</th>
                         </tr>
                         </tbody>
                       ))}
@@ -817,9 +826,11 @@ const [newTeeTime, setNewTeeTime] = useState({
                     </Modal.Header>
                     {pendingApiCall && 
                     <Modal.Body>
-                      <div>
-                        <span>Loading...</span>
+                    <div className="d-flex">
+                      <div className="spinner-border text-black-50 m-auto">
+                        <span className="sr-only">Loading...</span>
                       </div>
+                    </div>
                     </Modal.Body>
                     }
                     {!pendingApiCall &&
@@ -832,10 +843,13 @@ const [newTeeTime, setNewTeeTime] = useState({
                         </tr>
                       </thead>
                       {sortedEntrants.map((entrant =>
-                        <tbody key={entrant.username}>
+                        <tbody key={entrant.member.id}>
                         <tr>
-                          <th scope="row">{entrant.firstname} {entrant.surname} ({entrant.handicap})</th>
-                          <th scope="row">{entrant.score}</th>
+                          {!props.event.ninetyFivePercent &&
+                          <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(entrant.member.handicap/113*courseSlope)})</th>}
+                          {props.event.ninetyFivePercent &&
+                          <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(0.95*(entrant.member.handicap/113*courseSlope))})</th>}
+                          <th >{entrant.score}</th>
                         </tr>
                         </tbody>
                       ))}
@@ -864,9 +878,11 @@ const [newTeeTime, setNewTeeTime] = useState({
                             </Modal.Header>
                             {pendingApiCall &&
                             <Modal.Body>
-                              <div>
-                                <span>Loading...</span>
+                            <div className="d-flex">
+                              <div className="spinner-border text-black-50 m-auto">
+                                <span className="sr-only">Loading...</span>
                               </div>
+                            </div>
                             </Modal.Body>
                             }
                             {!pendingApiCall &&
@@ -923,9 +939,11 @@ const [newTeeTime, setNewTeeTime] = useState({
                           </Modal.Header>
                           {pendingApiCall && 
                           <Modal.Body>
-                            <div>
-                              <span>Loading...</span>
+                          <div className="d-flex">
+                            <div className="spinner-border text-black-50 m-auto">
+                              <span className="sr-only">Loading...</span>
                             </div>
+                          </div>
                           </Modal.Body>
                           }
                           {!pendingApiCall &&
@@ -986,9 +1004,11 @@ const [newTeeTime, setNewTeeTime] = useState({
                           </Modal.Header>
                           {pendingApiCall && 
                           <Modal.Body>
-                            <div>
-                              <span>Loading...</span>
+                          <div className="d-flex">
+                            <div className="spinner-border text-black-50 m-auto">
+                              <span className="sr-only">Loading...</span>
                             </div>
+                          </div>
                           </Modal.Body>
                           }
                           {!pendingApiCall &&
@@ -1002,7 +1022,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                           </thead>
                           <tbody>
                               <tr>
-                                  <th scope="row">
+                                  <th >
                                       <Input
                                         name="addnewTeeTime"
                                         placeholder="Tee time"
@@ -1010,7 +1030,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                                         onChange={onChange} 
                                       />
                                   </th>
-                                  <th scope="row">
+                                  <th >
                                       <Input
                                         name="noOfSlots"
                                         value={newTeeTime.noOfSlots}
@@ -1048,9 +1068,11 @@ const [newTeeTime, setNewTeeTime] = useState({
                             </Modal.Header>
                             {pendingApiCall && 
                             <Modal.Body>
-                              <div>
-                                <span>Loading...</span>
+                            <div className="d-flex">
+                              <div className="spinner-border text-black-50 m-auto">
+                                <span className="sr-only">Loading...</span>
                               </div>
+                            </div>
                             </Modal.Body>
                             }
                             {!pendingApiCall &&

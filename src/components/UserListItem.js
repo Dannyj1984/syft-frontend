@@ -352,6 +352,7 @@ const UserListItem = (props) => {
                     {/*Change member to admin*/}
                     <div className="float-left btn-group btn-group-m">
                     {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  &&
+                              
                             <button  
                                 className="btn btn-primary tooltips m-2"  
                                 onClick={submitAdmin}

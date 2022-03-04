@@ -28,6 +28,7 @@ class CourseInfoPage extends React.Component{
 
         loadCourse = () => {
           const courseName = this.props.match.params.coursename;
+          console.log(this.props)
           if (!courseName) {
             return;
           }

@@ -105,9 +105,11 @@ const loadFilter = async (requestedPage = 0) => {
       
       <hr />
       {pendingApiCall &&
-      <div>
-        <span>Loading...</span>
-      </div>}
+        <div className="d-flex">
+          <div className="spinner-border text-black-50 m-auto">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>}
       {!pendingApiCall && 
       <div className="list-group list-group-flush" data-testid="usergroup">
         <div className="row">

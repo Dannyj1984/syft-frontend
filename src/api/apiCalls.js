@@ -105,7 +105,8 @@ export const randomiseEntrants = (eventId, perTee) => {
 //course calls
 
 export const signupCourse = (societyId, course) => {
-  return axios.post(url + '/api/1.0/management/course/' + societyId, course);
+  console.log('/api/1.0/management/course/' + societyId, course)
+  return axios.post(url + `/api/1.0/management/course/${societyId}`, course);
 };
 
 //Getting courses for new event page dropdown list
@@ -126,8 +127,10 @@ export const listFilteredCourses = (param = { page: 0, size: 9 }, id, nameFilter
   return axios.get(path);
 };
   
-export const getCourse = (coursename) => {
-  return axios.get(url + `/api/1.0/courses/${coursename}`);
+export const getCourse = (courseName) => {
+  const path = url + `/api/1.0/course/${courseName}`;
+  console.log(path)
+  return axios.get(url + `/api/1.0/course/${courseName}`);
 };
 
 export const updateCourse = (courseId, body) => {
@@ -138,12 +141,13 @@ export const deleteCourse = (courseId) => {
   return axios.delete(url + '/api/1.0/management/courses/delete/' + courseId);
 };
 
-export const addHoleDetails = (list) => {
-  return axios.post(url + '/api/1.0/management/holes', list);
+export const addHoleDetails = (courseId, list) => {
+  console.log(list)
+  return axios.post(url + `/api/1.0/management/hole/${courseId}`, list);
 };
 
 export const getCourseHoles = (courseid)=> {
-  return axios.get(url + '/api/1.0/getListOfHoles/' + courseid);
+  return axios.get(url + '/api/1.0/hole/' + courseid);
 }
 
 //Event calls
@@ -163,7 +167,8 @@ export const listPreviousEvents = (id, param = { page: 0, size: 9 }) => {
 };
   
 export const getEvent = (eventname) => {
-  const path = url+ `/api/1.0/events/${eventname}`
+  const path = url+ `/api/1.0/events/${eventname}`;
+  console.log(path)
   return axios.get(url + `/api/1.0/events/${eventname}`);
 };
 
@@ -192,8 +197,8 @@ export const getCourseDetails = (eventid) => {
   return axios.get(url + '/api/1.0/management/events/courseDetails/' + eventid);
 }
 
-export const eventEnter = (entrant) => {
-  return axios.post(url + '/api/1.0/management/events/entrants', entrant);
+export const eventEnter = (eventid, memberid) => {
+  return axios.post(url + '/api/1.0/management/events/entrants/' + eventid + '/' + memberid);
 }
 
 export const getTeesheet = (eventid) => {
@@ -212,6 +217,7 @@ export const createTeeSheet = (eventid, body) => {
 //Add event entrant
 export const addEntrant = (eventid, memberid) => {
   const path = url + '/api/1.0/entrants/' + eventid + '/'+ memberid;
+  console.log(path)
   return axios.post(path);
 }
 
