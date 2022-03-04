@@ -1,7 +1,7 @@
 import axios from 'axios';
-const url = 'https://glacial-sierra-91195.herokuapp.com';
+//const url = 'https://glacial-sierra-91195.herokuapp.com';
 
-//const url = 'http://localhost:8080';
+const url = 'http://localhost:8080';
 
 //user calls
 
@@ -97,7 +97,6 @@ export const getRandomUserList = (userList) => {
 
 export const randomiseEntrants = (eventId, perTee) => {
   const path = url + '/api/1.0/event/entrants/teesheet/' + eventId + '/' + perTee;
-  console.log(path)
   return axios.put(path);
 }
 
@@ -105,7 +104,6 @@ export const randomiseEntrants = (eventId, perTee) => {
 //course calls
 
 export const signupCourse = (societyId, course) => {
-  console.log('/api/1.0/management/course/' + societyId, course)
   return axios.post(url + `/api/1.0/management/course/${societyId}`, course);
 };
 
@@ -129,7 +127,6 @@ export const listFilteredCourses = (param = { page: 0, size: 9 }, id, nameFilter
   
 export const getCourse = (courseName) => {
   const path = url + `/api/1.0/course/${courseName}`;
-  console.log(path)
   return axios.get(url + `/api/1.0/course/${courseName}`);
 };
 
@@ -142,7 +139,6 @@ export const deleteCourse = (courseId) => {
 };
 
 export const addHoleDetails = (courseId, list) => {
-  console.log(list)
   return axios.post(url + `/api/1.0/management/hole/${courseId}`, list);
 };
 
@@ -163,12 +159,10 @@ export const listEvents = (id, param = { page: 0, size: 9 }) => {
 
 export const listPreviousEvents = (id, param = { page: 0, size: 9 }) => {
   const path = url + `/api/1.0/previousEvents/${id}?page=${param.page || 0}&size=${param.size || 9}&sort=date,desc`;
-  return axios.get(path);
+  return axios.get(path); 
 };
   
 export const getEvent = (eventname) => {
-  const path = url+ `/api/1.0/events/${eventname}`;
-  console.log(path)
   return axios.get(url + `/api/1.0/events/${eventname}`);
 };
 
@@ -180,17 +174,20 @@ export const updateEvent = (eventId, body) => {
   return axios.put(url + '/api/1.0/management/event/' + eventId, body);
 };
 
+export const completeEvent = (eventId) => {
+  return axios.put(url + `/api/1.0/management/complete/${eventId}`);
+};
+
 export const updateTeeSheetCall = (teeSheetId, body) => {
   return axios.put(url + '/api/1.0/management/events/teesheet/update/' + teeSheetId, body);
 };
 
 export const deleteTeeSheet = (teeSheetId) => {
-  console.log(teeSheetId);
   return axios.delete(url + '/api/1.0/management/teeSheet/' + teeSheetId);
 };
 
 export const deleteEvent = (eventId) => {
-  return axios.delete(url + '/api/1.0/management/events/delete/' + eventId);
+  return axios.delete(url + '/api/1.0/management/event/' + eventId);
 };
 
 export const getCourseDetails = (eventid) => {
@@ -202,7 +199,6 @@ export const eventEnter = (eventid, memberid) => {
 }
 
 export const getTeesheet = (eventid) => {
-  console.log(eventid)
   return axios.get(url + '/api/1.0/teeSheets/'+ eventid);
 }
 
@@ -217,7 +213,6 @@ export const createTeeSheet = (eventid, body) => {
 //Add event entrant
 export const addEntrant = (eventid, memberid) => {
   const path = url + '/api/1.0/entrants/' + eventid + '/'+ memberid;
-  console.log(path)
   return axios.post(path);
 }
 
@@ -234,7 +229,7 @@ export const removeEntrant = (eventid, memberid) => {
 
 //Update an entrants score
 export const updateScore = (eventid, memberid, score) => {
-  const path = url + '/api/1.0/event/entrants/scorecard/' + eventid + '/'+ memberid;
+  const path = url + `/api/1.0/event/entrants/scorecard/${eventid}/${memberid}`;
   return axios.put(path, score);
 }
 

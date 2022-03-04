@@ -10,7 +10,6 @@ export const loginSuccess = (loginUserData) => {
 export const loginHandler = (credentials) => {
   return async function(dispatch) {
     const response = await apiCalls.login(credentials);
-    console.log(credentials)
     dispatch(
       loginSuccess({
         ...response.data,

@@ -1,7 +1,6 @@
 import React from 'react';
 import Input from './Input';
 import ButtonWithProgress from './ButtonWithProgress';
-import moment from 'moment';
 
 const EventProfileCard = (props) => {
   const { name, date, maxEntrants, cost, type, qualifier, winner, info, ninetyFivePercent} = props.event;
@@ -16,8 +15,10 @@ const EventProfileCard = (props) => {
   if(winnerName === null) {
     winnerName = '';
   };
+  //Format date from backend to be DD-MM-YYYY
+
   let yourDate = date;
-      const formatDate = moment(yourDate).format('DD-MM-YYYY')
+  let formatDate = new Date(yourDate).toString().substring(0,15)
   
       let pHandicap = '100%';
       if(ninetyFivePercent) {

@@ -34,7 +34,6 @@ class EventInfoPage extends React.Component{
           
         loadEvent = () => {
           const eventname = this.props.match.params.eventname;
-          console.log(this.props)
           if (!eventname) {
             return;
           }

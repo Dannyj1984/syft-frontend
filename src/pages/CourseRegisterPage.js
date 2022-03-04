@@ -43,7 +43,6 @@ export const CourseRegisterPage = (props) => {
           courseRating: form.courseRating,
           slopeRating: form.slopeRating
           };
-          console.log(course)
           setPendingApiCall(true);
         props.actions
           .postSignupCourse(props.user.society.id, course)

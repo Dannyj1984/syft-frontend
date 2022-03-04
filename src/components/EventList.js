@@ -48,6 +48,8 @@ export const EventList = (props) => {
 
     const { content, first, last } = page;
 
+    console.log(pendingApiCall)
+
     
   return (
           <div >
@@ -56,7 +58,6 @@ export const EventList = (props) => {
             <div>
               <h3 className="card-title m-auto text-center text-danger">No upcoming events</h3>
             </div>
-        
           }
             <Link
                   to={`/previousEvent`}>
@@ -67,13 +68,13 @@ export const EventList = (props) => {
                       data-original-title="view"> Previous events
                     </button>
             </Link>
-            <hr />
+            <hr/>
           {pendingApiCall &&
             <div className="d-flex">
-          <div className="spinner-border text-black-50 m-auto">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>}
+              <div className="spinner-border text-black-50 m-auto">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>}
           {!pendingApiCall &&
             <div className="list-group list-group-flush" data-testid="eventgroup">
               <div className="row">

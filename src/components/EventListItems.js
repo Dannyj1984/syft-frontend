@@ -4,7 +4,6 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import * as apiCalls from '../api/apiCalls';
 import { Modal, Button, Table, Container, Row, Col } from "react-bootstrap";
-import moment from 'moment';
 import * as authActions from '../redux/authActions';
 import { connect } from 'react-redux';
 import Input from './Input';
@@ -180,6 +179,28 @@ const [newTeeTime, setNewTeeTime] = useState({
         });
       }
 
+      const completeEvent = () => {
+
+        confirmAlert({
+          title: 'Are you sure?',
+          message: 'this will complete this event',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => 
+                apiCalls.completeEvent(props.event.id)
+                .then((response) => {
+                  console.log(response)
+                }) (window.location.reload())
+            },
+            {
+              label: 'No',
+              onClick: () => ''
+            }
+          ]
+        });
+      }
+
       //Enter currently logged in user into an event
 
     const enterEvent = () => {
@@ -211,11 +232,11 @@ const [newTeeTime, setNewTeeTime] = useState({
                   });
                 }))
                 .catch((apiError) => {
-                  //If error returned because member is already in this event, tell them this
+                  //If error returned because the course has no holes set up yet
                   if (apiError.response.status === 500) {
                     confirmAlert({
-                      title: 'You are already in this event?',
-                      message: 'Please speak to the event organiser if you think there is a problem',
+                      title: 'Oops, looks like this event isnt ready for entry yet.',
+                      message: 'Please speak to the event organiser',
                       buttons: [
                         {
                           label: 'ok',
@@ -234,21 +255,6 @@ const [newTeeTime, setNewTeeTime] = useState({
           ]
         });
       };
-
-      //Get teesheet data for event when loading that modal
-    const getTeesheet = () =>  {
-      setPendingApiCall(true)
-        apiCalls
-          .getTeesheet(props.event.id)
-          .then((response) => {
-            setTeeTimes(response.data)
-            setPendingApiCall(false)
-          },
-           [])
-           .catch((e) => {
-             console.log(e)
-           });
-      }
 
       //Delete a teesheet
       const deleteTeeSheet = (teesheetid) => {
@@ -565,7 +571,8 @@ const [newTeeTime, setNewTeeTime] = useState({
     .updateScore(eventId, memberId, scoreCardObj)
     .then(
       setPendingApiCall(false),
-      window.location.reload()
+      alert('Score updated'),
+      setTimeout(window.location.reload(), 3000)
     )
     .catch((apiError) => {
       if (apiError.response.data && apiError.response.data.validationErrors) {
@@ -595,10 +602,10 @@ const [newTeeTime, setNewTeeTime] = useState({
       //Format date from backend to be DD-MM-YYYY
 
       let yourDate = props.event.date;
-      const formatDate = moment(yourDate).format('DD-MM-YYYY')
+      let formatDate = new Date(yourDate).toString().substring(0,15)
 
   return (
-            <div className="card col-12">
+            <div className="card col-12" style={{height:"100%"}}>
                 <div className="card-body">
                     <div className="col-12 card-title align-self-center mb-0">
                         <h5>{props.event.name} </h5>
@@ -678,6 +685,19 @@ const [newTeeTime, setNewTeeTime] = useState({
                                 data-toggle="tooltip" 
                                 data-original-title="Delete">
                                     <i className="fa fa-times"></i>
+                            </button>
+                        }
+                    </div>
+
+                    <div className="float-left btn-group btn-group-m p-2">
+                      {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  &&
+                            <button  
+                                className="btn btn-success tooltips" 
+                                onClick={completeEvent} 
+                                data-placement="top" 
+                                data-toggle="tooltip" 
+                                data-original-title="Complete">
+                                    <i className="fa fa-check"></i>
                             </button>
                         }
                     </div>
