@@ -230,7 +230,6 @@ export const removeEntrant = (eventid, memberid) => {
 //Update an entrants score
 export const updateScore = (eventid, memberid, currentHole, score) => {
   const path = url + `/api/1.0/event/entrants/scorecard/${eventid}/${memberid}/${currentHole}`;
-  console.log(path)
   return axios.put(path, score);
 }
 

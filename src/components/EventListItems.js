@@ -745,7 +745,19 @@ const [newTeeTime, setNewTeeTime] = useState({
                             </button>
                     </div>}
 
-                    {entered &&
+                    {entered && props.event.currentEntrants === props.event.maxEntrants &&
+                <div className="float-right btn-group btn-group-m">
+                            <button  
+                                className="btn btn-success tooltips m-2" 
+                                onClick={function(){ alert('Event is full')}} 
+                                data-placement="top" 
+                                data-toggle="tooltip" 
+                                data-original-title="Delete">
+                                Full
+                            </button>
+                    </div>}
+
+                    {entered && props.event.currentEntrants !== props.event.maxEntrants &&
                 <div className="float-right btn-group btn-group-m">
                             <button  
                                 className="btn btn-success tooltips m-2" 
