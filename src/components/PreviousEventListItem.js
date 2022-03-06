@@ -139,7 +139,6 @@ const PreviousEventListItem = (props) => {
               onClick: () => 
                 apiCalls.completeEvent(props.event.id)
                 .then((response) => {
-                  console.log(response)
                 }) (window.location.reload())
             },
             {
@@ -236,7 +235,6 @@ const PreviousEventListItem = (props) => {
         setScore(value);
       }
 
-      console.log(props.event)
 
   return (
             <div className="card col-12" style={{height:"100%"}}>
@@ -248,7 +246,7 @@ const PreviousEventListItem = (props) => {
                         <p className="m-0">Entries : {props.event.currentEntrants} / {props.event.maxEntrants}</p>
                         <p className="m-0">Event Format : {props.event.type}</p>
                         <p className="m-0">Cost : £{props.event.cost}</p>
-                        
+                        <p className="m-0">Status : {props.event.status === 'open' ? 'Open' : 'Complete'}</p>
                     </div>
                 </div>
                 <hr/>
