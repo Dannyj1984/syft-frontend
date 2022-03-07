@@ -654,6 +654,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                                 className="btn btn-primary tooltips float-left" 
                                 data-placement="left" 
                                 data-toggle="tooltip" 
+                                title="view event"
                                 data-original-title="view"><i
                                 className="fa fa-eye"/>
                               </button>
@@ -665,6 +666,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                           data-placement="left" 
                           onClick={handleShowLeader}
                           data-toggle="tooltip" 
+                          title="view leaderboard"
                           data-original-title="view"><i
                           className="fa fa-trophy"/>
                       </button>
@@ -676,6 +678,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                           data-placement="left" 
                           onClick={handleShowEntrants}
                           data-toggle="tooltip" 
+                          title="view entrants"
                           data-original-title="view"><i
                           className="fa fa-users"/>
                       </button>
@@ -687,6 +690,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                           data-placement="left" 
                           onClick={()=>{ handleShowTeeTime() }}
                           data-toggle="tooltip" 
+                          title="view tee times"
                           data-original-title="view"><i
                           className="fa fa-clock"/>
                       </button>
@@ -723,6 +727,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                                 onClick={completeEvent} 
                                 data-placement="top" 
                                 data-toggle="tooltip" 
+                                title="complete event"
                                 data-original-title="Complete">
                                     <i className="fa fa-check"></i>
                             </button>
@@ -737,7 +742,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                                 onClick={enterEvent} 
                                 data-placement="top" 
                                 data-toggle="tooltip" 
-                                data-original-title="Delete">
+                                data-original-title="enter">
                                 Enter
                             </button>
                     </div>}
@@ -749,7 +754,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                                 onClick={function(){ alert('Event is full')}} 
                                 data-placement="top" 
                                 data-toggle="tooltip" 
-                                data-original-title="Delete">
+                                data-original-title="full">
                                 Full
                             </button>
                     </div>}
@@ -761,7 +766,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                                 onClick={removeEntrant} 
                                 data-placement="top" 
                                 data-toggle="tooltip" 
-                                data-original-title="Delete">
+                                data-original-title="remove">
                                 Remove
                             </button>
                     </div>}
