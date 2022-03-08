@@ -18,7 +18,7 @@ export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
     axios.defaults.headers.common['Authorization'] = `Basic ${btoa(
       username + ':' + password
     )}`;
-  } else {
+  } else  {
     delete axios.defaults.headers.common['Authorization'];
   }
 };
