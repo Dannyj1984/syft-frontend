@@ -9,7 +9,6 @@ export const SYFTCup = (props) => {
 
     const [members, setMembers] = useState([{}]);
     const [pendingApiCall, setPendingApiCall] = useState(false);
-    console.log(props.loggedInUser.society.id)
 
     const loadData = () => {
         setPendingApiCall(true);
@@ -27,7 +26,7 @@ export const SYFTCup = (props) => {
 
     useEffect(() => { 
         loadData();
-      }, [props.loggedInUser.society.id]);
+      },[]);
 
       return (
         <div >
@@ -49,7 +48,6 @@ export const SYFTCup = (props) => {
                           <th >Score</th>
                         </tr>
                       </thead>
-                      {!members && <div><Spinner /></div>}
                     {members.map((member) => (
                         <tbody key={member.id}>
                           <tr>
