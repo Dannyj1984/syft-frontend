@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import Input from './Input';
 import ButtonWithProgress from './ButtonWithProgress';
 import Spinner from './Spinner';
-import { Paper } from "@material-ui/core";
 
 const EventListItem = (props) => {
 
@@ -753,8 +752,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       let formatDate = new Date(yourDate).toString().substring(0,15)
 
   return (
-            <div className="card col-12" style={{height:"100%", backgroundColor: "white", boxShadow: "15px 10px 5px lightgray"}}>
-            
+            <div className="card col-12" style={{height:"100%", backgroundColor: "#e3e3e3"}}>
                 <div className="card-body">
                     <div className="col-12 card-title align-self-center mb-0">
                         <h5>{props.event.name} </h5>
