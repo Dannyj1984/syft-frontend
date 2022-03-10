@@ -32,6 +32,11 @@ export const listUsers = (id, param = { page: 0, size: 9 }) => {
   return axios.get(path);
 };
 
+export const getMemberByFedExRanking = (societyId) => {
+  const path = url + `/api/1.0/members/fedex/${societyId}`;
+  return axios.get(path);
+};
+
 
 export const listFilteredUsers = (param = { page: 0, size: 9 }, id, nameFilter) => {
   const path = url + `/api/1.0/societyFilteredUsers/${id}?query=${nameFilter}&page=${param.page || 0}&size=${param.size || 9}&sort=username,asc`;
@@ -130,7 +135,6 @@ export const listFilteredCourses = (param = { page: 0, size: 9 }, id, nameFilter
 };
   
 export const getCourse = (courseName) => {
-  const path = url + `/api/1.0/course/${courseName}`;
   return axios.get(url + `/api/1.0/course/${courseName}`);
 };
 
@@ -146,9 +150,9 @@ export const addHoleDetails = (courseId, list) => {
   return axios.post(url + `/api/1.0/management/hole/${courseId}`, list);
 };
 
-export const getCourseHoles = (courseid)=> {
-  return axios.get(url + '/api/1.0/hole/' + courseid);
-}
+export const getCourseHoles = (courseId)=> {
+  return axios.get(url + `/api/1.0/hole/${courseId}`)
+};
 
 //Event calls
 

@@ -191,6 +191,13 @@ const TopBar = (props) => {
               </Link>
 
               <Link
+                to={`/syftCup`}
+                className="dropdown-item"
+              >
+                <i className="fas fa-trophy text-info"/> SYFT Cup 
+              </Link>
+
+              <Link
                   to={"login"}
                 className="dropdown-item"
                 onClick={onClickLogout}

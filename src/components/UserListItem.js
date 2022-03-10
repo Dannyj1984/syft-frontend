@@ -241,7 +241,7 @@ const UserListItem = (props) => {
 
 
    return (
-            <div className="card col-12" style={{height:"100%", backgroundColor: "#e3e3e3"}}>
+              <div className="card col-12" style={{height:"100%", boxShadow: "15px 10px 5px lightgray"}}>
                 <div className="card-body">
                     <div className="col-4">
                     <ProfileImageWithDefault
@@ -315,47 +315,7 @@ const UserListItem = (props) => {
                     </div>
                 </div>
 
-                {/*Modal for changing handicap*/}
-                <Modal show={showModal} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>handicaps</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p>Edit handicap for {props.user.firstName} {props.user.surname} </p>
-                        <div className="mb-2">
-                            <Input
-                            value={userHcpDetails.originalHandicap}
-                            label={`Change handicap for ${props.user.firstName}`}
-                            onChange={onChangeHandicap}
-                            //hasError={props.errors.handicap && true}
-                            //error={props.errors.handicap}
-                            />
-                            <Input
-                            value={userHcpDetails.originalSochcpred}
-                            label={`Change handicap reduction for ${props.user.firstName}`}
-                            onChange={onChangeHandicapReduction}
-                            //hasError={props.errors.sochcpred && true}
-                            //error={props.errors.sochcpred}
-                            />
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" className="btn-danger" onClick={onClickCancel}>Cancel</Button>
-                        <ButtonWithProgress
-                            className="btn btn-primary"
-                            onClick={onClickSaveHandicap}
-                            text={
-                                <span>
-                                    <i className="fas fa-save"/> Save
-                                </span>
-                            }
-                            pendingApiCall={pendingUpdateCall}
-                            disabled={pendingUpdateCall}
-                        />
-                        
-                    </Modal.Footer>
-                </Modal>
-                            {props.loggedInUser.id !== props.user.id &&
+                {props.loggedInUser.id !== props.user.id &&
                 <div className="card-body">
                     {/*Change member to admin*/}
                     <div className="float-left btn-group btn-group-m">
@@ -429,6 +389,48 @@ const UserListItem = (props) => {
                         }
                     </div>
                 </div>}
+
+                {/*Modal for changing handicap*/}
+                <Modal show={showModal} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>handicaps</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Edit handicap for {props.user.firstName} {props.user.surname} </p>
+                        <div className="mb-2">
+                            <Input
+                            value={userHcpDetails.originalHandicap}
+                            label={`Change handicap for ${props.user.firstName}`}
+                            onChange={onChangeHandicap}
+                            //hasError={props.errors.handicap && true}
+                            //error={props.errors.handicap}
+                            />
+                            <Input
+                            value={userHcpDetails.originalSochcpred}
+                            label={`Change handicap reduction for ${props.user.firstName}`}
+                            onChange={onChangeHandicapReduction}
+                            //hasError={props.errors.sochcpred && true}
+                            //error={props.errors.sochcpred}
+                            />
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" className="btn-danger" onClick={onClickCancel}>Cancel</Button>
+                        <ButtonWithProgress
+                            className="btn btn-primary"
+                            onClick={onClickSaveHandicap}
+                            text={
+                                <span>
+                                    <i className="fas fa-save"/> Save
+                                </span>
+                            }
+                            pendingApiCall={pendingUpdateCall}
+                            disabled={pendingUpdateCall}
+                        />
+                        
+                    </Modal.Footer>
+                </Modal>
+                            
             </div>
         
     
