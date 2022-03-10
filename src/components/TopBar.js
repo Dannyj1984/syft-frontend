@@ -7,7 +7,6 @@ import useClickTracker from '../shared/useClickTracker';
 
 
 
-
 const TopBar = (props) => {
 
   const actionArea = useRef();
@@ -189,12 +188,6 @@ const TopBar = (props) => {
                 className="dropdown-item"
               >
                 <i className="fas fa-file-alt text-info"/> Add course
-              </Link>
-              <Link
-                to={`/syftCup`}
-                className="dropdown-item"
-              >
-                <i className="fas fa-trophy text-info"/> SYFT Cup 
               </Link>
 
               <Link
