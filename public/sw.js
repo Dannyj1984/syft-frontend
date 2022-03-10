@@ -2,10 +2,12 @@ var CACHE_NAME = 'SYFT_GOLF';
 var urlsToCache = [
 	'/',
 	'/logo192.png',
-	'/logo512.png'
+	'/logo512.png',
+	'/holes'
 ];
 
 // Install a service worker
+/* eslint-disable-next-line no-restricted-globals */
 self.addEventListener('install', (event) => {
 	// Perform install steps
 	event.waitUntil(
@@ -17,6 +19,7 @@ self.addEventListener('install', (event) => {
 });
 
 // Cache and return requests
+/* eslint-disable-next-line no-restricted-globals */
 self.addEventListener('fetch', (event) => {
 	event.respondWith(
 		caches.match(event.request).then(function (response) {
@@ -29,7 +32,8 @@ self.addEventListener('fetch', (event) => {
 	);
 });
 
-// Update a service worker
+// Update a service workery
+/* eslint-disable-next-line no-restricted-globals */
 self.addEventListener('activate', (event) => {
 	var cacheWhitelist = ['SYFT_GOLF'];
 	event.waitUntil(
