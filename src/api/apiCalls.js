@@ -118,12 +118,11 @@ export const signupCourse = (societyId, course) => {
 
 //Getting courses for new event page dropdown list
 export const getCourses = (id) => {
-  return axios.get(url + `/api/1.0/getCourses/` + id);
+  return axios.get(url + `/api/1.0/getCourseList/` + id);
 };
 
 //Showing page of courses on course page
 export const listCourses = (id, param = { page: 0, size: 9 }) => {
-  //id = JSON.parse(localStorage.getItem('syft-auth')).society.id;
   const path = url + `/api/1.0/getCourses/${id}?page=${param.page || 0}&size=${param.size || 9}&sort=name,asc`;
   return axios.get(path);
 };

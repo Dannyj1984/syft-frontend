@@ -84,7 +84,6 @@ const setUserOneLoggedInStorage = () => {
       mobile: '07777777777',
       cdh: '1010101010',
       handicap: '3.4',
-      password: 'P4ssword',
       isLoggedIn: true
     })
   );

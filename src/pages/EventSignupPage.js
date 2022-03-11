@@ -41,11 +41,11 @@ export const EventSignupPage = (props) => {
     setPendingApiCall(true)
     apiCalls.getCourses(id)
     .then((response) => {
-      setCoursesList(response.data.content)
+      setCoursesList(response.data)
       setPendingApiCall(false)
     })
     .catch(errors)
-  }, [errors] );
+  }, [props.user.society.id] );
 
   const onChange = (event) => {
     const { value, name } = event.target;
@@ -109,15 +109,12 @@ export const EventSignupPage = (props) => {
         });
       };
 
+      console.log(courseList)
+
         return (
-          <div className="container">
-          {pendingApiCall && 
-            <div>
-            <Spinner />
-            <h2 className="text-center text-danger">Loading</h2>
-            </div>}
           
-          {!pendingApiCall &&
+          <div className="container">
+          {pendingApiCall && <Spinner />}
             <div>
             <h1 className="text-center">Register Event</h1>
             <div>
@@ -213,8 +210,8 @@ export const EventSignupPage = (props) => {
             <label>Course</label>
               <select  name="course_id" id="course_id" className={`form-control ${courseSelected ? "is-valid" : "is-invalid"} `}  label="Course" placeholder="select" onChange={onChange} required>
                 <option selected disabled value="">Please select</option>
-                {courseList.map((courses) => (
-                  <option key={courses.id}> {courses.id} - {courses.name} </option>
+                {courseList.map((course) => (
+                  <option key={course.id}> {course.id} - {course.name} </option>
                 ))}
               </select>
               <div id="course_idFeedback" className="invalid-feedback">
@@ -237,7 +234,7 @@ export const EventSignupPage = (props) => {
                 />
                   <hr></hr>
               </div>
-              </div>}
+              </div>
           </div>
           );
         }

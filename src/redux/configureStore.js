@@ -19,7 +19,6 @@ const configureStore = (addLogger = true) => {
     image: '',
     cdh: '',
     homeclub: '',
-    password: '',
     society : {
       id: ''
     },
