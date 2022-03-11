@@ -37,28 +37,32 @@ export const SYFTCup = (props) => {
             </div>}
 
             {!pendingApiCall &&
-            <div>
-                <h1 className="text-center">SYFT Cup 2022 </h1>
-                <hr></hr>
-                <div className='container'>
-                <Table striped bordered hover responsive>
-                      <thead>
-                        <tr>
-                          <th >Member</th>
-                          <th >Score</th>
-                        </tr>
-                      </thead>
-                    {members.map((member) => (
-                        <tbody key={member.id}>
-                          <tr>
-                            <td >{member.firstName} {member.surname}</td>
-                            <td>{member.fedExPoints}</td>
-                          </tr>
-                        </tbody>
-                    ))}
-                    </Table>
-                </div>
-            </div>}
+              <section id="leaderboard">
+                <nav class="ladder-nav">
+                  <div class="ladder-title">
+                  <h1>SYFT Cup 2022</h1>
+                  <h2>Standings</h2>
+                  </div>
+                </nav>
+                <Table id="rankings" class="leaderboard-results" width="100%">
+                  <thead>
+                    <tr>
+                      <th>Player</th>
+                      <th>Events played</th>
+                      <th>points</th>
+                    </tr>
+                  </thead>
+                  {members && members.map( (member => 
+                    <tbody key={member.id}>
+                      <tr>
+                        <td headers='Player'>{member.firstName} {member.surname}</td>
+                        <td headers='Events' className='text-center'>{member.eventsPlayed}</td>
+                        <td headers='points' className='text-center'>{member.fedExPoints}</td>
+                      </tr>
+                  </tbody>
+                  ))}
+                </Table>
+              </section>}
         </div>
       );
 

@@ -425,10 +425,10 @@ try {
         <div className="container">
           <nav className="navbar navbar-light navbar-expand">
           
-            <div className="navbar-brand d-none d-md-block">
-              <img src={logo} width="60" alt="Syftgolf" /> SYFT Golf
+            <div className="navbar-brand d-block d-md-block">
+              <img src={logo} width="60" alt="Syftgolf" style={{borderRadius:"40px"}} />
             </div>
-            <div className="navbar-brand d-md-none mt-2">
+            <div className="navbar-brand d-md-block mt-2">
               <h5>{society}</h5>
             </div>
             {links}
