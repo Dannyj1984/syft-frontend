@@ -16,6 +16,13 @@ const EventListItems = (props) => {
 
   const [members, setMembers] = useState([{}]);
   const [membersId, setMembersId] = useState({})
+  const [member1Id, setMember1Id] = useState()
+  const [member2Id, setMember2Id] = useState()
+  const [member3Id, setMember3Id] = useState()
+  const [member4Id, setMember4Id] = useState()
+
+  const [holes, setHoles] = useState({})
+  const [courseId, setCourseId] = useState();
 
   
   
@@ -64,7 +71,7 @@ const EventListItems = (props) => {
   });
 
   const [p2ScoreCardObj, setp2ScoreCardObj] = useState({
-    h1P2Score: 4,
+    h1P2Score: 0,
     h2P2Score: 0,
     h3P2Score: 0,
     h4P2Score: 0,
@@ -85,7 +92,7 @@ const EventListItems = (props) => {
   });
 
   const [p3ScoreCardObj, setp3ScoreCardObj] = useState({
-    h1P3Score: 4,
+    h1P3Score: 0,
     h2P3Score: 0,
     h3P3Score: 0,
     h4P3Score: 0,
@@ -371,7 +378,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       //Admin enter a member
       const adminAddMember = () => {
         if(Object.keys(membersId).length === 0){
-          alert('Choose a member to add');
+          alert(Object.keys(membersId).length);
         } else {
         const event = {...props.event}
         const eventid = event.id;
@@ -575,6 +582,7 @@ const [newTeeTime, setNewTeeTime] = useState({
           .then((response) => {
             setCourseName(response.data.course);
             setCourseSlope(response.data.courseSlope)
+            setCourseId(response.data.courseId)
             setPendingApiCall(false)
           })
           .catch((e) => {
@@ -590,6 +598,10 @@ const [newTeeTime, setNewTeeTime] = useState({
             console.log(e)
             setPendingApiCall(false)
           }
+          apiCalls.getCourseHoles(courseId)
+          .then((response) => {
+            setHoles(response.data)
+          })
           let entrantIndex = null;
           setPendingApiCall(true)
           apiCalls.getEntrants(eventid)
@@ -731,6 +743,7 @@ const [newTeeTime, setNewTeeTime] = useState({
   const [p4HoleIndex, setP4HoleIndex] = useState(0);
 
   const [scoreCardUpdateErrors, setScoreCardUpdateErrors] = useState({})
+
   const toNextHole = () => {
     if(holeIndex+1 < 18){
     setHoleIndex(holeIndex+1)
@@ -743,7 +756,7 @@ const [newTeeTime, setNewTeeTime] = useState({
   }
 
   const toP1NextHole = () => {
-    if(p1HoleIndex+1 < 18){
+    if(p1HoleIndex+1 <=18) {
       setP1HoleIndex(p1HoleIndex+1)
     }
   }
@@ -754,7 +767,7 @@ const [newTeeTime, setNewTeeTime] = useState({
   }
 
   const toP2NextHole = () => {
-    if(p2HoleIndex+1 < 18){
+    if(p2HoleIndex+1 <= 18){
     setP2HoleIndex(p2HoleIndex+1)
     }
   }
@@ -765,7 +778,7 @@ const [newTeeTime, setNewTeeTime] = useState({
   }
 
   const toP3NextHole = () => {
-    if(p3HoleIndex+1 < 18){
+    if(p3HoleIndex+1 <= 18){
     setP3HoleIndex(p3HoleIndex+1)
     }
   }
@@ -776,7 +789,7 @@ const [newTeeTime, setNewTeeTime] = useState({
   }
 
   const toP4NextHole = () => {
-    if(p4HoleIndex+1 < 18){
+    if(p4HoleIndex+1 <= 18){
     setP4HoleIndex(p4HoleIndex+1)
     }
   }
@@ -804,12 +817,33 @@ const [newTeeTime, setNewTeeTime] = useState({
     
   }
 
-  //ADmin updating scorecard
-  const adminUpdateScorecard = () => {
+  const updateP1ScoreCard = () => {
     const eventId = props.event.id;
+    const memberId = member1Id.split(" ")[0];
+    const scoreCardUpdate = ({
+      "h1Score" : p1ScoreCardObj.h1P1Score,
+      "h2Score" : p1ScoreCardObj.h2P1Score,
+      "h3Score" : p1ScoreCardObj.h3P1Score,
+      "h4Score" : p1ScoreCardObj.h4P1Score,
+      "h5Score" : p1ScoreCardObj.h5P1Score,
+      "h6Score" : p1ScoreCardObj.h6P1Score,
+      "h7Score" : p1ScoreCardObj.h7P1Score,
+      "h8Score" : p1ScoreCardObj.h8P1Score,
+      "h9Score" : p1ScoreCardObj.h9P1Score,
+      "h10Score" : p1ScoreCardObj.h10P1Score,
+      "h11Score" : p1ScoreCardObj.h11P1Score,
+      "h12Score" : p1ScoreCardObj.h12P1Score,
+      "h13Score" : p1ScoreCardObj.h13P1Score,
+      "h14Score" : p1ScoreCardObj.h14P1Score,
+      "h15Score" : p1ScoreCardObj.h15P1Score,
+      "h16Score" : p1ScoreCardObj.h16P1Score,
+      "h17Score" : p1ScoreCardObj.h17P1Score,
+      "h18Score" : p1ScoreCardObj.h18P1Score,
+    
+    })
     setPendingApiCall(true)
     apiCalls
-    .updateScore(eventId, membersId.split(" ")[0], holeIndex + 1, scoreCardObj)
+    .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
     .then(
       setPendingApiCall(false),
     )
@@ -819,6 +853,130 @@ const [newTeeTime, setNewTeeTime] = useState({
       }
       setPendingApiCall(false)
     })
+    
+  }
+
+  const updateP2ScoreCard = () => {
+    const eventId = props.event.id;
+    const memberId = member2Id.split(" ")[0];
+    const scoreCardUpdate = ({
+      "h1Score" : p2ScoreCardObj.h1P2Score,
+      "h2Score" : p2ScoreCardObj.h2P2Score,
+      "h3Score" : p2ScoreCardObj.h3P2Score,
+      "h4Score" : p2ScoreCardObj.h4P2Score,
+      "h5Score" : p2ScoreCardObj.h5P2Score,
+      "h6Score" : p2ScoreCardObj.h6P2Score,
+      "h7Score" : p2ScoreCardObj.h7P2Score,
+      "h8Score" : p2ScoreCardObj.h8P2Score,
+      "h9Score" : p2ScoreCardObj.h9P2Score,
+      "h10Score" : p2ScoreCardObj.h10P2Score,
+      "h11Score" : p2ScoreCardObj.h11P2Score,
+      "h12Score" : p2ScoreCardObj.h12P2Score,
+      "h13Score" : p2ScoreCardObj.h13P2Score,
+      "h14Score" : p2ScoreCardObj.h14P2Score,
+      "h15Score" : p2ScoreCardObj.h15P2Score,
+      "h16Score" : p2ScoreCardObj.h16P2Score,
+      "h17Score" : p2ScoreCardObj.h17P2Score,
+      "h18Score" : p2ScoreCardObj.h18P2Score,
+    
+    })
+    setPendingApiCall(true)
+    apiCalls
+    .updateScore(eventId, memberId, p2HoleIndex + 1, scoreCardUpdate)
+    .then(
+      setPendingApiCall(false),
+    )
+    .catch((apiError) => {
+      if (apiError.response.data && apiError.response.data.validationErrors) {
+        setScoreCardUpdateErrors(apiError.response.data.validationErrors);
+      }
+      setPendingApiCall(false)
+    })
+    
+  }
+
+  const updateP3ScoreCard = () => {
+    const eventId = props.event.id;
+    const memberId = member3Id.split(" ")[0];
+    const scoreCardUpdate = ({
+      "h1Score" : p3ScoreCardObj.h1P3Score,
+      "h2Score" : p3ScoreCardObj.h2P3Score,
+      "h3Score" : p3ScoreCardObj.h3P3Score,
+      "h4Score" : p3ScoreCardObj.h4P3Score,
+      "h5Score" : p3ScoreCardObj.h5P3Score,
+      "h6Score" : p3ScoreCardObj.h6P3Score,
+      "h7Score" : p3ScoreCardObj.h7P3Score,
+      "h8Score" : p3ScoreCardObj.h8P3Score,
+      "h9Score" : p3ScoreCardObj.h9P1Score,
+      "h10Score" : p3ScoreCardObj.h10P3Score,
+      "h11Score" : p3ScoreCardObj.h11P3Score,
+      "h12Score" : p3ScoreCardObj.h12P3Score,
+      "h13Score" : p3ScoreCardObj.h13P3Score,
+      "h14Score" : p3ScoreCardObj.h14P3Score,
+      "h15Score" : p3ScoreCardObj.h15P3Score,
+      "h16Score" : p3ScoreCardObj.h16P3Score,
+      "h17Score" : p3ScoreCardObj.h17P3Score,
+      "h18Score" : p3ScoreCardObj.h18P3Score,
+    
+    })
+    setPendingApiCall(true)
+    apiCalls
+    .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
+    .then(
+      setPendingApiCall(false),
+    )
+    .catch((apiError) => {
+      if (apiError.response.data && apiError.response.data.validationErrors) {
+        setScoreCardUpdateErrors(apiError.response.data.validationErrors);
+      }
+      setPendingApiCall(false)
+    })
+    
+  }
+
+  const updateP4ScoreCard = () => {
+    const eventId = props.event.id;
+    const memberId = member4Id.split(" ")[0];
+    const scoreCardUpdate = ({
+      "h1Score" : p4ScoreCardObj.h1P4Score,
+      "h2Score" : p4ScoreCardObj.h2P4Score,
+      "h3Score" : p4ScoreCardObj.h3P4Score,
+      "h4Score" : p4ScoreCardObj.h4P4Score,
+      "h5Score" : p4ScoreCardObj.h5P4Score,
+      "h6Score" : p4ScoreCardObj.h6P4Score,
+      "h7Score" : p4ScoreCardObj.h7P4Score,
+      "h8Score" : p4ScoreCardObj.h8P4Score,
+      "h9Score" : p4ScoreCardObj.h9P4Score,
+      "h10Score" : p4ScoreCardObj.h10P4Score,
+      "h11Score" : p4ScoreCardObj.h11P4Score,
+      "h12Score" : p4ScoreCardObj.h12P4Score,
+      "h13Score" : p4ScoreCardObj.h13P4Score,
+      "h14Score" : p4ScoreCardObj.h14P4Score,
+      "h15Score" : p4ScoreCardObj.h15P4Score,
+      "h16Score" : p4ScoreCardObj.h16P4Score,
+      "h17Score" : p4ScoreCardObj.h17P4Score,
+      "h18Score" : p4ScoreCardObj.h18P4Score,
+    
+    })
+    console.log(scoreCardUpdate)
+    setPendingApiCall(true)
+    apiCalls
+    .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
+    .then(
+      setPendingApiCall(false),
+    )
+    .catch((apiError) => {
+      if (apiError.response.data && apiError.response.data.validationErrors) {
+        setScoreCardUpdateErrors(apiError.response.data.validationErrors);
+      }
+      setPendingApiCall(false)
+    })
+    
+  }
+
+  //ADmin updating scorecard
+  const adminUpdateScorecard = () => {
+    window.location.reload();
     
   }
 
@@ -857,40 +1015,145 @@ const [newTeeTime, setNewTeeTime] = useState({
     });
   }
 
-  
-
-  const onChangeMember = (event) => {
-    const { value, name } = event.target;
-    if(name === "member_id"){
-      setMemberSelected(true);
-    }
-    if(name === "member1_id"){
-      setMember1Selected(true);
-    }
-    if(name === "member2_id"){
-      setMember2Selected(true);
-    }
-    if(name === "member3_id"){
-      setMember3Selected(true);
-    }
-    if(name === "member4_id"){
-      setMember4Selected(true);
-    }
-
-    setMembersId(value);
+  const onChangeP1ScoreCard = (e) => {
+    const { value, name } = e.target;
+    setp1ScoreCardObj((previousp1ScoreCardObj) => {
+      return {
+        ...previousp1ScoreCardObj,
+        [name]: value
+      };
+    });
+    console.log(p1ScoreCardObj);
     setErrors((previousErrors) => {
       return {
         ...previousErrors,
         [name]: undefined
       };
     });
-  };
+  }
+
+  const onChangeP2ScoreCard = (e) => {
+    const { value, name } = e.target;
+    setp2ScoreCardObj((previousp2ScoreCardObj) => {
+      return {
+        ...previousp2ScoreCardObj,
+        [name]: value
+      };
+    });
+    setErrors((previousErrors) => {
+      return {
+        ...previousErrors,
+        [name]: undefined
+      };
+    });
+  }
+
+  const onChangeP3ScoreCard = (e) => {
+    const { value, name } = e.target;
+    setp3ScoreCardObj((previousp3ScoreCardObj) => {
+      return {
+        ...previousp3ScoreCardObj,
+        [name]: value
+      };
+    });
+    setErrors((previousErrors) => {
+      return {
+        ...previousErrors,
+        [name]: undefined
+      };
+    });
+  }
+
+  const onChangeP4ScoreCard = (e) => {
+    const { value, name } = e.target;
+    setp4ScoreCardObj((previousp4ScoreCardObj) => {
+      return {
+        ...previousp4ScoreCardObj,
+        [name]: value
+      };
+    });
+    setErrors((previousErrors) => {
+      return {
+        ...previousErrors,
+        [name]: undefined
+      };
+    });
+  }
+    const onChangeMember1 = (event) => {
+      const { value, name } = event.target;
+      setMember1Id(value);
+      setMember1Selected(true)
+      console.log(value);
+      setErrors((previousErrors) => {
+        return {
+          ...previousErrors,
+          [name]: undefined
+        };
+      });
+    }
+
+    const onChangeMember2 = (event) => {
+      const { value, name } = event.target;
+      setMember2Id(value);
+      setMember2Selected(true)
+      console.log(value);
+      setErrors((previousErrors) => {
+        return {
+          ...previousErrors,
+          [name]: undefined
+        };
+      });
+    }
+
+    const onChangeMember3 = (event) => {
+      const { value, name } = event.target;
+      setMember3Id(value);
+      setMember3Selected(true)
+      console.log(value);
+      setErrors((previousErrors) => {
+        return {
+          ...previousErrors,
+          [name]: undefined
+        };
+      });
+    }
+
+    const onChangeMember4 = (event) => {
+      const { value, name } = event.target;
+      setMember4Id(value);
+      setMember4Selected(true)
+      setErrors((previousErrors) => {
+        return {
+          ...previousErrors,
+          [name]: undefined
+        };
+      });
+    }
+  
+
+    const onChangeMember = (event) => {
+      const { value, name } = event.target;
+        setMemberSelected(true);
+        setMembersId(value);
+        console.log(value)
+      setErrors((previousErrors) => {
+        return {
+          ...previousErrors,
+          [name]: undefined
+        };
+      });
+    };
 
 
       //Format date from backend to be DD-MM-YYYY
 
       let yourDate = props.event.date;
       let formatDate = new Date(yourDate).toString().substring(0,15)
+
+      console.log(holes)
+      const testMethod = (e) => {
+        alert(member3Id)
+      }
 
   return (
               <div className="card col-12" style={{height:"100%", backgroundColor: "white", boxShadow: "15px 10px 5px lightgray"}}>
@@ -1068,7 +1331,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                       {!pendingApiCall && members &&
                       <div className="col-12 mb-3">
                       <label>Member</label>
-                        <select  name="member_id" id="member_id" className={`form-control ${memberSelected ? "is-valid" : "is-invalid"} `}  label="Member" placeholder="select" onChange={onChangeMember} required>
+                        <select name="member_id" id="member_id" className={`form-control ${memberSelected ? "is-valid" : "is-invalid"} `}  label="Member" placeholder="select" onChange={onChangeMember} required>
                           <option selected disabled value="">Please select</option>
                           {members[0].id && members.map((member) => {
                             return (
@@ -1495,17 +1758,17 @@ const [newTeeTime, setNewTeeTime] = useState({
                             <Spinner></Spinner>
                             </Modal.Body>
                             }
+
+                            {/* Player 1 admin score entry */}
                             {!pendingApiCall &&
                             <Modal.Body>
-                            
-                              {/* Player 1 admin score entry */}
                               {pendingApiCall && <Spinner></Spinner>}
                               {!pendingApiCall && members &&
-                                <div class="container">
-                                  <div class="row">
-                                    <div class="col-6 mb-3">
+                                <div className="container">
+                                  <Row>
+                                    <div className="col-6 mb-3">
                                       <label>Player 1</label>
-                                        <select  name="member1_id" id="member1_id" className={`form-control ${member1Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member" placeholder="select" onChange={onChangeMember} required>
+                                        <select  name="member1_id" id="member1_id" className={`form-control ${member1Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member1" placeholder="select" onChange={onChangeMember1} required>
                                           <option selected disabled value="">Please select</option>
                                           {members[0].id && members.map((member) => {
                                             return (
@@ -1517,38 +1780,52 @@ const [newTeeTime, setNewTeeTime] = useState({
                                           Please select a member. 
                                         </div>
                                     </div>
-                                    <div class="col-6 mb-3">
-                                      <div id='score-entry'>
-                                          <h2 >Hole {p1HoleIndex+1}</h2>
-                                          <div class="row score-entry">
-                                            <div class="col-4 mb-3">
+                                    <div className="col-6 mb-3">
+                                    <div id='score-entry'>
+                                      {p1HoleIndex+1 < 19 &&
+                                          <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p1HoleIndex+1}</p>}
+                                          {p1HoleIndex+1 === 19 &&
+                                          <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
+                                          <Row>
+                                            <div className="col-4 mb-3">
                                               {p1HoleIndex+1 !== 1 &&
                                               <button onClick={toP1PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
                                             </div>
-                                            <div class="col-4 mb-3">
-                                              <input name={`h${p1HoleIndex+1}Score`} value={p1ScoreCardObj[`h${p1HoleIndex+1}Score`]}  onChange={onChangeScoreCard} type="number" min={"0"} max={"15"} style={{width:"3.5rem", height:"3.5rem", margin:"0 -12px", padding:"12px 20px", display:"block", border:"1px solid #ccc", borderRadius: "4px", fontSize: "24px"}}></input>
+                                            <div className="col-4 mb-3">
+                                              <input name={`h${p1HoleIndex+1}P1Score`} value={p1ScoreCardObj[`h${p1HoleIndex+1}P1Score`]}  onChange={onChangeP1ScoreCard} type="number" min={"0"} max={"15"} style={{
+                                                width:"3.5rem", 
+                                                height:"3.5rem", 
+                                                margin:"0 -12px", 
+                                                padding:"12px 20px", 
+                                                display:"block", 
+                                                border:"1px solid #ccc", 
+                                                borderRadius: "4px", 
+                                                fontSize: "24px"
+                                                }}
+                                              />
                                             </div>
-                                            <div class="col-4 mb-3">
-                                              {p1HoleIndex+1 !== 18 &&
-                                              <button onClick={function(){ toP1NextHole(); updateScoreCard()}} style={{fontSize: "32px"}}>{'+'}</button>}
+                                            <div className="col-4 mb-3">
+                                              {p1HoleIndex+1 !== 19 && member1Id &&
+                                              <button onClick={() => { toP1NextHole(); updateP1ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
                                             </div>
-                                        </div>
-                                      </div>
+                                            </Row>
+                                            </div>
                                     </div>
-                                  </div>
+                                    </Row>
                                 </div>}
                             </Modal.Body>}
+
+                            {/* Player 2 admin score entry */}
+                            
                             {!pendingApiCall &&
                             <Modal.Body>
-                            
-                              
                               {pendingApiCall && <Spinner></Spinner>}
                               {!pendingApiCall && members &&
-                                <div class="container">
-                                  <div class="row">
-                                    <div class="col-6 mb-3">
+                                <div className="container">
+                                  <Row>
+                                    <div className="col-6 mb-3">
                                       <label>Player 2</label>
-                                        <select  name="member2_id" id="member2_id" className={`form-control ${member2Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member" placeholder="select" onChange={onChangeMember} required>
+                                        <select  name="member2_id" id="member2_id" className={`form-control ${member2Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member2" placeholder="select" onChange={onChangeMember2} required>
                                           <option selected disabled value="">Please select</option>
                                           {members[0].id && members.map((member) => {
                                             return (
@@ -1560,39 +1837,51 @@ const [newTeeTime, setNewTeeTime] = useState({
                                           Please select a member. 
                                         </div>
                                     </div>
-                                    <div class="col-6 mb-3">
+                                    <div className="col-6 mb-3">
                                       <div id='score-entry'>
-                                          <h2 >Hole {p2HoleIndex+1}</h2>
-                                          <div class="row score-entry">
-                                            <div class="col-4 mb-3">
+                                      {p2HoleIndex+1 < 19 &&
+                                          <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p2HoleIndex+1}</p>}
+                                          {p2HoleIndex+1 === 19 &&
+                                          <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
+                                          <Row>
+                                            <div className="col-4 mb-3">
                                               {p2HoleIndex+1 !== 1 &&
                                               <button onClick={toP2PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
                                             </div>
-                                            <div class="col-4 mb-3 text-center">
-                                              <input name={`h${p2HoleIndex+1}Score`} value={scoreCardObj[`h${p2HoleIndex+1}Score`]}  onChange={onChangeScoreCard} type="number" min={"0"} max={"15"} style={{width:"3.5rem", height:"3.5rem", margin:"0 -12px", padding:"12px 20px", display:"block", border:"1px solid #ccc", borderRadius: "4px", fontSize: "24px"}}></input>
+                                            <div className="col-4 mb-3">
+                                              <input name={`h${p2HoleIndex+1}P2Score`} value={p2ScoreCardObj[`h${p2HoleIndex+1}P2Score`]}  onChange={onChangeP2ScoreCard} type="number" min={"0"} max={"15"} style={{
+                                                width:"3.5rem", 
+                                                height:"3.5rem", 
+                                                margin:"0 -12px", 
+                                                padding:"12px 20px", 
+                                                display:"block", 
+                                                border:"1px solid #ccc", 
+                                                borderRadius: "4px", 
+                                                fontSize: "24px"
+                                                }}
+                                              />
                                             </div>
-                                            <div class="col-4 mb-3">
-                                              {p2HoleIndex+1 !== 18 &&
-                                              <button onClick={function(){ toP2NextHole(); updateScoreCard()}} style={{fontSize: "32px"}}>{'+'}</button>}
+                                            <div className="col-4 mb-3">
+                                              {p2HoleIndex+1 !== 19 && member2Id &&
+                                              <button onClick={() => { toP2NextHole(); updateP2ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
                                             </div>
-                                        </div>
+                                            </Row>
                                       </div>
                                     </div>
-                                  </div>
+                                  </Row>
                                 </div>}
                             </Modal.Body>}
 
+                            {/* Player 3 admin score entry */}
                             {!pendingApiCall &&
                             <Modal.Body>
-                            
-                              
                               {pendingApiCall && <Spinner></Spinner>}
                               {!pendingApiCall && members &&
-                                <div class="container">
-                                  <div class="row">
-                                    <div class="col-6 mb-3">
+                                <div className="container">
+                                  <Row>
+                                    <div className="col-6 mb-3">
                                       <label>Player 3</label>
-                                        <select  name="member3_id" id="member3_id" className={`form-control ${member3Selected ? "is-valid" : "is-invalid"} mt-3 `}  label="Member" placeholder="select" onChange={onChangeMember} required>
+                                        <select  name="member3_id" id="member3_id" className={`form-control ${member3Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member3" placeholder="select" onChange={onChangeMember3} required>
                                           <option selected disabled value="">Please select</option>
                                           {members[0].id && members.map((member) => {
                                             return (
@@ -1604,39 +1893,52 @@ const [newTeeTime, setNewTeeTime] = useState({
                                           Please select a member. 
                                         </div>
                                     </div>
-                                    <div class="col-6 mb-3">
-                                      <div id='score-entry'>
-                                          <h2 >Hole {p3HoleIndex+1}</h2>
-                                          <div class="row score-entry">
-                                            <div class="col-4 mb-3">
+                                    <div className="col-6 mb-3">
+                                    <div id='score-entry'>
+                                      {p3HoleIndex+1 < 19 &&
+                                          <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p3HoleIndex+1}</p>}
+                                          {p3HoleIndex+1 === 19 &&
+                                          <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
+                                          <Row>
+                                            <div className="col-4 mb-3">
                                               {p3HoleIndex+1 !== 1 &&
                                               <button onClick={toP3PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
                                             </div>
-                                            <div class="col-4 mb-3">
-                                              <input name={`h${p3HoleIndex+1}Score`} value={scoreCardObj[`h${p3HoleIndex+1}Score`]}  onChange={onChangeScoreCard} type="number" min={"0"} max={"15"} style={{width:"3.5rem", height:"3.5rem", margin:"0 -12px", padding:"12px 20px", display:"block", border:"1px solid #ccc", borderRadius: "4px", fontSize: "24px"}}></input>
+                                            <div className="col-4 mb-3">
+                                              <input name={`h${p3HoleIndex+1}P3Score`} value={p3ScoreCardObj[`h${p3HoleIndex+1}P3Score`]}  onChange={onChangeP3ScoreCard} type="number" min={"0"} max={"15"} style={{
+                                                width:"3.5rem", 
+                                                height:"3.5rem", 
+                                                margin:"0 -12px", 
+                                                padding:"12px 20px", 
+                                                display:"block", 
+                                                border:"1px solid #ccc", 
+                                                borderRadius: "4px", 
+                                                fontSize: "24px"
+                                                }}
+                                              />
                                             </div>
-                                            <div class="col-4 mb-3">
-                                              {p3HoleIndex+1 !== 18 &&
-                                              <button onClick={function(){ toP3NextHole(); updateScoreCard()}} style={{fontSize: "32px"}}>{'+'}</button>}
+                                            <div className="col-4 mb-3">
+                                              {p3HoleIndex+1 !== 19 && member3Id &&
+                                              <button onClick={() => { toP3NextHole(); updateP3ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
                                             </div>
-                                        </div>
-                                      </div>
+                                            </Row>
+                                            </div>
                                     </div>
-                                  </div>
+                                    </Row>
                                 </div>}
                             </Modal.Body>}
 
                             {!pendingApiCall &&
                             <Modal.Body>
                             
-                              
+                              {/* Player 4 admin score entry */}
                               {pendingApiCall && <Spinner></Spinner>}
                               {!pendingApiCall && members &&
-                                <div class="container">
-                                  <div class="row">
-                                    <div class="col-6 mb-3">
-                                      <label>Player 4</label>
-                                        <select   name="member4_id" id="member4_id" className={`form-control ${member4Selected ? "is-valid" : "is-invalid"} mt-3 `}  label="Member" placeholder="select" onChange={onChangeMember} required>
+                                <div className="container">
+                                  <Row>
+                                    <div className="col-6 mb-3">
+                                      <label>Player 1</label>
+                                        <select  name="member4_id" id="member4_id" className={`form-control ${member4Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member4" placeholder="select" onChange={onChangeMember4} required>
                                           <option selected disabled value="">Please select</option>
                                           {members[0].id && members.map((member) => {
                                             return (
@@ -1648,32 +1950,45 @@ const [newTeeTime, setNewTeeTime] = useState({
                                           Please select a member. 
                                         </div>
                                     </div>
-                                    <div class="col-6 mb-3">
-                                      <div id='score-entry'>
-                                          <h2 >Hole {p4HoleIndex+1}</h2>
-                                          <div class="row score-entry">
-                                            <div class="col-4 mb-3">
+                                    <div className="col-6 mb-3">
+                                    <div id='score-entry'>
+                                      {p4HoleIndex+1 < 19 &&
+                                          <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p4HoleIndex+1}</p>}
+                                          {p4HoleIndex+1 === 19 &&
+                                          <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
+                                          <Row>
+                                            <div className="col-4 mb-3">
                                               {p4HoleIndex+1 !== 1 &&
                                               <button onClick={toP4PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
                                             </div>
-                                            <div class="col-4 mb-3">
-                                              <input  name={`h${p4HoleIndex+1}Score`} value={scoreCardObj[`h${p4HoleIndex+1}Score`]}  onChange={onChangeScoreCard} type="number" min={"0"} max={"15"} style={{width:"3.5rem", height:"3.5rem", margin:"0 -12px", padding:"12px 20px", display:"block", border:"1px solid #ccc", borderRadius: "4px", fontSize: "24px"}}></input>
+                                            <div className="col-4 mb-3">
+                                              <input name={`h${p4HoleIndex+1}P4Score`} value={p4ScoreCardObj[`h${p4HoleIndex+1}P4Score`]}  onChange={onChangeP4ScoreCard} type="number" min={"0"} max={"15"} style={{
+                                                width:"3.5rem", 
+                                                height:"3.5rem", 
+                                                margin:"0 -12px", 
+                                                padding:"12px 20px", 
+                                                display:"block", 
+                                                border:"1px solid #ccc", 
+                                                borderRadius: "4px", 
+                                                fontSize: "24px"
+                                                }}
+                                              />
                                             </div>
-                                            <div class="col-4 mb-3">
-                                              {p4HoleIndex+1 !== 18 &&
-                                              <button onClick={function(){ toP4NextHole(); updateScoreCard()}} style={{fontSize: "32px"}}>{'+'}</button>}
+                                            <div className="col-4 mb-3">
+                                              {p4HoleIndex+1 !== 19 && member4Id &&
+                                              <button onClick={() => { toP4NextHole(); updateP4ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
                                             </div>
-                                            
+                                        </Row>
                                         </div>
-                                      </div>
                                     </div>
-                                  </div>
+                                    </Row>
                                 </div>}
                             </Modal.Body>}
 
                             
                             <Modal.Footer>
-                              <Button variant='primary' onClick={completeScoreCard}>Submit</Button>
+                            {p1HoleIndex+1 === 19 &&
+                              <Button variant='primary' onClick={adminUpdateScorecard}>Submit</Button>}
                             </Modal.Footer>
                           </Modal>
                         </>
