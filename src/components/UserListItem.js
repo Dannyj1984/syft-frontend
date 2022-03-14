@@ -15,14 +15,14 @@ const UserListItem = (props) => {
     //
     const [userHcpDetails, setUserHcpDetails] = useState({
         originalHandicap: props.user.handicap,
-        originalSochcpred: props.user.sochcpred,
+        originalSocHcpRed: props.user.socHcpRed,
         errors: {}
     });
 
     //Store temp user details incase of cancellation of handicap updates
     const [tempUser] = useState({
         handicap: props.user.handicap,
-        sochcpred: props.user.sochcpred
+        socHcpRed: props.user.socHcpRed
     });
 
     const [pendingUpdateCall, setPendingUpdateCall] = useState(false);
@@ -39,7 +39,7 @@ const UserListItem = (props) => {
 
         const handicapUpdate = ({
             handicap: userHcpDetails.originalHandicap,
-            sochcpred: userHcpDetails.originalSochcpred
+            socHcpRed: userHcpDetails.originalSocHcpRed
         });
         setPendingUpdateCall(true);
         apiCalls
@@ -60,7 +60,7 @@ const UserListItem = (props) => {
         setUserHcpDetails({
             errors: {},
             originalHandicap: tempUser.handicap,
-            originalSochcpred: tempUser.sochcpred
+            originalSocHcpRed: tempUser.socHcpRed
         });
 
         //Close modal
@@ -70,10 +70,10 @@ const UserListItem = (props) => {
     //When handicap field is changed
     const onChangeHandicap = (event) => {
         let originalHandicap = event.target.value;
-        const originalSocHcpRed = userHcpDetails.originalSochcpred
+        const originalSocHcpRed = userHcpDetails.originalSocHcpRed
         const errors =  userHcpDetails.errors ;
 
-        setUserHcpDetails({originalHandicap: originalHandicap, originalSochcpred: originalSocHcpRed, errors: errors })
+        setUserHcpDetails({originalHandicap: originalHandicap, originalSocHcpRed: originalSocHcpRed, errors: errors })
     };
 
     //when handicap reduction field is changed.
@@ -82,7 +82,7 @@ const UserListItem = (props) => {
         const originalHandicap = userHcpDetails.originalHandicap;
         const errors = userHcpDetails.errors;
 
-        setUserHcpDetails({originalSochcpred: originalSocHcpRed, originalHandicap: originalHandicap, errors: errors});
+        setUserHcpDetails({originalSocHcpRed: originalSocHcpRed, originalHandicap: originalHandicap, errors: errors});
 
 
 
@@ -406,11 +406,11 @@ const UserListItem = (props) => {
                             //error={props.errors.handicap}
                             />
                             <Input
-                            value={userHcpDetails.originalSochcpred}
+                            value={userHcpDetails.originalSocHcpRed}
                             label={`Change handicap reduction for ${props.user.firstName}`}
                             onChange={onChangeHandicapReduction}
-                            //hasError={props.errors.sochcpred && true}
-                            //error={props.errors.sochcpred}
+                            // hasError={props.errors.socHcpRed && true}
+                            // error={props.errors.socHcpRed}
                             />
                         </div>
                     </Modal.Body>

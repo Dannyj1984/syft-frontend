@@ -189,6 +189,18 @@ const TopBar = (props) => {
               >
                 <i className="fas fa-file-alt text-info"/> Add course
               </Link>
+              <Link
+                to={`/tournamentSignup`}
+                className="dropdown-item"
+              >
+                <i className="fas fa-trophy text-info"/> Add Tournament 
+              </Link>
+              <Link
+                to={`/tournaments`}
+                className="dropdown-item"
+              >
+                <i className="fas fa-trophy text-info"/> Tournaments
+              </Link>
 
               <Link
                 to={`/syftCup`}

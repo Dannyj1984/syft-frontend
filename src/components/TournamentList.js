@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import * as apiCalls from '../api/apiCalls';
-import EventListItems from './EventListItems';
+import TournamentsListItem from './TournamentsListItem';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from './Spinner';
 
-export const EventList = (props) => {
+export const TournamentList = (props) => {
 
-    const [events] = useState();
+    const [tournaments] = useState();
 
     const [page, setPage] = useState({
         content: [],
@@ -28,13 +28,14 @@ export const EventList = (props) => {
     let id = props.loggedInUser.society.id
     setPendingApiCall(true)
     apiCalls
-      .listEvents(id,{ page: requestedPage, size: 9 })
+      .tournamentPage(id,{ page: requestedPage, size: 9 })
       .then((response) => {
+          console.log(response)
         setPage(response.data);
         setPendingApiCall(false)
       })
       .catch((error) => {
-        setLoadError("Event load failed" );
+        setLoadError("Tournament load failed" );
         setPendingApiCall(false)
       });
   };
@@ -51,32 +52,26 @@ export const EventList = (props) => {
 
     
   return (
-          <div >
-            <h3 className="card-title m-auto text-center">Events</h3>
-            <hr/>
-          {pendingApiCall &&
-            <Spinner />}
-          {!pendingApiCall &&
+        <div >
+            <h2 className="card-title m-auto text-center">Tournaments</h2>
+        
+        {pendingApiCall && <Spinner />}
+        {!pendingApiCall &&
           <div>
-          {content.length === 0 && 
-            <div>
-              <h3 className="card-title m-auto text-center text-danger">No upcoming events</h3>
-            </div>
-          }
           <Link
-                  to={`/previousEvent`}>
+                  to={`/previousTournament`}>
                     <button  
                       className="btn btn-primary tooltips float" 
                       data-placement="left" 
                       data-toggle="tooltip" 
-                      data-original-title="view"> Previous events
+                      data-original-title="view"> Previous tournaments
                     </button>
             </Link>
-            <div className="list-group list-group-flush" data-testid="eventgroup">
+            <div className="list-group list-group-flush" data-testid="tournamentgroup">
               <div className="row">
-              {content.map((event) => (
-                  <div key={event.id} className="col-xl-4 col-m-12 mb-4">
-                  <EventListItems event={event} events={events} />
+              {content.map((tournament) => (
+                  <div key={tournament.id} className="col-xl-4 col-m-12 mb-4">
+                  <TournamentsListItem tournament={tournament} tournaments={tournaments} />
                   </div>
                 ))}
               </div>
@@ -109,13 +104,12 @@ export const EventList = (props) => {
         );
       };
 
-      const mapStateToProps = (state) => {
-        return {
-          loggedInUser: state
+    const mapStateToProps = (state) => {
+    return {
+        loggedInUser: state
         };
-      };
+    };
 
 export default connect(
   mapStateToProps
-)(EventList);
-
+)(TournamentList);

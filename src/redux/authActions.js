@@ -64,4 +64,13 @@ export const signupSocietyHandler = (society) => {
   };
 };
 
+//Tournament sign up
+
+export const tournamentSignupHandler = (event, societyId) => {
+  return async function(dispatch) {
+    await apiCalls.signupEvent(event, societyId); 
+
+  };
+};
+
 

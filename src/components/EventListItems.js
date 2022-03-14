@@ -10,7 +10,7 @@ import Input from './Input';
 import ButtonWithProgress from './ButtonWithProgress';
 import Spinner from './Spinner';
 
-const EventListItem = (props) => {
+const EventListItems = (props) => {
 
   const [currentEntrant, setCurrentEntrant] = useState({});
 
@@ -42,6 +42,89 @@ const EventListItem = (props) => {
     h17Score: 0,
     h18Score: 0
   });
+  const [p1ScoreCardObj, setp1ScoreCardObj] = useState({
+    h1P1Score: 0,
+    h2P1Score: 0,
+    h3P1Score: 0,
+    h4P1Score: 0,
+    h5P1Score: 0,
+    h6P1Score: 0,
+    h7P1Score: 0,
+    h8P1Score: 0,
+    h9P1Score: 0,
+    h10P1Score: 0,
+    h11P1Score: 0,
+    h12P1Score: 0,
+    h13P1Score: 0,
+    h14P1Score: 0,
+    h15P1Score: 0,
+    h16P1Score: 0,
+    h17P1Score: 0,
+    h18P1Score: 0
+  });
+
+  const [p2ScoreCardObj, setp2ScoreCardObj] = useState({
+    h1P2Score: 4,
+    h2P2Score: 0,
+    h3P2Score: 0,
+    h4P2Score: 0,
+    h5P2Score: 0,
+    h6P2Score: 0,
+    h7P2Score: 0,
+    h8P2Score: 0,
+    h9P2Score: 0,
+    h10P2Score: 0,
+    h11P2Score: 0,
+    h12P2Score: 0,
+    h13P2Score: 0,
+    h14P2Score: 0,
+    h15P2Score: 0,
+    h16P2Score: 0,
+    h17P2Score: 0,
+    h18P2Score: 0
+  });
+
+  const [p3ScoreCardObj, setp3ScoreCardObj] = useState({
+    h1P3Score: 4,
+    h2P3Score: 0,
+    h3P3Score: 0,
+    h4P3Score: 0,
+    h5P3Score: 0,
+    h6P3Score: 0,
+    h7P3Score: 0,
+    h8P3Score: 0,
+    h9P3Score: 0,
+    h10P3Score: 0,
+    h11P3Score: 0,
+    h12P3Score: 0,
+    h13P3Score: 0,
+    h14P3Score: 0,
+    h15P3Score: 0,
+    h16P3Score: 0,
+    h17P3Score: 0,
+    h18P3Score: 0
+  });
+
+  const [p4ScoreCardObj, setp4ScoreCardObj] = useState({
+    h1P4Score: 0,
+    h2P4Score: 0,
+    h3P4Score: 0,
+    h4P4Score: 0,
+    h5P4Score: 0,
+    h6P4Score: 0,
+    h7P4Score: 0,
+    h8P4Score: 0,
+    h9P4Score: 0,
+    h10P4Score: 0,
+    h11P4Score: 0,
+    h12P4Score: 0,
+    h13P4Score: 0,
+    h14P4Score: 0,
+    h15P4Score: 0,
+    h16P4Score: 0,
+    h17P4Score: 0,
+    h18P4Score: 0
+  });
 
   const [userScoreCard, setUserScoreCard] = useState({});
 
@@ -51,6 +134,10 @@ const EventListItem = (props) => {
   const [deleteErrors, setDeleteErrors] = useState();
   const [adminEnterUser, setAdminEnterUser] = useState(false);
   const [memberSelected, setMemberSelected] = useState(false);
+  const [member1Selected, setMember1Selected] = useState(false);
+  const [member2Selected, setMember2Selected] = useState(false);
+  const [member3Selected, setMember3Selected] = useState(false);
+  const [member4Selected, setMember4Selected] = useState(false);
 
   const [pendingApiCall, setPendingApiCall] = useState(false);
 
@@ -129,8 +216,7 @@ const [newTeeTime, setNewTeeTime] = useState({
 
   //Open the admin user panel for entering a user to an event
   const HandleOpenEnterUser = () => {
-    setAdminEnterUser(true)
-    
+    setAdminEnterUser(true);
   }
 
   const handleOpenAdminScore = () => {
@@ -637,12 +723,14 @@ const [newTeeTime, setNewTeeTime] = useState({
         }
       }
 
-      //Scorecard object for submitting to backend
-
+      //Scorecar  d object for submitting to backend
   const [holeIndex, setHoleIndex] = useState(0);
+  const [p1HoleIndex, setP1HoleIndex] = useState(0);
+  const [p2HoleIndex, setP2HoleIndex] = useState(0);
+  const [p3HoleIndex, setP3HoleIndex] = useState(0);
+  const [p4HoleIndex, setP4HoleIndex] = useState(0);
 
   const [scoreCardUpdateErrors, setScoreCardUpdateErrors] = useState({})
-
   const toNextHole = () => {
     if(holeIndex+1 < 18){
     setHoleIndex(holeIndex+1)
@@ -651,6 +739,50 @@ const [newTeeTime, setNewTeeTime] = useState({
   const toPrevHole = () => {
     if(holeIndex+1 > 1){
     setHoleIndex(holeIndex-1)
+    }
+  }
+
+  const toP1NextHole = () => {
+    if(p1HoleIndex+1 < 18){
+      setP1HoleIndex(p1HoleIndex+1)
+    }
+  }
+  const toP1PrevHole = () => {
+    if(p1HoleIndex+1 > 1){
+      setP1HoleIndex(p1HoleIndex-1)
+    }
+  }
+
+  const toP2NextHole = () => {
+    if(p2HoleIndex+1 < 18){
+    setP2HoleIndex(p2HoleIndex+1)
+    }
+  }
+  const toP2PrevHole = () => {
+    if(p2HoleIndex+1 > 1){
+    setP2HoleIndex(p2HoleIndex-1)
+    }
+  }
+
+  const toP3NextHole = () => {
+    if(p3HoleIndex+1 < 18){
+    setP3HoleIndex(p3HoleIndex+1)
+    }
+  }
+  const toP3PrevHole = () => {
+    if(p3HoleIndex+1 > 1){
+    setP3HoleIndex(p3HoleIndex-1)
+    }
+  }
+
+  const toP4NextHole = () => {
+    if(p4HoleIndex+1 < 18){
+    setP4HoleIndex(p4HoleIndex+1)
+    }
+  }
+  const toP4PrevHole = () => {
+    if(p4HoleIndex+1 > 1){
+    setP4HoleIndex(p4HoleIndex-1)
     }
   }
 
@@ -732,8 +864,17 @@ const [newTeeTime, setNewTeeTime] = useState({
     if(name === "member_id"){
       setMemberSelected(true);
     }
-    if(value === ""){
-      setMemberSelected(false);
+    if(name === "member1_id"){
+      setMember1Selected(true);
+    }
+    if(name === "member2_id"){
+      setMember2Selected(true);
+    }
+    if(name === "member3_id"){
+      setMember3Selected(true);
+    }
+    if(name === "member4_id"){
+      setMember4Selected(true);
     }
 
     setMembersId(value);
@@ -929,9 +1070,11 @@ const [newTeeTime, setNewTeeTime] = useState({
                       <label>Member</label>
                         <select  name="member_id" id="member_id" className={`form-control ${memberSelected ? "is-valid" : "is-invalid"} `}  label="Member" placeholder="select" onChange={onChangeMember} required>
                           <option selected disabled value="">Please select</option>
-                          {members.map((member) => (
+                          {members[0].id && members.map((member) => {
+                            return (
                             <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                          ))}
+                            );
+                          })};
                         </select>
                         <div id="member_idFeedback" className="invalid-feedback">
                           Please select a member. 
@@ -977,14 +1120,14 @@ const [newTeeTime, setNewTeeTime] = useState({
                         </tr>
                       </thead>
 
-                      {entrants.map((entrant) => 
+                      <tbody>
+                      {entrants.map((entrant) => ( 
                        entrant.member && 
-                        <tbody key={entrant.member.id}>
-                          <tr>
-                            <th >{entrant.member.firstName} {entrant.member.surname} ({entrant.member.handicap})</th>
+                          <tr key={entrant.member.id}>
+                            <td>{entrant.member.firstName} {entrant.member.surname} ({entrant.member.handicap})</td>
                           </tr>
-                        </tbody>  
-                      )}
+                      ))}
+                      </tbody>
                       </Table>
                     </Modal.Body>}
                     <Modal.Footer>
@@ -1035,17 +1178,18 @@ const [newTeeTime, setNewTeeTime] = useState({
                           <th >Score</th>
                         </tr>
                       </thead>
-                      {sortedEntrants.map((entrant =>
-                        <tbody key={entrant.member.id}>
-                        <tr>
+                      <tbody >
+                      {sortedEntrants.map((entrant) => (
+                        
+                        <tr key={entrant.member.id}>
                           {!props.event.ninetyFivePercent &&
                           <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(entrant.member.handicap/113*courseSlope)})</th>}
                           {props.event.ninetyFivePercent &&
                           <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(0.95*(entrant.member.handicap/113*courseSlope*0.95))})</th>}
                           <th >{entrant.score} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''} </th>
                         </tr>
-                        </tbody>
                       ))}
+                      </tbody>
                     </Table>
                     </Modal.Body>}
                     <Modal.Footer>
@@ -1080,17 +1224,17 @@ const [newTeeTime, setNewTeeTime] = useState({
                           <th >Score</th>
                         </tr>
                       </thead>
-                      {sortedEntrants.map((entrant =>
-                        <tbody key={entrant.member.id}>
-                        <tr>
+                        <tbody >
+                      {sortedEntrants.map((entrant) => (
+                        <tr key={entrant.member.id}>
                           {!props.event.ninetyFivePercent &&
                           <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(entrant.member.handicap/113*courseSlope)})</th>}
                           {props.event.ninetyFivePercent &&
                           <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(0.95*(entrant.member.handicap/113*courseSlope))})</th>}
                           <th >{entrant.score}</th>
                         </tr>
-                        </tbody>
                       ))}
+                      </tbody>
                     </Table>
                     </Modal.Body>}
                     <Modal.Footer>
@@ -1137,21 +1281,21 @@ const [newTeeTime, setNewTeeTime] = useState({
                       </tr>
                     </thead>
                     
-                    {teeTimes.map((teetime => 
-                      <tbody key={teetime.id}>
-                          <tr>
+                    <tbody >
+                    {teeTimes.map((teetime) => (
+                          <tr key={teetime.id}>
                           <td>{teetime.teeTime}</td>
-                          {teetime.entrants.map((entrant) => 
-                            <td>{entrant.member['firstName']} {entrant.member['surname']} ({entrant.member['handicap']})</td>
-                          )}
+                          {teetime.entrants.map((entrant) =>  (
+                            <td key={entrant.member.id}>{entrant.member['firstName']} {entrant.member['surname']} ({entrant.member['handicap']})</td>
+                          ))}
                           {props.loggedInUser.role === 'ADMIN' &&
                           <td headers='admin'>
                               <button className="btn btn-danger m-2" onClick={() => deleteTeeSheet(teetime.id)}>delete</button>
                               <button className="btn btn-warning m-2" onClick={() => handleShowEditTeeTime(teetime.id)}>Update</button>
                           </td>}
                           </tr>
-                      </tbody>
                     ))}   
+                    </tbody>
                   </Table>
                   </Modal.Body>}
                   <Modal.Footer>
@@ -1329,19 +1473,20 @@ const [newTeeTime, setNewTeeTime] = useState({
                       </Modal.Footer>
                     </Modal>
               </>
-                              {/* Show admin score entry modal */}
+                              {/* Show admin score entry modal for */}
                         <>
                           <Modal 
                             show={showAdminScore} 
                             onHide={handleCloseAdminScoreEntry} 
                             dialogClassName="modal-content-full modal-dialog-full"
                             size="m"
-                            centered
+                            
                           >
                             <Modal.Header closeButton>
                               <Modal.Title id='scoreEntryModal'>
                                 <Container>
-                                Score Entry - Please choose a player to enter score for
+                                Score Entry 
+                                <p style={{color:"red", fontSize:"13px", width:"140%"}}>Please enter gross scores</p>
                                </Container>
                               </Modal.Title>
                             </Modal.Header>
@@ -1353,51 +1498,182 @@ const [newTeeTime, setNewTeeTime] = useState({
                             {!pendingApiCall &&
                             <Modal.Body>
                             
-                              
+                              {/* Player 1 admin score entry */}
                               {pendingApiCall && <Spinner></Spinner>}
                               {!pendingApiCall && members &&
-                              <div className="col-12 mb-3">
-                              <label>Member</label>
-                                <select  name="member_id" id="member_id" className={`form-control ${memberSelected ? "is-valid" : "is-invalid"} `}  label="Member" placeholder="select" onChange={onChangeMember} required>
-                                  <option selected disabled value="">Please select</option>
-                                  {members.map((member) => (
-                                    <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                                  ))}
-                                </select>
-                                <div id="member_idFeedback" className="invalid-feedback">
-                                  Please select a member. 
-                                </div>
-                              </div>}
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-6 mb-3">
+                                      <label>Player 1</label>
+                                        <select  name="member1_id" id="member1_id" className={`form-control ${member1Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member" placeholder="select" onChange={onChangeMember} required>
+                                          <option selected disabled value="">Please select</option>
+                                          {members[0].id && members.map((member) => {
+                                            return (
+                                            <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
+                                          );
+                                          })};
+                                        </select>
+                                        <div id="member1_idFeedback" className="invalid-feedback">
+                                          Please select a member. 
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                      <div id='score-entry'>
+                                          <h2 >Hole {p1HoleIndex+1}</h2>
+                                          <div class="row score-entry">
+                                            <div class="col-4 mb-3">
+                                              {p1HoleIndex+1 !== 1 &&
+                                              <button onClick={toP1PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
+                                            </div>
+                                            <div class="col-4 mb-3">
+                                              <input name={`h${p1HoleIndex+1}Score`} value={p1ScoreCardObj[`h${p1HoleIndex+1}Score`]}  onChange={onChangeScoreCard} type="number" min={"0"} max={"15"} style={{width:"3.5rem", height:"3.5rem", margin:"0 -12px", padding:"12px 20px", display:"block", border:"1px solid #ccc", borderRadius: "4px", fontSize: "24px"}}></input>
+                                            </div>
+                                            <div class="col-4 mb-3">
+                                              {p1HoleIndex+1 !== 18 &&
+                                              <button onClick={function(){ toP1NextHole(); updateScoreCard()}} style={{fontSize: "32px"}}>{'+'}</button>}
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>}
                             </Modal.Body>}
                             {!pendingApiCall &&
                             <Modal.Body>
-                              <Container>
-                                <Row style={{margin:"auto", width:"50%"}}>
-                                  <Col xs={12}>
-                                    <div id='score-entry'>
-                                      <h2 >Hole {holeIndex+1}</h2>
-                                      <input name={`h${holeIndex+1}Score`} value={scoreCardObj[`h${holeIndex+1}Score`]}  onChange={onChangeScoreCard} type="number" min={"0"} max={"15"} style={{width:"8rem", height:"8rem",padding:"12px 20px", display:"inline-block", border:"1px solid #ccc", borderRadius: "4px", fontSize: "64px", textAlign:"center"}}></input>
-                                        <p style={{color:"red", fontSize:"13px", width:"140%"}}>Please enter gross scores</p>
-                                        {/* <p>Current Score : {currentEntrant.score}</p> */}
-                                    </div>
-                                  </Col>
-                                </Row>
-                                <Row style={{margin:"auto", width:"50%"}}>
-                                  <Col xs={6}>
-                                    {holeIndex+1 !== 1 &&
-                                    <button onClick={toPrevHole} style={{fontSize: "64px"}}>{'<'}</button>}
-                                  </Col>
-                                  <Col xs={6}>
-                                    {holeIndex+1 !== 18 &&
-                                    <button onClick={function(){ toNextHole(); updateScoreCard()}} style={{fontSize: "64px"}}>{'>'}</button>}
-                                  </Col>
-                                </Row>
-                              </Container>
                             
+                              
+                              {pendingApiCall && <Spinner></Spinner>}
+                              {!pendingApiCall && members &&
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-6 mb-3">
+                                      <label>Player 2</label>
+                                        <select  name="member2_id" id="member2_id" className={`form-control ${member2Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member" placeholder="select" onChange={onChangeMember} required>
+                                          <option selected disabled value="">Please select</option>
+                                          {members[0].id && members.map((member) => {
+                                            return (
+                                            <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
+                                          );
+                                          })};
+                                        </select>
+                                        <div id="member2_idFeedback" className="invalid-feedback">
+                                          Please select a member. 
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                      <div id='score-entry'>
+                                          <h2 >Hole {p2HoleIndex+1}</h2>
+                                          <div class="row score-entry">
+                                            <div class="col-4 mb-3">
+                                              {p2HoleIndex+1 !== 1 &&
+                                              <button onClick={toP2PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
+                                            </div>
+                                            <div class="col-4 mb-3 text-center">
+                                              <input name={`h${p2HoleIndex+1}Score`} value={scoreCardObj[`h${p2HoleIndex+1}Score`]}  onChange={onChangeScoreCard} type="number" min={"0"} max={"15"} style={{width:"3.5rem", height:"3.5rem", margin:"0 -12px", padding:"12px 20px", display:"block", border:"1px solid #ccc", borderRadius: "4px", fontSize: "24px"}}></input>
+                                            </div>
+                                            <div class="col-4 mb-3">
+                                              {p2HoleIndex+1 !== 18 &&
+                                              <button onClick={function(){ toP2NextHole(); updateScoreCard()}} style={{fontSize: "32px"}}>{'+'}</button>}
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>}
                             </Modal.Body>}
+
+                            {!pendingApiCall &&
+                            <Modal.Body>
+                            
+                              
+                              {pendingApiCall && <Spinner></Spinner>}
+                              {!pendingApiCall && members &&
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-6 mb-3">
+                                      <label>Player 3</label>
+                                        <select  name="member3_id" id="member3_id" className={`form-control ${member3Selected ? "is-valid" : "is-invalid"} mt-3 `}  label="Member" placeholder="select" onChange={onChangeMember} required>
+                                          <option selected disabled value="">Please select</option>
+                                          {members[0].id && members.map((member) => {
+                                            return (
+                                            <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
+                                          );
+                                          })};
+                                        </select>
+                                        <div id="member3_idFeedback" className="invalid-feedback">
+                                          Please select a member. 
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                      <div id='score-entry'>
+                                          <h2 >Hole {p3HoleIndex+1}</h2>
+                                          <div class="row score-entry">
+                                            <div class="col-4 mb-3">
+                                              {p3HoleIndex+1 !== 1 &&
+                                              <button onClick={toP3PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
+                                            </div>
+                                            <div class="col-4 mb-3">
+                                              <input name={`h${p3HoleIndex+1}Score`} value={scoreCardObj[`h${p3HoleIndex+1}Score`]}  onChange={onChangeScoreCard} type="number" min={"0"} max={"15"} style={{width:"3.5rem", height:"3.5rem", margin:"0 -12px", padding:"12px 20px", display:"block", border:"1px solid #ccc", borderRadius: "4px", fontSize: "24px"}}></input>
+                                            </div>
+                                            <div class="col-4 mb-3">
+                                              {p3HoleIndex+1 !== 18 &&
+                                              <button onClick={function(){ toP3NextHole(); updateScoreCard()}} style={{fontSize: "32px"}}>{'+'}</button>}
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>}
+                            </Modal.Body>}
+
+                            {!pendingApiCall &&
+                            <Modal.Body>
+                            
+                              
+                              {pendingApiCall && <Spinner></Spinner>}
+                              {!pendingApiCall && members &&
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-6 mb-3">
+                                      <label>Player 4</label>
+                                        <select   name="member4_id" id="member4_id" className={`form-control ${member4Selected ? "is-valid" : "is-invalid"} mt-3 `}  label="Member" placeholder="select" onChange={onChangeMember} required>
+                                          <option selected disabled value="">Please select</option>
+                                          {members[0].id && members.map((member) => {
+                                            return (
+                                            <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
+                                          );
+                                          })};
+                                        </select>
+                                        <div id="member4_idFeedback" className="invalid-feedback">
+                                          Please select a member. 
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                      <div id='score-entry'>
+                                          <h2 >Hole {p4HoleIndex+1}</h2>
+                                          <div class="row score-entry">
+                                            <div class="col-4 mb-3">
+                                              {p4HoleIndex+1 !== 1 &&
+                                              <button onClick={toP4PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
+                                            </div>
+                                            <div class="col-4 mb-3">
+                                              <input  name={`h${p4HoleIndex+1}Score`} value={scoreCardObj[`h${p4HoleIndex+1}Score`]}  onChange={onChangeScoreCard} type="number" min={"0"} max={"15"} style={{width:"3.5rem", height:"3.5rem", margin:"0 -12px", padding:"12px 20px", display:"block", border:"1px solid #ccc", borderRadius: "4px", fontSize: "24px"}}></input>
+                                            </div>
+                                            <div class="col-4 mb-3">
+                                              {p4HoleIndex+1 !== 18 &&
+                                              <button onClick={function(){ toP4NextHole(); updateScoreCard()}} style={{fontSize: "32px"}}>{'+'}</button>}
+                                            </div>
+                                            
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>}
+                            </Modal.Body>}
+
+                            
                             <Modal.Footer>
-                            {holeIndex+1 === 18 &&
-                              <Button variant='primary' onClick={completeScoreCard}>Submit</Button>}
+                              <Button variant='primary' onClick={completeScoreCard}>Submit</Button>
                             </Modal.Footer>
                           </Modal>
                         </>
@@ -1405,7 +1681,7 @@ const [newTeeTime, setNewTeeTime] = useState({
   );
 };
 
-EventListItem.defaultProps = {
+EventListItems.defaultProps = {
   actions: {
     enterEvent: () =>
       new Promise((resolve, reject) => {
@@ -1433,4 +1709,4 @@ EventListItem.defaultProps = {
 
 
 
-    export default connect(mapStateToProps, mapDispatchToProps)(EventListItem);
+    export default connect(mapStateToProps, mapDispatchToProps)(EventListItems);

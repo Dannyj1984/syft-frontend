@@ -76,7 +76,7 @@ export const makeUser = (userid) => {
 };
 
 export const updateHandicap = (userid, body) => {
-  return axios.put(url + '/api/1.0/management/users/handicap/' + userid, body);
+  return axios.put(url + '/api/1.0/management/members/handicap/' + userid, body);
 }
 
 export const addWin = (userid) => {
@@ -97,11 +97,6 @@ export const resetWins = (societyId) => {
 
 export const resetHcpReductions = (societyId) => {
   return axios.put(url + '/api/1.0/management/member/resetHcpRed/' + societyId);
-}
-
-export const getRandomUserList = (userList) => {
-  const path = url + '/api/1.0/users/random?usernames=' + userList
-  return axios.get(path);
 }
 
 export const randomiseEntrants = (eventId, perTee) => {
@@ -255,3 +250,49 @@ export const getUpcomingEventsForEntrant = (memberid) => {
 export const signupSociety = (society) => {
   return axios.post(url + '/api/1.0/management/society', society);
 };
+
+//tournament calls
+
+export const tournamentPage = (id, param = { page: 0, size: 9 }) => {
+  const path = url + `/api/1.0/tournament/${id}?page=${param.page || 0}&size=${param.size || 9}&sort=start_date,asc`;
+  return axios.get(path);
+};
+
+export const previousTournamentPage = (id, param = { page: 0, size: 9 }) => {
+  const path = url + `/api/1.0/tournament/previous/${id}?page=${param.page || 0}&size=${param.size || 9}&sort=start_date,desc`;
+  return axios.get(path);
+};
+
+export const tournamentList = (id, param = { page: 0, size: 9 }) => {
+  const path = url + `/api/1.0/tournament/list/${id}`;
+  return axios.get(path);
+};
+
+export const deleteTournament = (id) => {
+  const path = url + `/api/1.0/management/tournament/delete/${id}`;
+  return axios.get(path);
+};
+
+export const completeTournament = (id) => {
+  const path = url + `/api/1.0/management/tournament/complete/${id}`;
+  return axios.get(path);
+};
+
+export const addTournamentEntrant = (tournamentId, memberId) => {
+  const path = url + `/api/1.0/tournament/entrants/${tournamentId}/${memberId}`;
+  return axios.get(path);
+};
+
+export const removeTournamentEntrant = (tournamentId, memberId) => {
+  const path = url + `/api/1.0/tournament/entrants/${memberId}/${tournamentId}`;
+  return axios.get(path);
+};
+
+export const getTournamentEntrants = (tournamentId) => {
+  const path = url + `/api/1.0/tournament/entrants/${tournamentId}`;
+  return axios.get(path);
+};
+
+
+
+
