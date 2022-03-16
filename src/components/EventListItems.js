@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import Input from './Input';
 import ButtonWithProgress from './ButtonWithProgress';
 import Spinner from './Spinner';
+import Scorecard from './Scorecard';
 
 const EventListItems = (props) => {
 
@@ -20,8 +21,38 @@ const EventListItems = (props) => {
   const [member2Id, setMember2Id] = useState()
   const [member3Id, setMember3Id] = useState()
   const [member4Id, setMember4Id] = useState()
+  const [scoreCardModal, setScoreCardModal] = useState(false);
+  const [entrant, setEntrant] = useState({})
 
-  const [holes, setHoles] = useState({})
+  const handleOpenScoreCard = (entrant) => {
+    setScoreCardModal(true);
+    setEntrant(entrant);
+  }
+
+  const handleCloseScoreCard = () => {
+    setScoreCardModal(false);
+  }
+
+  const [holes, setHoles] = useState({
+    h1Par: 0,
+    h2Par: 0,
+    h3Par: 0,
+    h4Par: 0,
+    h5Par: 0,
+    h6Par: 0,
+    h7Par: 0,
+    h8Par: 0,
+    h9Par: 0,
+    h10Par: 0,
+    h11Par: 0,
+    h12Par: 0,
+    h13Par: 0,
+    h14Par: 0,
+    h15Par: 0,
+    h16Par: 0,
+    h17Par: 0,
+    h18Par: 0,
+  })
   const [courseId, setCourseId] = useState();
 
   
@@ -598,10 +629,7 @@ const [newTeeTime, setNewTeeTime] = useState({
             console.log(e)
             setPendingApiCall(false)
           }
-          apiCalls.getCourseHoles(courseId)
-          .then((response) => {
-            setHoles(response.data)
-          })
+          
           let entrantIndex = null;
           setPendingApiCall(true)
           apiCalls.getEntrants(eventid)
@@ -716,6 +744,14 @@ const [newTeeTime, setNewTeeTime] = useState({
             };
           });
           
+      }
+
+      //add holes
+      const addHoles = () => {
+        apiCalls.getCourseHoles(courseId)
+          .then((response) => {
+            console.log(response)
+          })
       }
 
       //Randomise entrants
@@ -1149,11 +1185,11 @@ const [newTeeTime, setNewTeeTime] = useState({
 
       let yourDate = props.event.date;
       let formatDate = new Date(yourDate).toString().substring(0,15)
-
-      console.log(holes)
       const testMethod = (e) => {
         alert(member3Id)
       }
+
+      console.log(courseName)
 
   return (
               <div className="card col-12" style={{height:"100%", backgroundColor: "white", boxShadow: "15px 10px 5px lightgray"}}>
@@ -1449,7 +1485,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                           <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(entrant.member.handicap/113*courseSlope)})</th>}
                           {props.event.ninetyFivePercent &&
                           <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(0.95*(entrant.member.handicap/113*courseSlope*0.95))})</th>}
-                          <th >{entrant.score} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''} </th>
+                          <th >{Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}<span style={{marginLeft:"10px"}}><button className="btn btn-primary" onClick={() => handleOpenScoreCard(entrant)}>View</button></span> </th>
                         </tr>
                       ))}
                       </tbody>
@@ -1494,7 +1530,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                           <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(entrant.member.handicap/113*courseSlope)})</th>}
                           {props.event.ninetyFivePercent &&
                           <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(0.95*(entrant.member.handicap/113*courseSlope))})</th>}
-                          <th >{entrant.score}</th>
+                          <th >{Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}<span style={{marginLeft:"10px"}}><button className="btn btn-primary" onClick={() => handleOpenScoreCard(entrant)}>View</button></span></th>
                         </tr>
                       ))}
                       </tbody>
@@ -1503,7 +1539,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                     <Modal.Footer>
                       <Button variant="secondary" onClick={handleCloseLeader}>
                         Close
-                      </Button>
+                      </Button> 
                     </Modal.Footer>
                   </Modal>}
               </>          
@@ -1992,6 +2028,34 @@ const [newTeeTime, setNewTeeTime] = useState({
                             </Modal.Footer>
                           </Modal>
                         </>
+
+                        {/*Show Scorecard modal*/}
+              <>
+                    <Modal 
+                      show={scoreCardModal} 
+                      onHide={handleCloseScoreCard} 
+                      dialogClassName="modal-content-full modal-dialog-full"
+                      size="m"
+                      centered
+                      responsive
+                    >
+                      <Modal.Header closeButton>
+                        <Modal.Title id='scoreCardModal'>
+                          Score Card for {props.event.name}
+                          
+                        </Modal.Title>
+                      </Modal.Header>
+                      {pendingApiCall && 
+                      <Modal.Body>
+                      <Spinner></Spinner>
+                      </Modal.Body>
+                      }
+                      <Modal.Body>
+                          <Scorecard entrant={entrant} holes={holes}/>
+                      
+                      </Modal.Body>
+                    </Modal>
+              </>
           </div>
   );
 };

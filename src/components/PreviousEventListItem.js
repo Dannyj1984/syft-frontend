@@ -868,7 +868,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                           <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(entrant.member.handicap/113*courseSlope)})</th>}
                           {props.event.ninetyFivePercent &&
                           <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(0.95*(entrant.member.handicap/113*courseSlope))})</th>}
-                          <th >{entrant.score}</th>
+                          <th >{Math.round(entrant.score)}</th>
                         </tr>
                         </tbody>
                       ))}

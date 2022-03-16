@@ -121,6 +121,62 @@ input[type=number] {
 }
 }
 
+/* Scorecard css */
+
+.front9, .back9 {
+  margin-bottom: 1em;
+}
+
+.hole {
+  background-color: rgb(62, 189, 3);
+  color: #fff;
+}
+.par {
+  background-color: #ccc;
+  color: #777;
+}
+.gross {
+  background-color: #ccc;
+  color: #777;
+}
+.points {
+  background-color: #ccc;
+  columns: #777;
+}
+.score {
+  color: rgb(62, 189, 3);
+}
+
+.holeSpan, .sub, .total {
+  border: rgba(0,25,0,.25) solid 1px;
+  border-width: 0 1px 0 1px;
+  display: inline-block;
+  text-align: center;
+  width: 1.9em;
+}
+
+.holeSpanH {
+  border: rgba(0,25,0,.25) solid 1px;
+  border-width: 0 1px 0 1px;
+  display: block;
+  text-align: center;
+  width: 2.4em;
+}
+
+ /* Responsiveness */
+ @media (min-width: 900px) {
+  .holeSpan {
+    display: inline-block;
+    width: 2.4em;
+  }
+  .holeSpanH {
+    display: inline-block;
+    width: 2.7em;
+  }
+}
+
+
+
  
 
   
