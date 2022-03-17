@@ -604,6 +604,10 @@ const [newTeeTime, setNewTeeTime] = useState({
 
       //load data - get Course details of the event, and check if the logged in user has already entered the event
       useEffect(() => {
+        setMember1Id(window.sessionStorage.getItem('member1_id'))
+        setMember2Id(window.sessionStorage.getItem('member2_id'))
+        setMember3Id(window.sessionStorage.getItem('member3_id'))
+        setMember4Id(window.sessionStorage.getItem('member4_id'))
         const event = props.event;
         const eventid = event.id;
         const username = props.loggedInUser.username
@@ -706,7 +710,7 @@ const [newTeeTime, setNewTeeTime] = useState({
              console.log(e)
            });
            
-      }, [props.event]);
+      }, [props.event, member1Id, member2Id, member3Id, member4Id, p1ScoreCardObj, p2ScoreCardObj, p3ScoreCardObj, p4ScoreCardObj]);
 
       //Data change in edit tee sheet
       const onChange = (event) => {
@@ -1037,6 +1041,7 @@ const [newTeeTime, setNewTeeTime] = useState({
 
   const onChangeScoreCard = (e) => {
     const { value, name } = e.target;
+    window.sessionStorage.setItem(name, value)
     setScoreCardObj((previousScoreCardObj) => {
       return {
         ...previousScoreCardObj,
@@ -1053,6 +1058,7 @@ const [newTeeTime, setNewTeeTime] = useState({
 
   const onChangeP1ScoreCard = (e) => {
     const { value, name } = e.target;
+    window.sessionStorage.setItem(name, value)
     setp1ScoreCardObj((previousp1ScoreCardObj) => {
       return {
         ...previousp1ScoreCardObj,
@@ -1070,6 +1076,7 @@ const [newTeeTime, setNewTeeTime] = useState({
 
   const onChangeP2ScoreCard = (e) => {
     const { value, name } = e.target;
+    window.sessionStorage.setItem(name, value)
     setp2ScoreCardObj((previousp2ScoreCardObj) => {
       return {
         ...previousp2ScoreCardObj,
@@ -1086,6 +1093,7 @@ const [newTeeTime, setNewTeeTime] = useState({
 
   const onChangeP3ScoreCard = (e) => {
     const { value, name } = e.target;
+    window.sessionStorage.setItem(name, value)
     setp3ScoreCardObj((previousp3ScoreCardObj) => {
       return {
         ...previousp3ScoreCardObj,
@@ -1102,6 +1110,7 @@ const [newTeeTime, setNewTeeTime] = useState({
 
   const onChangeP4ScoreCard = (e) => {
     const { value, name } = e.target;
+    window.sessionStorage.setItem(name, value)
     setp4ScoreCardObj((previousp4ScoreCardObj) => {
       return {
         ...previousp4ScoreCardObj,
@@ -1119,6 +1128,9 @@ const [newTeeTime, setNewTeeTime] = useState({
       const { value, name } = event.target;
       setMember1Id(value);
       setMember1Selected(true)
+      window.sessionStorage.setItem(name, value);
+      window.sessionStorage.setItem('member1_id', value);
+      
       console.log(value);
       setErrors((previousErrors) => {
         return {
@@ -1130,6 +1142,7 @@ const [newTeeTime, setNewTeeTime] = useState({
 
     const onChangeMember2 = (event) => {
       const { value, name } = event.target;
+      window.sessionStorage.setItem(name, value);
       setMember2Id(value);
       setMember2Selected(true)
       console.log(value);
@@ -1143,6 +1156,7 @@ const [newTeeTime, setNewTeeTime] = useState({
 
     const onChangeMember3 = (event) => {
       const { value, name } = event.target;
+      window.sessionStorage.setItem(name, value);
       setMember3Id(value);
       setMember3Selected(true)
       console.log(value);
@@ -1156,6 +1170,7 @@ const [newTeeTime, setNewTeeTime] = useState({
 
     const onChangeMember4 = (event) => {
       const { value, name } = event.target;
+      window.sessionStorage.setItem(name, value);
       setMember4Id(value);
       setMember4Selected(true)
       setErrors((previousErrors) => {
@@ -1180,6 +1195,194 @@ const [newTeeTime, setNewTeeTime] = useState({
       });
     };
 
+    const removeSessionStorageP1Name = () => {
+      window.sessionStorage.removeItem('member1_id');
+      setMember1Id(null);
+    };
+
+    const removeSessionStorageP1Scores = () => {
+      window.sessionStorage.removeItem('h1P1Score');
+      window.sessionStorage.removeItem('h2P1Score');
+      window.sessionStorage.removeItem('h3P1Score');
+      window.sessionStorage.removeItem('h4P1Score');
+      window.sessionStorage.removeItem('h5P1Score');
+      window.sessionStorage.removeItem('h6P1Score');
+      window.sessionStorage.removeItem('h7P1Score');
+      window.sessionStorage.removeItem('h8P1Score');
+      window.sessionStorage.removeItem('h9P1Score');
+      window.sessionStorage.removeItem('h10P1Score');
+      window.sessionStorage.removeItem('h11P1Score');
+      window.sessionStorage.removeItem('h12P1Score');
+      window.sessionStorage.removeItem('h13P1Score');
+      window.sessionStorage.removeItem('h13P1Score');
+      window.sessionStorage.removeItem('h14P1Score');
+      window.sessionStorage.removeItem('h15P1Score');
+      window.sessionStorage.removeItem('h16P1Score');
+      window.sessionStorage.removeItem('h17P1Score');
+      window.sessionStorage.removeItem('h18P1Score');
+      setp1ScoreCardObj({
+        h1P1Score: 0,
+        h2P1Score: 0,
+        h3P1Score: 0,
+        h4P1Score: 0,
+        h5P1Score: 0,
+        h6P1Score: 0,
+        h7P1Score: 0,
+        h8P1Score: 0,
+        h9P1Score: 0,
+        h10P1Score: 0,
+        h11P1Score: 0,
+        h12P1Score: 0,
+        h13P1Score: 0,
+        h14P1Score: 0,
+        h15P1Score: 0,
+        h16P1Score: 0,
+        h17P1Score: 0,
+        h18P1Score: 0
+      })
+    };
+
+    const removeSessionStorageP2Name = () => {
+      window.sessionStorage.removeItem('member2_id');
+      setMember2Id(null);
+    };
+
+    const removeSessionStorageP2Scores = () => {
+      window.sessionStorage.removeItem('h1P2Score');
+      window.sessionStorage.removeItem('h2P2Score');
+      window.sessionStorage.removeItem('h3PScore');
+      window.sessionStorage.removeItem('h4P2Score');
+      window.sessionStorage.removeItem('h5P2Score');
+      window.sessionStorage.removeItem('h6P2Score');
+      window.sessionStorage.removeItem('h7P2Score');
+      window.sessionStorage.removeItem('h8P2Score');
+      window.sessionStorage.removeItem('h9P2Score');
+      window.sessionStorage.removeItem('h10P2Score');
+      window.sessionStorage.removeItem('h11P2Score');
+      window.sessionStorage.removeItem('h12P2Score');
+      window.sessionStorage.removeItem('h13P2Score');
+      window.sessionStorage.removeItem('h13P2Score');
+      window.sessionStorage.removeItem('h14P2Score');
+      window.sessionStorage.removeItem('h15P2Score');
+      window.sessionStorage.removeItem('h16P2Score');
+      window.sessionStorage.removeItem('h17P2Score');
+      window.sessionStorage.removeItem('h18P2Score');
+      setp2ScoreCardObj({
+        h1P2Score: 0,
+        h2P2Score: 0,
+        h3P2Score: 0,
+        h4P2Score: 0,
+        h5P2Score: 0,
+        h6P2Score: 0,
+        h7P2Score: 0,
+        h8P2Score: 0,
+        h9P2Score: 0,
+        h10P2Score: 0,
+        h11P2Score: 0,
+        h12P2Score: 0,
+        h13P2Score: 0,
+        h14P2Score: 0,
+        h15P2Score: 0,
+        h16P2Score: 0,
+        h17P2Score: 0,
+        h18P2Score: 0
+      })
+    };
+
+    const removeSessionStorageP3Name = () => {
+      window.sessionStorage.removeItem('member3_id');
+      setMember3Id(null);
+    };
+
+    const removeSessionStorageP3Scores = () => {
+      window.sessionStorage.removeItem('h1P3Score');
+      window.sessionStorage.removeItem('h2P3Score');
+      window.sessionStorage.removeItem('h3P3Score');
+      window.sessionStorage.removeItem('h4P3Score');
+      window.sessionStorage.removeItem('h5P3Score');
+      window.sessionStorage.removeItem('h6P3Score');
+      window.sessionStorage.removeItem('h7P3Score');
+      window.sessionStorage.removeItem('h8P3Score');
+      window.sessionStorage.removeItem('h9P3Score');
+      window.sessionStorage.removeItem('h10P3Score');
+      window.sessionStorage.removeItem('h11P3Score');
+      window.sessionStorage.removeItem('h12P3Score');
+      window.sessionStorage.removeItem('h13P3Score');
+      window.sessionStorage.removeItem('h13P3Score');
+      window.sessionStorage.removeItem('h14P3Score');
+      window.sessionStorage.removeItem('h15P3Score');
+      window.sessionStorage.removeItem('h16P3Score');
+      window.sessionStorage.removeItem('h17P3Score');
+      window.sessionStorage.removeItem('h18P3Score');
+      setp3ScoreCardObj({
+        h1P3Score: 0,
+        h2P3Score: 0,
+        h3P3Score: 0,
+        h4P3Score: 0,
+        h5P3Score: 0,
+        h6P3Score: 0,
+        h7P3Score: 0,
+        h8P3Score: 0,
+        h9P3Score: 0,
+        h10P3Score: 0,
+        h11P3Score: 0,
+        h12P3Score: 0,
+        h13P3Score: 0,
+        h14P3Score: 0,
+        h15P3Score: 0,
+        h16P3Score: 0,
+        h17P3Score: 0,
+        h18P3Score: 0
+      })
+    };
+
+    const removeSessionStorageP4Name = () => {
+      window.sessionStorage.removeItem('member4_id');
+      setMember4Id(null);
+    };
+
+    const removeSessionStorageP4Scores = () => {
+      window.sessionStorage.removeItem('h1P4Score');
+      window.sessionStorage.removeItem('h2P4Score');
+      window.sessionStorage.removeItem('h3P4core');
+      window.sessionStorage.removeItem('h4P4Score');
+      window.sessionStorage.removeItem('h5P4Score');
+      window.sessionStorage.removeItem('h6P4Score');
+      window.sessionStorage.removeItem('h7P4Score');
+      window.sessionStorage.removeItem('h8P4Score');
+      window.sessionStorage.removeItem('h9P4Score');
+      window.sessionStorage.removeItem('h10P4Score');
+      window.sessionStorage.removeItem('h11P4Score');
+      window.sessionStorage.removeItem('h12P4Score');
+      window.sessionStorage.removeItem('h13P4Score');
+      window.sessionStorage.removeItem('h13P4Score');
+      window.sessionStorage.removeItem('h14P4Score');
+      window.sessionStorage.removeItem('h15P4Score');
+      window.sessionStorage.removeItem('h16P4Score');
+      window.sessionStorage.removeItem('h17P4Score');
+      window.sessionStorage.removeItem('h18P4Score');
+      setp4ScoreCardObj({
+        h1P4Score: 0,
+        h2P4Score: 0,
+        h3P4Score: 0,
+        h4P4Score: 0,
+        h5P4Score: 0,
+        h6P4Score: 0,
+        h7P4Score: 0,
+        h8P4Score: 0,
+        h9P4Score: 0,
+        h10P4Score: 0,
+        h11P4Score: 0,
+        h12P4Score: 0,
+        h13P4Score: 0,
+        h14P4Score: 0,
+        h15P4Score: 0,
+        h16P4Score: 0,
+        h17P4Score: 0,
+        h18P4Score: 0
+      })
+    };
+
 
       //Format date from backend to be DD-MM-YYYY
 
@@ -1189,7 +1392,7 @@ const [newTeeTime, setNewTeeTime] = useState({
         alert(member3Id)
       }
 
-      console.log(courseName)
+      console.log(member1Id)
 
   return (
               <div className="card col-12" style={{height:"100%", backgroundColor: "white", boxShadow: "15px 10px 5px lightgray"}}>
@@ -1799,110 +2002,139 @@ const [newTeeTime, setNewTeeTime] = useState({
                             {/* Player 1 admin score entry */}
                             {!pendingApiCall &&
                             <Modal.Body>
-                              {pendingApiCall && <Spinner></Spinner>}
+                            {pendingApiCall && <Spinner></Spinner>}
                               {!pendingApiCall && members &&
                                 <div className="container">
-                                  <Row>
-                                    <div className="col-6 mb-3">
+                                <Row>
+                                  {window.sessionStorage.getItem('member1_id') === null &&
+                                  <div className="col-6 mb-3">
                                       <label>Player 1</label>
-                                        <select  name="member1_id" id="member1_id" className={`form-control ${member1Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member1" placeholder="select" onChange={onChangeMember1} required>
+                                      <select  name="member1_id" id="member1_id" className={`form-control ${member1Selected ? "is-valid" : "is-invalid"} mt-4`}  label="Member1" placeholder="select" onChange={onChangeMember1} required>
                                           <option selected disabled value="">Please select</option>
-                                          {members[0].id && members.map((member) => {
-                                            return (
-                                            <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                                          );
-                                          })};
-                                        </select>
-                                        <div id="member1_idFeedback" className="invalid-feedback">
+                                          {members[0].id && members.map((member) =>  (
+                                          <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
+                                          ))};
+                                      </select>
+                                      <div id="member1_idFeedback" className="invalid-feedback">
                                           Please select a member. 
-                                        </div>
-                                    </div>
-                                    <div className="col-6 mb-3">
-                                    <div id='score-entry'>
+                                      </div>
+                                  </div>}
+                                  {window.sessionStorage.getItem('member1_id') !== null &&
+                                  <div className="col-6 mb-3">
+                                      <label>Player 1</label>
+                                      <p style={{fontSize:"30px", margin:"15px auto"}}>{window.sessionStorage.getItem('member1_id').substring(window.sessionStorage.getItem('member1_id').indexOf(' ') + 1)}</p>
+                                      <button onClick={removeSessionStorageP1Name} className='btn btn-primary' style={{position:"absolute", bottom:"0"}}>Choose another</button>
+                                      <div id="member1_idFeedback" className="invalid-feedback">
+                                          Please select a member. 
+                                      </div>
+                                  </div>}
+                                  <div className="col-6 mb-3">
+                                  <div id='score-entry'>
                                       {p1HoleIndex+1 < 19 &&
-                                          <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p1HoleIndex+1}</p>}
+                                      <Row>
+                                        <div className="col-4 mb-3">
+                                        {p1HoleIndex+1 !== 1 &&
+                                          <button onClick={toP1PrevHole} style={{fontSize:"24px", textAlign:"center"}}>{'<'}</button>}
+                                        </div>
+                                        <div className="col-4 mb-3">
+                                          <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p1HoleIndex+1}</p>
+                                        </div>
+                                        <div className="col-4 mb-3">
+                                        {p1HoleIndex+1 !== 19 && member1Id &&
+                                          <button onClick={() => { toP1NextHole(); updateP1ScoreCard();}} style={{fontSize:"24px", textAlign:"center"}}>{'>'}</button>}
+                                        </div>
+                                      </Row>}
                                           {p1HoleIndex+1 === 19 &&
                                           <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
                                           <Row>
-                                            <div className="col-4 mb-3">
+                                          <div className="col-4 mb-3">
                                               {p1HoleIndex+1 !== 1 &&
-                                              <button onClick={toP1PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
-                                            </div>
-                                            <div className="col-4 mb-3">
-                                              <input name={`h${p1HoleIndex+1}P1Score`} value={p1ScoreCardObj[`h${p1HoleIndex+1}P1Score`]}  onChange={onChangeP1ScoreCard} type="number" min={"0"} max={"15"} style={{
-                                                width:"3.5rem", 
-                                                height:"3.5rem", 
-                                                margin:"0 -12px", 
-                                                padding:"12px 20px", 
-                                                display:"block", 
-                                                border:"1px solid #ccc", 
-                                                borderRadius: "4px", 
-                                                fontSize: "24px"
-                                                }}
+                                              <button style={{fontSize: "32px"}}>{'-'}</button>}
+                                          </div>
+                                          <div className="col-4 mb-3">
+                                              <input name={`h${p1HoleIndex+1}P1Score`} value={window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`)}  onChange={onChangeP1ScoreCard} type="number" min={"0"} max={"15"} style={{
+                                              width:"3.5rem", 
+                                              height:"3.5rem", 
+                                              margin:"0 -12px", 
+                                              padding:"12px 20px", 
+                                              display:"block", 
+                                              border:"1px solid #ccc", 
+                                              borderRadius: "4px", 
+                                              fontSize: "24px"
+                                              }}
                                               />
-                                            </div>
-                                            <div className="col-4 mb-3">
+                                          </div>
+                                          <div className="col-4 mb-3">
                                               {p1HoleIndex+1 !== 19 && member1Id &&
-                                              <button onClick={() => { toP1NextHole(); updateP1ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
-                                            </div>
-                                            </Row>
-                                            </div>
-                                    </div>
-                                    </Row>
+                                              <button  style={{fontSize:"32px"}}> {'+'}</button>}
+                                          </div>
+                                          <button onClick={removeSessionStorageP1Scores} className='btn btn-primary'>Reset scores</button>
+                                        </Row>
+                                      </div>
+                                  </div>
+                                  </Row>
                                 </div>}
                             </Modal.Body>}
 
                             {/* Player 2 admin score entry */}
-                            
                             {!pendingApiCall &&
                             <Modal.Body>
                               {pendingApiCall && <Spinner></Spinner>}
                               {!pendingApiCall && members &&
                                 <div className="container">
                                   <Row>
-                                    <div className="col-6 mb-3">
+                                  {window.sessionStorage.getItem('member2_id') === null &&
+                                  <div className="col-6 mb-3">
                                       <label>Player 2</label>
-                                        <select  name="member2_id" id="member2_id" className={`form-control ${member2Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member2" placeholder="select" onChange={onChangeMember2} required>
+                                      <select  name="member2_id" id="member2_id" className={`form-control ${member2Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member1" placeholder="select" onChange={onChangeMember2} required>
                                           <option selected disabled value="">Please select</option>
-                                          {members[0].id && members.map((member) => {
-                                            return (
-                                            <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                                          );
-                                          })};
-                                        </select>
-                                        <div id="member2_idFeedback" className="invalid-feedback">
+                                          {members[0].id && members.map((member) =>  (
+                                          <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
+                                          ))};
+                                      </select>
+                                      <div id="member2_idFeedback" className="invalid-feedback">
                                           Please select a member. 
-                                        </div>
-                                    </div>
+                                      </div>
+                                  </div>}
+                                  {window.sessionStorage.getItem('member2_id') !== null &&
+                                  <div className="col-6 mb-3">
+                                      <label>Player 2</label>
+                                      <p style={{fontSize:"30px", margin:"15px auto"}}>{window.sessionStorage.getItem('member2_id').substring(window.sessionStorage.getItem('member2_id').indexOf(' ') + 1)}</p>
+                                      <button onClick={removeSessionStorageP2Name} className='btn btn-primary' style={{position:"absolute", bottom:"0"}}>Choose another</button>
+                                      <div id="member2_idFeedback" className="invalid-feedback">
+                                          Please select a member. 
+                                      </div>
+                                  </div>}
                                     <div className="col-6 mb-3">
-                                      <div id='score-entry'>
+                                    <div id='score-entry'>
                                       {p2HoleIndex+1 < 19 &&
                                           <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p2HoleIndex+1}</p>}
                                           {p2HoleIndex+1 === 19 &&
                                           <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
                                           <Row>
-                                            <div className="col-4 mb-3">
+                                          <div className="col-4 mb-3">
                                               {p2HoleIndex+1 !== 1 &&
                                               <button onClick={toP2PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
-                                            </div>
-                                            <div className="col-4 mb-3">
-                                              <input name={`h${p2HoleIndex+1}P2Score`} value={p2ScoreCardObj[`h${p2HoleIndex+1}P2Score`]}  onChange={onChangeP2ScoreCard} type="number" min={"0"} max={"15"} style={{
-                                                width:"3.5rem", 
-                                                height:"3.5rem", 
-                                                margin:"0 -12px", 
-                                                padding:"12px 20px", 
-                                                display:"block", 
-                                                border:"1px solid #ccc", 
-                                                borderRadius: "4px", 
-                                                fontSize: "24px"
-                                                }}
+                                          </div>
+                                          <div className="col-4 mb-3">
+                                              <input name={`h${p2HoleIndex+1}P2Score`} value={window.sessionStorage.getItem(`h${p2HoleIndex+1}P2Score`)}  onChange={onChangeP2ScoreCard} type="number" min={"0"} max={"15"} style={{
+                                              width:"3.5rem", 
+                                              height:"3.5rem", 
+                                              margin:"0 -12px", 
+                                              padding:"12px 20px", 
+                                              display:"block", 
+                                              border:"1px solid #ccc", 
+                                              borderRadius: "4px", 
+                                              fontSize: "24px"
+                                              }}
                                               />
-                                            </div>
-                                            <div className="col-4 mb-3">
+                                          </div>
+                                          <div className="col-4 mb-3">
                                               {p2HoleIndex+1 !== 19 && member2Id &&
                                               <button onClick={() => { toP2NextHole(); updateP2ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
-                                            </div>
-                                            </Row>
+                                          </div>
+                                          <button onClick={removeSessionStorageP2Scores} className='btn btn-primary'>Reset scores</button>
+                                        </Row>
                                       </div>
                                     </div>
                                   </Row>
@@ -1916,20 +2148,28 @@ const [newTeeTime, setNewTeeTime] = useState({
                               {!pendingApiCall && members &&
                                 <div className="container">
                                   <Row>
-                                    <div className="col-6 mb-3">
+                                  {window.sessionStorage.getItem('member3_id') === null &&
+                                  <div className="col-6 mb-3">
                                       <label>Player 3</label>
-                                        <select  name="member3_id" id="member3_id" className={`form-control ${member3Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member3" placeholder="select" onChange={onChangeMember3} required>
+                                      <select  name="member3_id" id="member3_id" className={`form-control ${member3Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member1" placeholder="select" onChange={onChangeMember3} required>
                                           <option selected disabled value="">Please select</option>
-                                          {members[0].id && members.map((member) => {
-                                            return (
-                                            <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                                          );
-                                          })};
-                                        </select>
-                                        <div id="member3_idFeedback" className="invalid-feedback">
+                                          {members[0].id && members.map((member) =>  (
+                                          <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
+                                          ))};
+                                      </select>
+                                      <div id="member3_idFeedback" className="invalid-feedback">
                                           Please select a member. 
-                                        </div>
-                                    </div>
+                                      </div>
+                                  </div>}
+                                  {window.sessionStorage.getItem('member3_id') !== null &&
+                                  <div className="col-6 mb-3">
+                                      <label>Player 3</label>
+                                      <p style={{fontSize:"30px", margin:"15px auto"}}>{window.sessionStorage.getItem('member3_id').substring(window.sessionStorage.getItem('member3_id').indexOf(' ') + 1)}</p>
+                                      <button onClick={removeSessionStorageP3Name} className='btn btn-primary' style={{position:"absolute", bottom:"0"}}>Choose another</button>
+                                      <div id="member3_idFeedback" className="invalid-feedback">
+                                          Please select a member. 
+                                      </div>
+                                  </div>}
                                     <div className="col-6 mb-3">
                                     <div id='score-entry'>
                                       {p3HoleIndex+1 < 19 &&
@@ -1942,24 +2182,25 @@ const [newTeeTime, setNewTeeTime] = useState({
                                               <button onClick={toP3PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
                                             </div>
                                             <div className="col-4 mb-3">
-                                              <input name={`h${p3HoleIndex+1}P3Score`} value={p3ScoreCardObj[`h${p3HoleIndex+1}P3Score`]}  onChange={onChangeP3ScoreCard} type="number" min={"0"} max={"15"} style={{
-                                                width:"3.5rem", 
-                                                height:"3.5rem", 
-                                                margin:"0 -12px", 
-                                                padding:"12px 20px", 
-                                                display:"block", 
-                                                border:"1px solid #ccc", 
-                                                borderRadius: "4px", 
-                                                fontSize: "24px"
-                                                }}
+                                              <input name={`h${p3HoleIndex+1}P3Score`} value={window.sessionStorage.getItem(`h${p3HoleIndex+1}P3Score`)}  onChange={onChangeP3ScoreCard} type="number" min={"0"} max={"15"} style={{
+                                              width:"3.5rem", 
+                                              height:"3.5rem", 
+                                              margin:"0 -12px", 
+                                              padding:"12px 20px", 
+                                              display:"block", 
+                                              border:"1px solid #ccc", 
+                                              borderRadius: "4px", 
+                                              fontSize: "24px"
+                                              }}
                                               />
-                                            </div>
+                                          </div>
                                             <div className="col-4 mb-3">
                                               {p3HoleIndex+1 !== 19 && member3Id &&
                                               <button onClick={() => { toP3NextHole(); updateP3ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
                                             </div>
-                                            </Row>
-                                            </div>
+                                          </Row>
+                                          <button onClick={removeSessionStorageP3Scores} className='btn btn-primary'>Reset scores</button>
+                                        </div>
                                     </div>
                                     </Row>
                                 </div>}
@@ -1973,20 +2214,28 @@ const [newTeeTime, setNewTeeTime] = useState({
                               {!pendingApiCall && members &&
                                 <div className="container">
                                   <Row>
-                                    <div className="col-6 mb-3">
-                                      <label>Player 1</label>
-                                        <select  name="member4_id" id="member4_id" className={`form-control ${member4Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member4" placeholder="select" onChange={onChangeMember4} required>
+                                  {window.sessionStorage.getItem('member4_id') === null &&
+                                  <div className="col-6 mb-3">
+                                      <label>Player 4</label>
+                                      <select  name="member4_id" id="member4_id" className={`form-control ${member4Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member4" placeholder="select" onChange={onChangeMember4} required>
                                           <option selected disabled value="">Please select</option>
-                                          {members[0].id && members.map((member) => {
-                                            return (
-                                            <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                                          );
-                                          })};
-                                        </select>
-                                        <div id="member4_idFeedback" className="invalid-feedback">
+                                          {members[0].id && members.map((member) =>  (
+                                          <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
+                                          ))};
+                                      </select>
+                                      <div id="member4_idFeedback" className="invalid-feedback">
                                           Please select a member. 
-                                        </div>
-                                    </div>
+                                      </div>
+                                  </div>}
+                                  {window.sessionStorage.getItem('member4_id') !== null &&
+                                  <div className="col-6 mb-3">
+                                      <label>Player 4</label>
+                                      <p style={{fontSize:"30px", margin:"15px auto"}}>{window.sessionStorage.getItem('member4_id').substring(window.sessionStorage.getItem('member4_id').indexOf(' ') + 1)}</p>
+                                      <button onClick={removeSessionStorageP4Name} className='btn btn-primary' style={{position:"absolute", bottom:"0"}}>Choose another</button>
+                                      <div id="member4_idFeedback" className="invalid-feedback">
+                                          Please select a member. 
+                                      </div>
+                                  </div>}
                                     <div className="col-6 mb-3">
                                     <div id='score-entry'>
                                       {p4HoleIndex+1 < 19 &&
@@ -1999,7 +2248,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                                               <button onClick={toP4PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
                                             </div>
                                             <div className="col-4 mb-3">
-                                              <input name={`h${p4HoleIndex+1}P4Score`} value={p4ScoreCardObj[`h${p4HoleIndex+1}P4Score`]}  onChange={onChangeP4ScoreCard} type="number" min={"0"} max={"15"} style={{
+                                              <input name={`h${p4HoleIndex+1}P4Score`} value={window.sessionStorage.getItem(`h${p4HoleIndex+1}P4Score`)}  onChange={onChangeP4ScoreCard} type="number" min={"0"} max={"15"} style={{
                                                 width:"3.5rem", 
                                                 height:"3.5rem", 
                                                 margin:"0 -12px", 
@@ -2016,6 +2265,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                                               <button onClick={() => { toP4NextHole(); updateP4ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
                                             </div>
                                         </Row>
+                                        <button onClick={removeSessionStorageP4Scores} className='btn btn-primary'>Reset scores</button>
                                         </div>
                                     </div>
                                     </Row>
