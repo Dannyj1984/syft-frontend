@@ -18,8 +18,8 @@ const scoreCard = (props) => {
     return (
       <div>
       <h3>{props.entrant.member.firstName} {props.entrant.member.surname}</h3>
-    <article class="front9">
-    <div class="hole">
+    <article className="front9">
+    <div className="hole">
         <span span className='holeSpanH'>Front</span>
         <span span className='holeSpan'>1</span>
         <span span className='holeSpan'>2</span>
@@ -32,7 +32,7 @@ const scoreCard = (props) => {
         <span span className='holeSpan'>9</span>
         <span span className='holeSpan'>Out</span>
     </div>
-    <div class="par">
+    <div className="par">
         <span span className='holeSpanH'>Par</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h1Par}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h2Par}</span>
@@ -45,7 +45,7 @@ const scoreCard = (props) => {
         <span span className='holeSpan'>{props.entrant.scoreCard.h9Par}</span>
         <span span className='holeSpan'>{front9Par}</span>
     </div>
-    <div class="index">
+    <div className="index">
         <span span className='holeSpanH'>Index</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h1Index}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h2Index}</span>
@@ -57,7 +57,7 @@ const scoreCard = (props) => {
         <span span className='holeSpan'>{props.entrant.scoreCard.h8Index}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h9Index}</span>
     </div>
-    <div class="gross">
+    <div className="gross">
         <span span className='holeSpanH'>Gross</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h1Score}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h2Score}</span>
@@ -68,9 +68,9 @@ const scoreCard = (props) => {
         <span span className='holeSpan'>{props.entrant.scoreCard.h7Score}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h8Score}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h9Score}</span>
-        <span class="sub">{front9Score}</span>
+        <span className="sub">{front9Score}</span>
     </div>
-    <div class="score">
+    <div className="score">
         <span span className='holeSpanH'>Nett</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h1NettScore}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h2NettScore}</span>
@@ -81,9 +81,9 @@ const scoreCard = (props) => {
         <span span className='holeSpan'>{props.entrant.scoreCard.h7NettScore}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h8NettScore}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h9NettScore}</span>
-        <span class="sub">{front9NettScore}</span>
+        <span className="sub">{front9NettScore}</span>
     </div>
-    <div class="points">
+    <div className="points">
         <span span className='holeSpanH'>Points</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h1Points}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h2Points}</span>
@@ -94,11 +94,11 @@ const scoreCard = (props) => {
         <span span className='holeSpan'>{props.entrant.scoreCard.h7Points}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h8Points}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h9Points}</span>
-        <span class="sub">{front9Points}</span>
+        <span className="sub">{front9Points}</span>
     </div>
 </article>
-<article class="back9">
-    <div class="hole">
+<article className="back9">
+    <div className="hole">
         <span className='holeSpanH'>Back</span>
         <span className='holeSpan'>10</span>
         <span className='holeSpan'>11</span>
@@ -112,7 +112,7 @@ const scoreCard = (props) => {
         <span className='holeSpan'>In</span>
         <span className='holeSpan'>Total</span>
     </div>
-    <div class="par">
+    <div className="par">
         <span className='holeSpanH'>Par</span>
         <span className='holeSpan'>{props.entrant.scoreCard.h1Par}</span>
         <span className='holeSpan'>{props.entrant.scoreCard.h2Par}</span>
@@ -126,7 +126,7 @@ const scoreCard = (props) => {
         <span className='holeSpan'>{back9Par}</span>
 		<span className='holeSpan'>{totalPar}</span>
     </div>
-    <div class="index">
+    <div className="index">
         <span className='holeSpanH'>Index</span>
         <span className='holeSpan'>{props.entrant.scoreCard.h10Index}</span>
         <span className='holeSpan'>{props.entrant.scoreCard.h11Index}</span>
@@ -138,7 +138,7 @@ const scoreCard = (props) => {
         <span className='holeSpan'>{props.entrant.scoreCard.h17Index}</span>
         <span className='holeSpan'>{props.entrant.scoreCard.h18Index}</span>
     </div>
-    <div class="gross">
+    <div className="gross">
         <span span className='holeSpanH'>Gross</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h10Score}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h11Score}</span>
@@ -149,10 +149,10 @@ const scoreCard = (props) => {
         <span span className='holeSpan'>{props.entrant.scoreCard.h16Score}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h17Score}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h18Score}</span>
-        <span class="sub">{back9Score}</span>
-        <span class="total">{front9Score + back9Score}</span>
+        <span className="sub">{back9Score}</span>
+        <span className="total">{front9Score + back9Score}</span>
     </div>
-    <div class="score">
+    <div className="score">
         <span span className='holeSpanH'>Nett</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h10NettScore}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h11NettScore}</span>
@@ -163,11 +163,11 @@ const scoreCard = (props) => {
         <span span className='holeSpan'>{props.entrant.scoreCard.h16NettScore}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h17NettScore}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h18NettScore}</span>
-        <span class="sub">{back9NettScore}</span>
-        <span class="total">{totalNett}</span>
+        <span className="sub">{back9NettScore}</span>
+        <span className="total">{totalNett}</span>
     </div>
 
-    <div class="points">
+    <div className="points">
         <span span className='holeSpanH'>Points</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h10Points}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h11Points}</span>
@@ -178,8 +178,8 @@ const scoreCard = (props) => {
         <span span className='holeSpan'>{props.entrant.scoreCard.h16Points}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h17Points}</span>
         <span span className='holeSpan'>{props.entrant.scoreCard.h18Points}</span>
-        <span class="sub">{back9Points}</span>
-        <span class="sub">{totalPoints}</span>
+        <span className="sub">{back9Points}</span>
+        <span className="sub">{totalPoints}</span>
     </div>
 </article>
 </div>

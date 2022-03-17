@@ -38,13 +38,13 @@ export const SYFTCup = (props) => {
 
             {!pendingApiCall &&
               <section id="leaderboard">
-                <nav class="ladder-nav">
-                  <div class="ladder-title">
+                <nav className="ladder-nav">
+                  <div className="ladder-title">
                   <h1>SYFT Cup 2022</h1>
                   <h2>Standings</h2>
                   </div>
                 </nav>
-                <Table id="rankings" class="leaderboard-results" width="100%">
+                <Table id="rankings" classname="leaderboard-results" width="100%">
                   <thead>
                     <tr>
                       <th>Player</th>

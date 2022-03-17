@@ -78,7 +78,7 @@ class CourseInfoPage extends React.Component{
       const course = { ...this.state.course };
       const courseId = course.id;
       const courseUpdate = {
-        courseName: course.courseName,
+        name: course.courseName,
         par: course.par,
         slopeRating: course.slopeRating,
         courseRating: course.courseRating,

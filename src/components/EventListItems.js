@@ -1438,6 +1438,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                       value={playerPerTee}
                       type="number"
                       onChange={onChangePlayerPerTee} 
+                      width="2rem"
                     />}
                       {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER' || props.loggedInUser.role === 'EVENTADMIN')  &&
                       <Button variant="secondary" onClick={randomiseEntrants} >
