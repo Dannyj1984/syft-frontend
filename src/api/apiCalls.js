@@ -1,7 +1,7 @@
 import axios from 'axios';
-const url = 'https://glacial-sierra-91195.herokuapp.com';
+//const url = 'https://glacial-sierra-91195.herokuapp.com';
 
-//const url = 'http://localhost:8080';
+const url = 'http://localhost:8080';
 
 //user calls
 
@@ -148,6 +148,11 @@ export const getCourseHoles = (courseId)=> {
   return axios.get(url + `/api/1.0/hole/${courseId}`)
 };
 
+export const deleteHole = (holeId) => {
+const path = url + `/api/1.0/management/hole/${holeId}`;
+  return axios.delete(path);
+}
+
 //Event calls
 
 export const signupEvent = (event, societyId, courseId) => {
@@ -205,7 +210,7 @@ export const getTeesheet = (eventid) => {
 }
 
 export const getSingleTeesheet = (teesheetid) => {
-  return axios.get(url + '/api/1.0/event/getASingleTeeSheet/'+ teesheetid);
+  return axios.get(url + '/api/1.0/teeSheet/'+ teesheetid);
 }
 
 export const createTeeSheet = (eventid, body) => {

@@ -247,8 +247,9 @@ const [newTeeTime, setNewTeeTime] = useState({
 //Edit tee time inputs
   const [editTeeTime, setEditTeeTime] = useState({
       id: '',
-      teetime: '',
-      noOfSlots: 4
+      teeTime: '',
+      noOfSlots: 4,
+      entrants : [{}]
       }
   )
 
@@ -287,6 +288,7 @@ const [newTeeTime, setNewTeeTime] = useState({
     apiCalls
     .getSingleTeesheet(teesheetid)
     .then((response) =>{
+      console.log(response.data)
         setEditTeeTime(response.data)
         setPendingApiCall(false)
     }
@@ -544,11 +546,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       const onClickUpdateTee = (teesheetid) => {
         const teeSheetId = teesheetid
         const teeSheetUpdate = {
-            teetime: editTeeTime.teetime,
-            player1: editTeeTime.player1,
-            player2: editTeeTime.player2,
-            player3: editTeeTime.player3,
-            player4: editTeeTime.player4
+            teeTime: editTeeTime.teeTime
         }
         setPendingApiCall(true)
         apiCalls
@@ -1392,8 +1390,6 @@ const [newTeeTime, setNewTeeTime] = useState({
         alert(member3Id)
       }
 
-      console.log(member1Id)
-
   return (
               <div className="card col-12" style={{height:"100%", backgroundColor: "white", boxShadow: "15px 10px 5px lightgray"}}>
                 <div className="card-body">
@@ -1794,7 +1790,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                           {props.loggedInUser.role === 'ADMIN' &&
                           <td headers='admin'>
                               <button className="btn btn-danger m-2" onClick={() => deleteTeeSheet(teetime.id)}>delete</button>
-                              <button className="btn btn-warning m-2" onClick={() => handleShowEditTeeTime(teetime.id)}>Update</button>
+                              <button className="btn btn-warning m-2" disabled='true' onClick={() => handleShowEditTeeTime(teetime.id)}>Update</button>
                           </td>}
                           </tr>
                     ))}   
@@ -1814,7 +1810,7 @@ const [newTeeTime, setNewTeeTime] = useState({
               {/*Show Edit tee time modal*/}
               <>
                   
-                  <Modal show={showEditTeeTime} onHide={handleCloseEditTeeTime} dialogClassName="modal-content-full modal-dialog-full" >
+                  <Modal show={showEditTeeTime} onHide={handleCloseEditTeeTime} dialogClassName="modal-content-full modal-dialog-full" size='xl' >
                     <Modal.Header closeButton>
                       <Modal.Title>Edit Tee times for {props.event.name} on {formatDate}</Modal.Title>
                     </Modal.Header>
@@ -1825,6 +1821,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                     }
                     {!pendingApiCall &&
                     <Modal.Body>
+                    {editTeeTime.entrants[0].member && 
                     <Table striped bordered hover responsive>
                       <thead>
                           <tr>
@@ -1837,16 +1834,20 @@ const [newTeeTime, setNewTeeTime] = useState({
                       </thead>
                           <tbody>
                               <tr>
-                              <th ><Input name="teetime" value={editTeeTime.teetime} onChange={onChangeEdit} /></th>
-                              <th ><Input name="player1" value={editTeeTime.player1} onChange={onChangeEdit} /></th>
-                              <th ><Input name="player2" value={editTeeTime.player2} onChange={onChangeEdit} /></th>
-                              <th ><Input name="player3" value={editTeeTime.player3} onChange={onChangeEdit} /></th>
-                              <th ><Input name="player4" value={editTeeTime.player4} onChange={onChangeEdit} /></th>
+                              <th ><Input name="teetime" value={editTeeTime.teeTime} onChange={onChangeEdit} /></th>
+                              {editTeeTime.entrants.length > 0 &&
+                              <th ><Input name="player1" value={editTeeTime.entrants[0].member.firstName} onChange={onChangeEdit} /></th>}
+                              {editTeeTime.entrants.length > 1 &&
+                              <th ><Input name="player2" value={editTeeTime.entrants[1].member.firstName} onChange={onChangeEdit} /></th>}
+                              {editTeeTime.entrants.length > 2 &&
+                              <th ><Input name="player3" value={editTeeTime.entrants[2].member.firstName} onChange={onChangeEdit} /></th>}
+                              {editTeeTime.entrants.length > 3 &&
+                              <th ><Input name="player4" value={editTeeTime.entrants[3].member.firstName} onChange={onChangeEdit} /></th>}
                               <th >
                                   <ButtonWithProgress
                                       onClick={() => onClickUpdateTee(editTeeTime.id)} 
                                       className="btn btn-warning m-2"
-                                      disabled={pendingApiCall}
+                                      disabled={true}
                                       pendingApiCall={pendingApiCall}
                                       text="Update"
                                   />
@@ -1854,7 +1855,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                               </tr>
                           </tbody>
                       
-                    </Table>
+                    </Table>}
                     {editConfirm &&
                     <div className="text-centre text-success">
                         <span>{editConfirm}</span>

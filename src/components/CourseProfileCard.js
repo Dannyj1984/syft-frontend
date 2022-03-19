@@ -15,6 +15,7 @@ const CourseProfileCard = (props) => {
 
   const [myDataObject, setmyDataObject] = useState({
     hole: [{
+      "id": undefined,
       "holeNumber": undefined,
       "par": undefined,
       "strokeIndex": undefined,
@@ -23,7 +24,24 @@ const CourseProfileCard = (props) => {
     loadError: undefined
   });
 
-  useEffect(() => {
+  const deleteHole = (holeId) => {
+    setPendingApiCall(true);
+    apiCalls
+    .deleteHole(holeId)
+    .then((response) => {
+      setPendingApiCall(false)
+      alert(response.data.message)
+      getHoles()
+    })
+    .catch((error) => {
+      setPendingApiCall(false)  
+      console.log(error)
+    })
+  }
+
+  
+
+  const getHoles = () => {
     setPendingApiCall(true)
     apiCalls
       .getCourseHoles(id)
@@ -35,12 +53,13 @@ const CourseProfileCard = (props) => {
         setPendingApiCall(false)
         setmyDataObject({ ...myDataObject, loadError: "Hole load failed" });
       });
+  }
+
+  useEffect(() => {
+    getHoles();
   }, []);
 
-
   const showEditButton = props.isEditable && !props.inEditMode;
-
-  
 
   //Hole modal setup
 
@@ -175,16 +194,29 @@ const CourseProfileCard = (props) => {
                           <th >Par</th>
                           <th >Stroke</th>
                           <th >Yards</th>
+                          {props.loggedInUser.role === 'ADMIN' &&
+                          <th>Admin</th>}
                         </tr>
                       </thead>
-                      {myDataObject.hole.map((holes, index) =>
-                      <tbody key={index}>
+                      {myDataObject.hole.map((holes) =>
+                      <tbody key={holes.id}>
                         <tr>
                           <td>{holes.holeNumber}</td>
                           <td>{holes.par}</td>
                           <td>{holes.strokeIndex}</td>
                           <td>{holes.yards}</td>
+                          {props.loggedInUser.role === 'ADMIN' &&
+                          <td>
+                            <ButtonWithProgress 
+                              className="btn btn-danger" 
+                              onClick={() => deleteHole(holes.id)} 
+                              disabled={pendingApiCall}
+                              pendingApiCall={pendingApiCall}
+                              text={'Delete'}
+                            />
+                          </td>}
                         </tr>
+                        
                       </tbody>
                       )}
                     </Table>

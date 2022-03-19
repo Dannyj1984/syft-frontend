@@ -12,7 +12,7 @@ const Footer = () => {
             <div className="row">
               <div className="col-12 text-center">
                 <ul>
-                  Copyright SYFTGOLF 2022 v1.2
+                  Copyright SYFTGOLF 2022 v1.1.4
                 </ul>
               </div>
             </div>
