@@ -100,7 +100,7 @@ const CourseProfileCard = (props) => {
           
           <div className="mb-2">
             <Input
-              name="courseName"
+              name="name"
               value={name}
               label={`Change course name for ${name}`}
               onChange={props.onChangeCoursename}

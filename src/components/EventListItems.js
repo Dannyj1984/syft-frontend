@@ -1184,7 +1184,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       const { value, name } = event.target;
         setMemberSelected(true);
         setMembersId(value);
-        console.log(value)
+        console.log(membersId)
       setErrors((previousErrors) => {
         return {
           ...previousErrors,
@@ -1380,6 +1380,8 @@ const [newTeeTime, setNewTeeTime] = useState({
         h18P4Score: 0
       })
     };
+
+    
 
 
       //Format date from backend to be DD-MM-YYYY
@@ -1582,13 +1584,13 @@ const [newTeeTime, setNewTeeTime] = useState({
                     <Modal.Footer>
                       <ButtonWithProgress  
                         onClick={adminAddMember} 
-                        disabled={pendingApiCall ? true : false}
+                        disabled={Object.keys(membersId).length === 0}
                         pendingApiCall={pendingApiCall}
                         text="Add member"/>
 
                       <ButtonWithProgress  
                         onClick={adminRemoveEntrant} 
-                        disabled={pendingApiCall ? true : false}
+                        disabled={Object.keys(membersId).length === 0}
                         pendingApiCall={pendingApiCall}
                         text="Remove member"/>
                     </Modal.Footer>

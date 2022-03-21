@@ -42,7 +42,7 @@ export const TournamentRegistrationPage = (props) => {
 
         let societyId = props.user.society.id;
         const event = {
-          name: form.name,
+          name: form.name.trim(),
           type: form.type,
           startDate: form.startDate,
           endDate: form.endDate

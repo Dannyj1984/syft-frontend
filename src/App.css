@@ -144,7 +144,7 @@ input[type=number] {
   columns: #777;
 }
 .score {
-  color: rgb(62, 189, 3);
+  color: rgb(0, 0, 0);
 }
 
 .holeSpan, .sub, .total {
@@ -154,6 +154,24 @@ input[type=number] {
   text-align: center;
   width: 1.9em;
 }
+
+.birdieText
+    {
+    color: red;
+    text-align:center;
+    }
+
+    .parText
+    {
+    color: rgb(43, 179, 25);
+    text-align:center;
+    }
+
+    .bogeyText
+    {
+    color: rgb(20, 48, 202);
+    text-align:center;
+    }
 
 .holeSpanH {
   border: rgba(0,25,0,.25) solid 1px;

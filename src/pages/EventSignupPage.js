@@ -83,7 +83,7 @@ export const EventSignupPage = (props) => {
         let courseId= form.course_id.split(" ")[0];
         let societyId = props.user.society.id;
         const event = {
-          name: form.name,
+          name: form.name.trim(),
           type: form.type,
           date: form.date,
           info: form.info,

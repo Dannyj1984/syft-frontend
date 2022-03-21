@@ -49,7 +49,7 @@ const onClickSignup = () => {
 
   //Set the user details to be sent to the server
   const user = {
-      username: form.username.toLowerCase(),
+      username: form.username.toLowerCase().trim(),
       firstName: form.firstname,
       surname: form.surname,
       handicap: form.handicap,
