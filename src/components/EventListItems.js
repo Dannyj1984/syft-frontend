@@ -3,18 +3,32 @@ import { Link } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import * as apiCalls from '../api/apiCalls';
-import { Modal, Button, Table, Container, Row, Col } from "react-bootstrap";
+import { Modal, Button, Container, Row } from "react-bootstrap";
 import * as authActions from '../redux/authActions';
 import { connect } from 'react-redux';
-import Input from './Input';
 import ButtonWithProgress from './ButtonWithProgress';
 import Spinner from './Spinner';
 import Scorecard from './Scorecard';
+import AddTeeModal from './modal/AddTeeModal.js';
+import EditTeeModal from './modal/EditTeeModal';
+import TeeTimeModal from './modal/TeeTimeModal';
+import MedalModalLeaderboard from './modal/MedalModalLeaderboard';
+import StablefordModalLeaderboard from './modal/StablefordModalLeaderboard';
+import EntrantsModal from './modal/EntrantsModal';
+import ScoreEntryModal from './modal/ScoreEntryModal';
+import AdminEntrantsModal from  './modal/AdminEntrantsModal';
+import AdminScoreEntryModal from './modal/AdminScoreEntryModal';
 
 const EventListItems = (props) => {
 
   const [currentEntrant, setCurrentEntrant] = useState({});
 
+  //Scorecar  d object for submitting to backend
+  const [holeIndex, setHoleIndex] = useState(0);
+  const [p1HoleIndex, setP1HoleIndex] = useState(0);
+  const [p2HoleIndex, setP2HoleIndex] = useState(0);
+  const [p3HoleIndex, setP3HoleIndex] = useState(0);
+  const [p4HoleIndex, setP4HoleIndex] = useState(0);
   const [members, setMembers] = useState([{}]);
   const [membersId, setMembersId] = useState({})
   const [member1Id, setMember1Id] = useState()
@@ -163,7 +177,6 @@ const EventListItems = (props) => {
     h17P4Score: 0,
     h18P4Score: 0
   });
-
   const [userScoreCard, setUserScoreCard] = useState({});
 
   const [errors, setErrors] = useState({});
@@ -188,9 +201,8 @@ const EventListItems = (props) => {
   const [medalEntrants, setMedalEntrants] = useState([]); //for Medal scores
   const [showScore, setShowScore] = useState(false);
   const [showAdminScore, setAdminShowScore] = useState(false);
-  const [score, setScore] = useState(0);
   const [playerPerTee, setPlayerPerTee] = useState(0);
-  const scoreArea = () => {
+  const handleShowScore = () => {
     setShowScore(true);
   }
   //Leadboard modal setup
@@ -288,7 +300,6 @@ const [newTeeTime, setNewTeeTime] = useState({
     apiCalls
     .getSingleTeesheet(teesheetid)
     .then((response) =>{
-      console.log(response.data)
         setEditTeeTime(response.data)
         setPendingApiCall(false)
     }
@@ -433,46 +444,7 @@ const [newTeeTime, setNewTeeTime] = useState({
         }
         };
 
-      //Delete a teesheet
-      const deleteTeeSheet = (teesheetid) => {
-          const teeSheetId = teesheetid;
-          handleCloseTeeTime();
-
-          confirmAlert({
-            title: 'Do you want to delete this Teetime?',
-            message: 'This will remove this teesheet from this event!',
-            buttons: [
-              {
-                label: 'Yes',
-                onClick: () => 
-                  apiCalls.deleteTeeSheet(teeSheetId)
-                  .then ((response => {
-                    //Confirm entry with member
-                    confirmAlert({
-                      title: 'You have successully deleted this teesheet',
-                      message: 'Please ensure you let the members know',
-                      buttons: [
-                        {
-                          label: 'OK',
-                          onClick: () =>  window.location.reload()
-                        }
-                      ]
-                    });
-                  }))
-                  .catch((apiError) => {
-                    setPendingApiCall(false);
-                  })
-              },
-              {
-                label: 'No',
-                onClick: () => {
-                    handleShowTeeTime();
-                }
-              }
-            ]
-          });
-
-      }
+      
 
       //Remove user from event
       const removeEntrant = () => {
@@ -708,7 +680,7 @@ const [newTeeTime, setNewTeeTime] = useState({
              console.log(e)
            });
            
-      }, [props.event, member1Id, member2Id, member3Id, member4Id, p1ScoreCardObj, p2ScoreCardObj, p3ScoreCardObj, p4ScoreCardObj]);
+      }, [props.event, member1Id, member2Id, member3Id, member4Id, p1HoleIndex, p2HoleIndex, p3HoleIndex, p4HoleIndex]);
 
       //Data change in edit tee sheet
       const onChange = (event) => {
@@ -773,12 +745,7 @@ const [newTeeTime, setNewTeeTime] = useState({
         }
       }
 
-      //Scorecar  d object for submitting to backend
-  const [holeIndex, setHoleIndex] = useState(0);
-  const [p1HoleIndex, setP1HoleIndex] = useState(0);
-  const [p2HoleIndex, setP2HoleIndex] = useState(0);
-  const [p3HoleIndex, setP3HoleIndex] = useState(0);
-  const [p4HoleIndex, setP4HoleIndex] = useState(0);
+      
 
   const [scoreCardUpdateErrors, setScoreCardUpdateErrors] = useState({})
 
@@ -879,6 +846,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h18Score" : p1ScoreCardObj.h18P1Score,
     
     })
+    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
@@ -996,7 +964,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h18Score" : p4ScoreCardObj.h18P4Score,
     
     })
-    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
@@ -1014,8 +981,8 @@ const [newTeeTime, setNewTeeTime] = useState({
 
   //ADmin updating scorecard
   const adminUpdateScorecard = () => {
-    window.location.reload();
-    
+    window.sessionStorage.clear()
+    window.location.reload()
   }
 
   const completeScoreCard = () => {
@@ -1056,6 +1023,7 @@ const [newTeeTime, setNewTeeTime] = useState({
 
   const onChangeP1ScoreCard = (e) => {
     const { value, name } = e.target;
+    console.log(value, name)
     window.sessionStorage.setItem(name, value)
     setp1ScoreCardObj((previousp1ScoreCardObj) => {
       return {
@@ -1128,8 +1096,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       setMember1Selected(true)
       window.sessionStorage.setItem(name, value);
       window.sessionStorage.setItem('member1_id', value);
-      
-      console.log(value);
       setErrors((previousErrors) => {
         return {
           ...previousErrors,
@@ -1143,7 +1109,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       window.sessionStorage.setItem(name, value);
       setMember2Id(value);
       setMember2Selected(true)
-      console.log(value);
       setErrors((previousErrors) => {
         return {
           ...previousErrors,
@@ -1157,7 +1122,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       window.sessionStorage.setItem(name, value);
       setMember3Id(value);
       setMember3Selected(true)
-      console.log(value);
       setErrors((previousErrors) => {
         return {
           ...previousErrors,
@@ -1184,7 +1148,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       const { value, name } = event.target;
         setMemberSelected(true);
         setMembersId(value);
-        console.log(membersId)
       setErrors((previousErrors) => {
         return {
           ...previousErrors,
@@ -1381,6 +1344,20 @@ const [newTeeTime, setNewTeeTime] = useState({
       })
     };
 
+    const p1ScoreAddOne = () => {
+      let score = parseInt(window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`));
+      let newScore = score + 1;
+      window.sessionStorage.setItem(`h${p1HoleIndex+1}P1Score`, newScore);
+      console.log(window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`))
+    }
+
+    const p1ScoreTakeOne = () => {
+      let score = parseInt(window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`));
+      let newScore = score - 1;
+      window.sessionStorage.setItem(`h${p1HoleIndex+1}P1Score`, newScore);
+      console.log(window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`))
+    }
+
     
 
 
@@ -1436,6 +1413,42 @@ const [newTeeTime, setNewTeeTime] = useState({
                       </button>
                     </div>
 
+                    {thisEventType === 'Medal' &&
+                    <MedalModalLeaderboard
+                      showModalLeader={showModalLeader}
+                      handleCloseLeader={handleCloseLeader}
+                      pendingApiCall={pendingApiCall}
+                      formatDate={formatDate}
+                      sortedEntrants={sortedEntrants}
+                      courseSlope={courseSlope}
+                      handleOpenScoreCard={handleOpenScoreCard}
+                      event={props.event}
+                    />}
+
+                    {thisEventType === 'Stableford' && 
+                    <StablefordModalLeaderboard
+                      showModalLeader={showModalLeader}
+                      handleCloseLeader={handleCloseLeader}
+                      pendingApiCall={pendingApiCall}
+                      formatDate={formatDate}
+                      sortedEntrants={sortedEntrants}
+                      courseSlope={courseSlope}
+                      handleOpenScoreCard={handleOpenScoreCard}
+                      event={props.event}
+                    />}
+
+                    {/*Show Scorecard modal*/}
+                    <Modal 
+                      show={scoreCardModal} 
+                      onHide={handleCloseScoreCard} 
+                      dialogClassName="modal-content-full modal-dialog-full"
+                      size="m"
+                      centered
+                      responsive
+                    >
+                      <Scorecard entrant={entrant} holes={holes} pendingApiCall={pendingApiCall} event={props.event} />
+                    </Modal>
+
                     <div className="float-left btn-group btn-group-m px-2 col-3">
                       <button  
                           className="btn btn-primary tooltips float-left" 
@@ -1448,28 +1461,94 @@ const [newTeeTime, setNewTeeTime] = useState({
                       </button>
                     </div>
 
+                    <EntrantsModal
+                      showModalEntrants={showModalEntrants}
+                      handleCloseEntrants={handleCloseEntrants}
+                      formatDate={formatDate}
+                      pendingApiCall={pendingApiCall}
+                      entrants={entrants}
+                      loggedInUser={props.loggedInUser}
+                      playerPerTee={playerPerTee}
+                      onChangePlayerPerTee={onChangePlayerPerTee}
+                      randomiseEntrants={randomiseEntrants}
+                      event={props.event}
+                    />
+
                     <div className="float-left btn-group btn-group-m px-2 col-3">
                       <button  
                           className="btn btn-primary tooltips float-left" 
                           data-placement="left" 
-                          onClick={()=>{ handleShowTeeTime() }}
+                          onClick={handleShowTeeTime}
                           data-toggle="tooltip" 
                           title="view tee times"
                           data-original-title="view"><i
                           className="fa fa-clock"/>
                       </button>
                     </div>
+
+                    <TeeTimeModal   
+                      event={props.event}
+                      showTeeTime={showTeeTime}
+                      handleCloseTeeTime={handleCloseTeeTime}
+                      formatDate={formatDate}
+                      pendingApiCall={pendingApiCall}
+                      teeTimes={teeTimes}
+                      loggedInUser={props.loggedInUser}
+                      handleShowTeeTime={handleShowTeeTime}
+                      handleShowEditTeeTime={handleShowEditTeeTime}
+                    />
+
+                    <AddTeeModal 
+                      showAddTeeTime={showAddTeeTime}
+                      handleCloseAddTeeTime={handleCloseAddTeeTime}
+                      onChange={onChange}
+                      formatDate={formatDate}
+                      pendingApiCall={pendingApiCall}
+                      newTeeTime={newTeeTime}
+                      addTeeTime={addTeeTime}
+                      event={props.event}
+                      />
+
+                    <EditTeeModal
+                      showEditTeeTime={showEditTeeTime}
+                      handleCloseEditTeeTime={handleCloseEditTeeTime}
+                      handleShowEditTeeTime={handleShowEditTeeTime}
+                      formatDate={formatDate}
+                      event={props.event}
+                      pendingApiCall={pendingApiCall}
+                      editTeeTime={editTeeTime}
+                      onChangeEdit={onChangeEdit}
+                      onClickUpdateTee={onClickUpdateTee}
+                      editConfirm={editConfirm}
+                      editErrors={editErrors}
+                    />
                     {entered &&
                     <div className="float-left btn-group btn-group-m p-2 col-6">
                             <button  
                                 className="btn btn-primary tooltips float-left" 
-                                onClick={scoreArea} 
+                                onClick={handleShowScore} 
                                 data-placement="top" 
                                 data-toggle="tooltip" 
-                                data-original-title="Delete">
+                                data-original-title="Enter Score">
                                 Score Entry
                             </button>
                     </div>}
+
+                    
+                    <ScoreEntryModal
+                      event={props.event}
+                      showScore={showScore}
+                      handleCloseScoreEntry={handleCloseScoreEntry}
+                      pendingApiCall={pendingApiCall}
+                      holeIndex={holeIndex}
+                      scoreCardObj={scoreCardObj}
+                      onChangeScoreCard={onChangeScoreCard}
+                      toPrevHole={toPrevHole}
+                      toNextHole={toNextHole}
+                      updateScoreCard={updateScoreCard}
+                      completeScoreCard={completeScoreCard}
+                      loggedInUser={props.loggedInUser}
+                    />
 
                     <div className="float-right btn-group btn-group-m p-2">
                       {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  &&
@@ -1500,15 +1579,17 @@ const [newTeeTime, setNewTeeTime] = useState({
                   </div>
 
                         {!entered &&
-                <div className="float-right btn-group btn-group-m">
-                            <ButtonWithProgress
-                              onClick={enterEvent}
-                              disabled={
-                              pendingApiCall  ? true : false
-                              }
-                              pendingApiCall={pendingApiCall}
-                              text="Enter"/>
-                    </div>}
+                  <div className="float-right btn-group btn-group-m">
+                          <ButtonWithProgress
+                            onClick={enterEvent}
+                            disabled={
+                            pendingApiCall  ? true : false
+                            }
+                            pendingApiCall={pendingApiCall}
+                            text="Enter"/>
+                  </div>}
+
+                    
 
                     {entered && props.event.currentEntrants === props.event.maxEntrants &&
                 <div className="float-right btn-group btn-group-m">
@@ -1536,780 +1617,85 @@ const [newTeeTime, setNewTeeTime] = useState({
                     <div className='error' style={{color: "red", fontSize: "20px"}}>
                         {entryError}
                     </div>}
-                        <div>
-                    {props.loggedInUser.role === 'ADMIN' && 
                     <div>
-                    <button className="btn float-left btn-success tooltips m-2" style={{width:"46%"}} onClick={HandleOpenEnterUser}>Manage Entrants</button>
-                    </div>}
-                    {(props.loggedInUser.role === 'SCORER' || props.loggedInUser.role === 'ADMIN') &&
-                    <div>
-                    <button className="btn float-left btn-success tooltips m-2" onClick={handleOpenAdminScore} style={{width:"40%"}}>Enter Score</button>
-                    </div>}
-                    </div>
-                    
-
-                    {/* Admin modal to enter a user to an event */}
-
-              <>
-                  <Modal show={adminEnterUser} onHide={handleCloseEnterUser}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Chose a member to add or remove from {props.event.name} on {formatDate}</Modal.Title>
-                    </Modal.Header>
-                    {pendingApiCall && 
-                    <Modal.Body>
-                    <Spinner></Spinner>
-                    </Modal.Body>
-                    }
-                    {!pendingApiCall &&
-                    <Modal.Body>
-                    
-                      
-                      {pendingApiCall && <Spinner></Spinner>}
-                      {!pendingApiCall && members &&
-                      <div className="col-12 mb-3">
-                      <label>Member</label>
-                        <select name="member_id" id="member_id" className={`form-control ${memberSelected ? "is-valid" : "is-invalid"} `}  label="Member" placeholder="select" onChange={onChangeMember} required>
-                          <option selected disabled value="">Please select</option>
-                          {members[0].id && members.map((member) => {
-                            return (
-                            <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                            );
-                          })};
-                        </select>
-                        <div id="member_idFeedback" className="invalid-feedback">
-                          Please select a member. 
-                        </div>
+                      {props.loggedInUser.role === 'ADMIN' && 
+                      <div>
+                          <button className="btn float-left btn-success tooltips m-2" style={{width:"46%"}} onClick={HandleOpenEnterUser}>Manage Entrants</button>
                       </div>}
-                    </Modal.Body>}
-                    <Modal.Footer>
-                      <ButtonWithProgress  
-                        onClick={adminAddMember} 
-                        disabled={Object.keys(membersId).length === 0}
+                        {(props.loggedInUser.role === 'SCORER' || props.loggedInUser.role === 'ADMIN') &&
+                      <div>
+                          <button className="btn float-left btn-success tooltips m-2" onClick={handleOpenAdminScore} style={{width:"40%"}}>Enter Score</button>
+                      </div>}
+                    </div>
+
+                      <AdminEntrantsModal
+                        event={props.event}
+                        loggedInUser={props.loggedInUser}
+                        adminEnterUser={adminEnterUser}
+                        handleCloseEnterUser={handleCloseEnterUser}
+                        formatDate={formatDate}
                         pendingApiCall={pendingApiCall}
-                        text="Add member"/>
+                        members={members}
+                        memberSelected={memberSelected}
+                        membersId={membersId}
+                        onChangeMember={onChangeMember}
+                        adminAddMember={adminAddMember}
+                        adminRemoveEntrant={adminRemoveEntrant}
+                      />
 
-                      <ButtonWithProgress  
-                        onClick={adminRemoveEntrant} 
-                        disabled={Object.keys(membersId).length === 0}
+                      <AdminScoreEntryModal
+                        showAdminScore={showAdminScore}
+                        handleCloseAdminScoreEntry={handleCloseAdminScoreEntry}
                         pendingApiCall={pendingApiCall}
-                        text="Remove member"/>
-                    </Modal.Footer>
-                  </Modal>
-              </>
+                        members={members}
+                        member1Selected={member1Selected}
+                        onChangeMember1={onChangeMember1}
+                        removeSessionStorageP1Name={removeSessionStorageP1Name}
+                        p1HoleIndex={p1HoleIndex}
+                        toP1PrevHole={toP1PrevHole}
+                        toP1NextHole={toP1NextHole}
+                        member1Id={member1Id}
+                        updateP1ScoreCard={updateP1ScoreCard}
+                        p1ScoreTakeOne={p1ScoreTakeOne}
+                        onChangeP1ScoreCard={onChangeP1ScoreCard}
+                        p1ScoreAddOne={p1ScoreAddOne}
+                        p1ScoreCardObj={p1ScoreCardObj}
+                        removeSessionStorageP1Scores={removeSessionStorageP1Scores}
+                        member2Selected={member2Selected}
+                        onChangeMember2={onChangeMember2}
+                        removeSessionStorageP2Name={removeSessionStorageP2Name}
+                        p2HoleIndex={p2HoleIndex}
+                        toP2PrevHole={toP2PrevHole}
+                        toP2NextHole={toP2NextHole}
+                        member2Id={member2Id}
+                        updateP2ScoreCard={updateP2ScoreCard}
+                        onChangeP2ScoreCard={onChangeP2ScoreCard}
+                        removeSessionStorageP2Scores={removeSessionStorageP2Scores}
+                        member3Selected={member3Selected}
+                        onChangeMember3={onChangeMember3}
+                        removeSessionStorageP3Name={removeSessionStorageP3Name}
+                        p3HoleIndex={p3HoleIndex}
+                        toP3PrevHole={toP3PrevHole}
+                        toP3NextHole={toP3NextHole}
+                        member3Id={member3Id}
+                        updateP3ScoreCard={updateP3ScoreCard}
+                        onChangeP3ScoreCard={onChangeP3ScoreCard}
+                        removeSessionStorageP3Scores={removeSessionStorageP3Scores}
+                        member4Selected={member4Selected}
+                        onChangeMember4={onChangeMember4}
+                        removeSessionStorageP4Name={removeSessionStorageP4Name}
+                        p4HoleIndex={p4HoleIndex}
+                        toP4PrevHole={toP4PrevHole}
+                        toP4NextHole={toP4NextHole}
+                        member4Id={member4Id}
+                        updateP4ScoreCard={updateP4ScoreCard}
+                        onChangeP4ScoreCard={onChangeP4ScoreCard}
+                        removeSessionStorageP4Scores={removeSessionStorageP4Scores}
+                        adminUpdateScorecard={adminUpdateScorecard}
 
-                        {/*Show entrants modal*/}
-              <>
+                      />
+
                         
-                   
-                  <Modal show={showModalEntrants} onHide={handleCloseEntrants}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Entrants for {props.event.name} on {formatDate}</Modal.Title>
-                    </Modal.Header>
-                    {pendingApiCall && 
-                    <Modal.Body>
-                    <Spinner></Spinner>
-                    </Modal.Body>
-                    }
-                    {!pendingApiCall &&
-                    <Modal.Body>
-                    
-                      <Table striped bordered hover responsive>
-                      <thead>
-                        <tr>
-                          <th >Member</th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                      {entrants.map((entrant) => ( 
-                       entrant.member && 
-                          <tr key={entrant.member.id}>
-                            <td>{entrant.member.firstName} {entrant.member.surname} ({entrant.member.handicap})</td>
-                          </tr>
-                      ))}
-                      </tbody>
-                      </Table>
-                    </Modal.Body>}
-                    <Modal.Footer>
-                    {/* Set the number of players per tee */}
-                    {props.loggedInUser.role === 'ADMIN' &&
-                    <Input 
-                      label="Players per tee"
-                      name="players"
-                      value={playerPerTee}
-                      type="number"
-                      onChange={onChangePlayerPerTee} 
-                      width="2rem"
-                    />}
-                      {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER' || props.loggedInUser.role === 'EVENTADMIN')  &&
-                      <Button variant="secondary" onClick={randomiseEntrants} >
-                        Randomise
-                      </Button>}
-                      <Button variant="secondary" onClick={handleCloseEntrants}>
-                        Close
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-              </>
-
-              <>
-                        {/*Show leaderboard modal*/}
-                        <>
-                        {/* modal for stableford event type */}
-                        {thisEventType ==="Stableford" &&
-                  <Modal 
-                    show={showModalLeader} 
-                    onHide={handleCloseLeader} 
-                    dialogClassName="custom-modal"
-                  >
-                    <Modal.Header closeButton>
-                      <Modal.Title>Leader board for {props.event.name} on {formatDate}</Modal.Title>
-                    </Modal.Header>
-                    {pendingApiCall && 
-                    <Modal.Body>
-                    <Spinner></Spinner>
-                    </Modal.Body>
-                    }
-                    {!pendingApiCall &&
-                    <Modal.Body>
-                    <Table striped bordered hover responsive>
-                      <thead>
-                        <tr>
-                          <th >Member (playing handicap)</th>
-                          <th >Score</th>
-                        </tr>
-                      </thead>
-                      <tbody >
-                      {sortedEntrants.map((entrant) => (
-                        
-                        <tr key={entrant.member.id}>
-                          {!props.event.ninetyFivePercent &&
-                          <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(entrant.member.handicap/113*courseSlope)})</th>}
-                          {props.event.ninetyFivePercent &&
-                          <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(0.95*(entrant.member.handicap/113*courseSlope*0.95))})</th>}
-                          <th >{Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}<span style={{marginLeft:"10px"}}><button className="btn btn-primary" onClick={() => handleOpenScoreCard(entrant)}>View</button></span> </th>
-                        </tr>
-                      ))}
-                      </tbody>
-                    </Table>
-                    </Modal.Body>}
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleCloseLeader}>
-                        Close
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>}
-
-                  {/* Modal for Medal event type */}
-
-                  {thisEventType ==="Medal" &&
-                  <Modal 
-                    show={showModalLeader} 
-                    onHide={handleCloseLeader} 
-                    dialogClassName="custom-modal"
-                  >
-                    <Modal.Header closeButton>
-                      <Modal.Title>Leader board for {props.event.name} on {formatDate}</Modal.Title>
-                    </Modal.Header>
-                    {pendingApiCall && 
-                    <Modal.Body>
-                    <Spinner></Spinner>
-                    </Modal.Body>
-                    }
-                    {!pendingApiCall &&
-                    <Modal.Body>
-                    <Table striped bordered hover responsive>
-                      <thead>
-                        <tr>
-                          <th >Member</th>
-                          <th >Score</th>
-                        </tr>
-                      </thead>
-                        <tbody >
-                      {sortedEntrants.map((entrant) => (
-                        <tr key={entrant.member.id}>
-                          {!props.event.ninetyFivePercent &&
-                          <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(entrant.member.handicap/113*courseSlope)})</th>}
-                          {props.event.ninetyFivePercent &&
-                          <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(0.95*(entrant.member.handicap/113*courseSlope))})</th>}
-                          <th >{Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}<span style={{marginLeft:"10px"}}><button className="btn btn-primary" onClick={() => handleOpenScoreCard(entrant)}>View</button></span></th>
-                        </tr>
-                      ))}
-                      </tbody>
-                    </Table>
-                    </Modal.Body>}
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleCloseLeader}>
-                        Close
-                      </Button> 
-                    </Modal.Footer>
-                  </Modal>}
-              </>          
-                  
-              </>
-              {/*Show Tee time modal*/}
-              <>
-                <Modal 
-                  show={showTeeTime} 
-                  onHide={handleCloseTeeTime} 
-                  dialogClassName="modal-content-full modal-dialog-full"
-                  size="xl"
-                  centered
-                >
-                  <Modal.Header closeButton>
-                    <Modal.Title>Tee times for {props.event.name} on {formatDate}</Modal.Title>
-                  </Modal.Header>
-                  {pendingApiCall &&
-                  <Modal.Body>
-                  <Spinner></Spinner>
-                  </Modal.Body>
-                  }
-                  {!pendingApiCall &&
-                  <Modal.Body>
-                  
-                  
-                  <Table striped bordered hover responsive>
-                    <thead>
-                      <tr>
-                        <th >Tee time</th>
-                        <th >Player 1</th>
-                        <th>Player 2</th>
-                        <th>Player 3</th>
-                        {teeTimes[0] !== undefined && teeTimes[0].noOfSlots === 4 &&
-                        <th>Player 4</th>}
-                        {props.loggedInUser.role === 'ADMIN' &&
-                        <th id='admin'>Admin</th>}
-                      </tr>
-                    </thead>
-                    
-                    <tbody >
-                    {teeTimes.map((teetime) => (
-                          <tr key={teetime.id}>
-                          <td>{teetime.teeTime}</td>
-                          {teetime.entrants.map((entrant) =>  (
-                            <td key={entrant.member.id}>{entrant.member['firstName']} {entrant.member['surname']} ({entrant.member['handicap']})</td>
-                          ))}
-                          {props.loggedInUser.role === 'ADMIN' &&
-                          <td headers='admin'>
-                              <button className="btn btn-danger m-2" onClick={() => deleteTeeSheet(teetime.id)}>delete</button>
-                              <button className="btn btn-warning m-2" disabled='true' onClick={() => handleShowEditTeeTime(teetime.id)}>Update</button>
-                          </td>}
-                          </tr>
-                    ))}   
-                    </tbody>
-                  </Table>
-                  </Modal.Body>}
-                  <Modal.Footer>
-                    {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'EVENTADMIN' || props.loggedInUser.role === 'SUPERUSER') &&
-                    <Button variant="success" disabled={pendingApiCall} onClick={handleShowAddTeeTime}>Add New Tee Time</Button>}
-                    <Button variant="secondary" onClick={handleCloseTeeTime}>
-                      Close
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-              </>
-
-              {/*Show Edit tee time modal*/}
-              <>
-                  
-                  <Modal show={showEditTeeTime} onHide={handleCloseEditTeeTime} dialogClassName="modal-content-full modal-dialog-full" size='xl' >
-                    <Modal.Header closeButton>
-                      <Modal.Title>Edit Tee times for {props.event.name} on {formatDate}</Modal.Title>
-                    </Modal.Header>
-                    {pendingApiCall && 
-                    <Modal.Body>
-                    <Spinner></Spinner>
-                    </Modal.Body>
-                    }
-                    {!pendingApiCall &&
-                    <Modal.Body>
-                    {editTeeTime.entrants[0].member && 
-                    <Table striped bordered hover responsive>
-                      <thead>
-                          <tr>
-                            <th >Tee teetime</th>
-                            <th >Player 1</th>
-                            <th >Player 2</th>
-                            <th >Player 3</th>
-                            <th >Player 4</th>
-                          </tr>
-                      </thead>
-                          <tbody>
-                              <tr>
-                              <th ><Input name="teetime" value={editTeeTime.teeTime} onChange={onChangeEdit} /></th>
-                              {editTeeTime.entrants.length > 0 &&
-                              <th ><Input name="player1" value={editTeeTime.entrants[0].member.firstName} onChange={onChangeEdit} /></th>}
-                              {editTeeTime.entrants.length > 1 &&
-                              <th ><Input name="player2" value={editTeeTime.entrants[1].member.firstName} onChange={onChangeEdit} /></th>}
-                              {editTeeTime.entrants.length > 2 &&
-                              <th ><Input name="player3" value={editTeeTime.entrants[2].member.firstName} onChange={onChangeEdit} /></th>}
-                              {editTeeTime.entrants.length > 3 &&
-                              <th ><Input name="player4" value={editTeeTime.entrants[3].member.firstName} onChange={onChangeEdit} /></th>}
-                              <th >
-                                  <ButtonWithProgress
-                                      onClick={() => onClickUpdateTee(editTeeTime.id)} 
-                                      className="btn btn-warning m-2"
-                                      disabled={true}
-                                      pendingApiCall={pendingApiCall}
-                                      text="Update"
-                                  />
-                              </th>
-                              </tr>
-                          </tbody>
-                      
-                    </Table>}
-                    {editConfirm &&
-                    <div className="text-centre text-success">
-                        <span>{editConfirm}</span>
-                    </div>}
-                    {editErrors &&
-                    <div className="text-centre text-danger">
-                        <span>{editErrors}</span>
-                    </div>}
-                    </Modal.Body>}
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleCloseEditTeeTime}>
-                        Close
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-              </>
-
-              {/* Add tee time modal */}
-              <>
-                  
-                  <Modal show={showAddTeeTime} onHide={handleCloseAddTeeTime} dialogClassName="modal-content-full modal-dialog-full" >
-                    <Modal.Header closeButton>
-                      <Modal.Title>Add Tee time for {props.event.name} on {formatDate}</Modal.Title>
-                    </Modal.Header>
-                    {pendingApiCall && 
-                    <Modal.Body>
-                    <Spinner></Spinner>
-                    </Modal.Body>
-                    }
-                    {!pendingApiCall &&
-                    <Modal.Body>
-                    <Table striped bordered hover responsive>
-                    <thead>
-                      <tr>
-                        <th >Time</th>
-                        <th >Number of slots</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th >
-                                <Input
-                                  name="addnewTeeTime"
-                                  placeholder="Tee time"
-                                  value={newTeeTime.addnewTeeTime}
-                                  onChange={onChange} 
-                                />
-                            </th>
-                            <th >
-                                <Input
-                                  name="noOfSlots"
-                                  value={newTeeTime.noOfSlots}
-                                  onChange={onChange} 
-                                />
-                            </th>
-                        </tr>
-                    </tbody>
-                    </Table>
-                    </Modal.Body>}
-                    <Modal.Footer>
-                      <Button variant="success" disabled={pendingApiCall} onClick={addTeeTime}>Add</Button>
-                      <Button variant="secondary" onClick={handleCloseAddTeeTime}>
-                        Close
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-              </>
-          
-              {/*Show Score entry modal*/}
-              <>
-                    <Modal 
-                      show={showScore} 
-                      onHide={handleCloseScoreEntry} 
-                      dialogClassName="modal-content-full modal-dialog-full"
-                      size="m"
-                      centered
-                    >
-                      <Modal.Header closeButton>
-                        <Modal.Title id='scoreEntryModal'>
-                          <Container>
-                          Score Entry for {props.event.name} for player {props.loggedInUser.username}
-                          </Container>
-                        </Modal.Title>
-                      </Modal.Header>
-                      {pendingApiCall && 
-                      <Modal.Body>
-                      <Spinner></Spinner>
-                      </Modal.Body>
-                      }
-                      {!pendingApiCall &&
-                      <Modal.Body>
-                        <Container>
-                          <Row style={{margin:"auto", width:"50%"}}>
-                            <Col xs={12}>
-                              <div id='score-entry'>
-                                <h2 >Hole {holeIndex+1}</h2>
-                                <input name={`h${holeIndex+1}Score`} value={scoreCardObj[`h${holeIndex+1}Score`]}  onChange={onChangeScoreCard} type="number" min={"0"} max={"15"} style={{width:"8rem", height:"8rem",padding:"12px 20px", display:"inline-block", border:"1px solid #ccc", borderRadius: "4px", fontSize: "64px", textAlign:"center"}}></input>
-                                  <p style={{color:"red", fontSize:"13px", width:"140%"}}>Please enter gross scores</p>
-                                  {/* <p>Current Score : {currentEntrant.score}</p> */}
-                              </div>
-                            </Col>
-                          </Row>
-                          <Row style={{margin:"auto", width:"50%"}}>
-                            <Col xs={6}>
-                              {holeIndex+1 !== 1 &&
-                              <button onClick={toPrevHole} style={{fontSize: "64px"}}>{'<'}</button>}
-                            </Col>
-                            <Col xs={6}>
-                              {holeIndex+1 !== 18 &&
-                              <button onClick={function(){ toNextHole(); updateScoreCard()}} style={{fontSize: "64px"}}>{'>'}</button>}
-                            </Col>
-                          </Row>
-                        </Container>
-                      
-                      </Modal.Body>}
-                      <Modal.Footer>
-                      {holeIndex+1 === 18 &&
-                        <Button variant='primary' onClick={completeScoreCard}>Submit</Button>}
-                      </Modal.Footer>
-                    </Modal>
-              </>
-                              {/* Show admin score entry modal for */}
-                        <>
-                          <Modal 
-                            show={showAdminScore} 
-                            onHide={handleCloseAdminScoreEntry} 
-                            dialogClassName="modal-content-full modal-dialog-full"
-                            size="m"
-                            
-                          >
-                            <Modal.Header closeButton>
-                              <Modal.Title id='scoreEntryModal'>
-                                <Container>
-                                Score Entry 
-                                <p style={{color:"red", fontSize:"13px", width:"140%"}}>Please enter gross scores</p>
-                               </Container>
-                              </Modal.Title>
-                            </Modal.Header>
-                            {pendingApiCall && 
-                            <Modal.Body>
-                            <Spinner></Spinner>
-                            </Modal.Body>
-                            }
-
-                            {/* Player 1 admin score entry */}
-                            {!pendingApiCall &&
-                            <Modal.Body>
-                            {pendingApiCall && <Spinner></Spinner>}
-                              {!pendingApiCall && members &&
-                                <div className="container">
-                                <Row>
-                                  {window.sessionStorage.getItem('member1_id') === null &&
-                                  <div className="col-6 mb-3">
-                                      <label>Player 1</label>
-                                      <select  name="member1_id" id="member1_id" className={`form-control ${member1Selected ? "is-valid" : "is-invalid"} mt-4`}  label="Member1" placeholder="select" onChange={onChangeMember1} required>
-                                          <option selected disabled value="">Please select</option>
-                                          {members[0].id && members.map((member) =>  (
-                                          <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                                          ))};
-                                      </select>
-                                      <div id="member1_idFeedback" className="invalid-feedback">
-                                          Please select a member. 
-                                      </div>
-                                  </div>}
-                                  {window.sessionStorage.getItem('member1_id') !== null &&
-                                  <div className="col-6 mb-3">
-                                      <label>Player 1</label>
-                                      <p style={{fontSize:"30px", margin:"15px auto"}}>{window.sessionStorage.getItem('member1_id').substring(window.sessionStorage.getItem('member1_id').indexOf(' ') + 1)}</p>
-                                      <button onClick={removeSessionStorageP1Name} className='btn btn-primary' style={{position:"absolute", bottom:"0"}}>Choose another</button>
-                                      <div id="member1_idFeedback" className="invalid-feedback">
-                                          Please select a member. 
-                                      </div>
-                                  </div>}
-                                  <div className="col-6 mb-3">
-                                  <div id='score-entry'>
-                                      {p1HoleIndex+1 < 19 &&
-                                      <Row>
-                                        <div className="col-4 mb-3">
-                                        {p1HoleIndex+1 !== 1 &&
-                                          <button onClick={toP1PrevHole} style={{fontSize:"24px", textAlign:"center"}}>{'<'}</button>}
-                                        </div>
-                                        <div className="col-4 mb-3">
-                                          <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p1HoleIndex+1}</p>
-                                        </div>
-                                        <div className="col-4 mb-3">
-                                        {p1HoleIndex+1 !== 19 && member1Id &&
-                                          <button onClick={() => { toP1NextHole(); updateP1ScoreCard();}} style={{fontSize:"24px", textAlign:"center"}}>{'>'}</button>}
-                                        </div>
-                                      </Row>}
-                                          {p1HoleIndex+1 === 19 &&
-                                          <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
-                                          <Row>
-                                          <div className="col-4 mb-3">
-                                              {p1HoleIndex+1 !== 1 &&
-                                              <button style={{fontSize: "32px"}}>{'-'}</button>}
-                                          </div>
-                                          <div className="col-4 mb-3">
-                                              <input name={`h${p1HoleIndex+1}P1Score`} value={window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`)}  onChange={onChangeP1ScoreCard} type="number" min={"0"} max={"15"} style={{
-                                              width:"3.5rem", 
-                                              height:"3.5rem", 
-                                              margin:"0 -12px", 
-                                              padding:"12px 20px", 
-                                              display:"block", 
-                                              border:"1px solid #ccc", 
-                                              borderRadius: "4px", 
-                                              fontSize: "24px"
-                                              }}
-                                              />
-                                          </div>
-                                          <div className="col-4 mb-3">
-                                              {p1HoleIndex+1 !== 19 && member1Id &&
-                                              <button  style={{fontSize:"32px"}}> {'+'}</button>}
-                                          </div>
-                                          <button onClick={removeSessionStorageP1Scores} className='btn btn-primary'>Reset scores</button>
-                                        </Row>
-                                      </div>
-                                  </div>
-                                  </Row>
-                                </div>}
-                            </Modal.Body>}
-
-                            {/* Player 2 admin score entry */}
-                            {!pendingApiCall &&
-                            <Modal.Body>
-                              {pendingApiCall && <Spinner></Spinner>}
-                              {!pendingApiCall && members &&
-                                <div className="container">
-                                  <Row>
-                                  {window.sessionStorage.getItem('member2_id') === null &&
-                                  <div className="col-6 mb-3">
-                                      <label>Player 2</label>
-                                      <select  name="member2_id" id="member2_id" className={`form-control ${member2Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member1" placeholder="select" onChange={onChangeMember2} required>
-                                          <option selected disabled value="">Please select</option>
-                                          {members[0].id && members.map((member) =>  (
-                                          <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                                          ))};
-                                      </select>
-                                      <div id="member2_idFeedback" className="invalid-feedback">
-                                          Please select a member. 
-                                      </div>
-                                  </div>}
-                                  {window.sessionStorage.getItem('member2_id') !== null &&
-                                  <div className="col-6 mb-3">
-                                      <label>Player 2</label>
-                                      <p style={{fontSize:"30px", margin:"15px auto"}}>{window.sessionStorage.getItem('member2_id').substring(window.sessionStorage.getItem('member2_id').indexOf(' ') + 1)}</p>
-                                      <button onClick={removeSessionStorageP2Name} className='btn btn-primary' style={{position:"absolute", bottom:"0"}}>Choose another</button>
-                                      <div id="member2_idFeedback" className="invalid-feedback">
-                                          Please select a member. 
-                                      </div>
-                                  </div>}
-                                    <div className="col-6 mb-3">
-                                    <div id='score-entry'>
-                                      {p2HoleIndex+1 < 19 &&
-                                          <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p2HoleIndex+1}</p>}
-                                          {p2HoleIndex+1 === 19 &&
-                                          <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
-                                          <Row>
-                                          <div className="col-4 mb-3">
-                                              {p2HoleIndex+1 !== 1 &&
-                                              <button onClick={toP2PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
-                                          </div>
-                                          <div className="col-4 mb-3">
-                                              <input name={`h${p2HoleIndex+1}P2Score`} value={window.sessionStorage.getItem(`h${p2HoleIndex+1}P2Score`)}  onChange={onChangeP2ScoreCard} type="number" min={"0"} max={"15"} style={{
-                                              width:"3.5rem", 
-                                              height:"3.5rem", 
-                                              margin:"0 -12px", 
-                                              padding:"12px 20px", 
-                                              display:"block", 
-                                              border:"1px solid #ccc", 
-                                              borderRadius: "4px", 
-                                              fontSize: "24px"
-                                              }}
-                                              />
-                                          </div>
-                                          <div className="col-4 mb-3">
-                                              {p2HoleIndex+1 !== 19 && member2Id &&
-                                              <button onClick={() => { toP2NextHole(); updateP2ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
-                                          </div>
-                                          <button onClick={removeSessionStorageP2Scores} className='btn btn-primary'>Reset scores</button>
-                                        </Row>
-                                      </div>
-                                    </div>
-                                  </Row>
-                                </div>}
-                            </Modal.Body>}
-
-                            {/* Player 3 admin score entry */}
-                            {!pendingApiCall &&
-                            <Modal.Body>
-                              {pendingApiCall && <Spinner></Spinner>}
-                              {!pendingApiCall && members &&
-                                <div className="container">
-                                  <Row>
-                                  {window.sessionStorage.getItem('member3_id') === null &&
-                                  <div className="col-6 mb-3">
-                                      <label>Player 3</label>
-                                      <select  name="member3_id" id="member3_id" className={`form-control ${member3Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member1" placeholder="select" onChange={onChangeMember3} required>
-                                          <option selected disabled value="">Please select</option>
-                                          {members[0].id && members.map((member) =>  (
-                                          <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                                          ))};
-                                      </select>
-                                      <div id="member3_idFeedback" className="invalid-feedback">
-                                          Please select a member. 
-                                      </div>
-                                  </div>}
-                                  {window.sessionStorage.getItem('member3_id') !== null &&
-                                  <div className="col-6 mb-3">
-                                      <label>Player 3</label>
-                                      <p style={{fontSize:"30px", margin:"15px auto"}}>{window.sessionStorage.getItem('member3_id').substring(window.sessionStorage.getItem('member3_id').indexOf(' ') + 1)}</p>
-                                      <button onClick={removeSessionStorageP3Name} className='btn btn-primary' style={{position:"absolute", bottom:"0"}}>Choose another</button>
-                                      <div id="member3_idFeedback" className="invalid-feedback">
-                                          Please select a member. 
-                                      </div>
-                                  </div>}
-                                    <div className="col-6 mb-3">
-                                    <div id='score-entry'>
-                                      {p3HoleIndex+1 < 19 &&
-                                          <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p3HoleIndex+1}</p>}
-                                          {p3HoleIndex+1 === 19 &&
-                                          <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
-                                          <Row>
-                                            <div className="col-4 mb-3">
-                                              {p3HoleIndex+1 !== 1 &&
-                                              <button onClick={toP3PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
-                                            </div>
-                                            <div className="col-4 mb-3">
-                                              <input name={`h${p3HoleIndex+1}P3Score`} value={window.sessionStorage.getItem(`h${p3HoleIndex+1}P3Score`)}  onChange={onChangeP3ScoreCard} type="number" min={"0"} max={"15"} style={{
-                                              width:"3.5rem", 
-                                              height:"3.5rem", 
-                                              margin:"0 -12px", 
-                                              padding:"12px 20px", 
-                                              display:"block", 
-                                              border:"1px solid #ccc", 
-                                              borderRadius: "4px", 
-                                              fontSize: "24px"
-                                              }}
-                                              />
-                                          </div>
-                                            <div className="col-4 mb-3">
-                                              {p3HoleIndex+1 !== 19 && member3Id &&
-                                              <button onClick={() => { toP3NextHole(); updateP3ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
-                                            </div>
-                                          </Row>
-                                          <button onClick={removeSessionStorageP3Scores} className='btn btn-primary'>Reset scores</button>
-                                        </div>
-                                    </div>
-                                    </Row>
-                                </div>}
-                            </Modal.Body>}
-
-                            {!pendingApiCall &&
-                            <Modal.Body>
-                            
-                              {/* Player 4 admin score entry */}
-                              {pendingApiCall && <Spinner></Spinner>}
-                              {!pendingApiCall && members &&
-                                <div className="container">
-                                  <Row>
-                                  {window.sessionStorage.getItem('member4_id') === null &&
-                                  <div className="col-6 mb-3">
-                                      <label>Player 4</label>
-                                      <select  name="member4_id" id="member4_id" className={`form-control ${member4Selected ? "is-valid" : "is-invalid"} mt-3`}  label="Member4" placeholder="select" onChange={onChangeMember4} required>
-                                          <option selected disabled value="">Please select</option>
-                                          {members[0].id && members.map((member) =>  (
-                                          <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
-                                          ))};
-                                      </select>
-                                      <div id="member4_idFeedback" className="invalid-feedback">
-                                          Please select a member. 
-                                      </div>
-                                  </div>}
-                                  {window.sessionStorage.getItem('member4_id') !== null &&
-                                  <div className="col-6 mb-3">
-                                      <label>Player 4</label>
-                                      <p style={{fontSize:"30px", margin:"15px auto"}}>{window.sessionStorage.getItem('member4_id').substring(window.sessionStorage.getItem('member4_id').indexOf(' ') + 1)}</p>
-                                      <button onClick={removeSessionStorageP4Name} className='btn btn-primary' style={{position:"absolute", bottom:"0"}}>Choose another</button>
-                                      <div id="member4_idFeedback" className="invalid-feedback">
-                                          Please select a member. 
-                                      </div>
-                                  </div>}
-                                    <div className="col-6 mb-3">
-                                    <div id='score-entry'>
-                                      {p4HoleIndex+1 < 19 &&
-                                          <p style={{fontSize:"24px", textAlign:"center"}}>Hole {p4HoleIndex+1}</p>}
-                                          {p4HoleIndex+1 === 19 &&
-                                          <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
-                                          <Row>
-                                            <div className="col-4 mb-3">
-                                              {p4HoleIndex+1 !== 1 &&
-                                              <button onClick={toP4PrevHole} style={{fontSize: "32px"}}>{'-'}</button>}
-                                            </div>
-                                            <div className="col-4 mb-3">
-                                              <input name={`h${p4HoleIndex+1}P4Score`} value={window.sessionStorage.getItem(`h${p4HoleIndex+1}P4Score`)}  onChange={onChangeP4ScoreCard} type="number" min={"0"} max={"15"} style={{
-                                                width:"3.5rem", 
-                                                height:"3.5rem", 
-                                                margin:"0 -12px", 
-                                                padding:"12px 20px", 
-                                                display:"block", 
-                                                border:"1px solid #ccc", 
-                                                borderRadius: "4px", 
-                                                fontSize: "24px"
-                                                }}
-                                              />
-                                            </div>
-                                            <div className="col-4 mb-3">
-                                              {p4HoleIndex+1 !== 19 && member4Id &&
-                                              <button onClick={() => { toP4NextHole(); updateP4ScoreCard();}} style={{fontSize:"32px"}}> {'+'}</button>}
-                                            </div>
-                                        </Row>
-                                        <button onClick={removeSessionStorageP4Scores} className='btn btn-primary'>Reset scores</button>
-                                        </div>
-                                    </div>
-                                    </Row>
-                                </div>}
-                            </Modal.Body>}
-
-                            
-                            <Modal.Footer>
-                            {p1HoleIndex+1 === 19 &&
-                              <Button variant='primary' onClick={adminUpdateScorecard}>Submit</Button>}
-                            </Modal.Footer>
-                          </Modal>
-                        </>
-
-                        {/*Show Scorecard modal*/}
-              <>
-                    <Modal 
-                      show={scoreCardModal} 
-                      onHide={handleCloseScoreCard} 
-                      dialogClassName="modal-content-full modal-dialog-full"
-                      size="m"
-                      centered
-                      responsive
-                    >
-                      <Modal.Header closeButton>
-                        <Modal.Title id='scoreCardModal'>
-                          Score Card for {props.event.name}
-                          
-                        </Modal.Title>
-                      </Modal.Header>
-                      {pendingApiCall && 
-                      <Modal.Body>
-                      <Spinner></Spinner>
-                      </Modal.Body>
-                      }
-                      <Modal.Body>
-                          <Scorecard entrant={entrant} holes={holes}/>
-                      
-                      </Modal.Body>
-                    </Modal>
-              </>
           </div>
   );
 };

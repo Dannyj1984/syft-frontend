@@ -109,8 +109,6 @@ export const EventSignupPage = (props) => {
         });
       };
 
-      console.log(courseList)
-
         return (
           
           <div className="container">

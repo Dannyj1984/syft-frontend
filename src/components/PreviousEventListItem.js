@@ -815,7 +815,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h18Score" : p4ScoreCardObj.h18P4Score,
     
     })
-    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
@@ -840,7 +839,6 @@ const [newTeeTime, setNewTeeTime] = useState({
         [name]: value
       };
     });
-    console.log(p1ScoreCardObj);
     setErrors((previousErrors) => {
       return {
         ...previousErrors,
@@ -961,7 +959,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       const { value, name } = event.target;
         setMemberSelected(true);
         setMembersId(value);
-        console.log(membersId)
       setErrors((previousErrors) => {
         return {
           ...previousErrors,
@@ -1157,8 +1154,6 @@ const [newTeeTime, setNewTeeTime] = useState({
         h18P4Score: 0
       })
     };
-
-    console.log(sortedEntrants)
 
       //Format date from backend to be DD-MM-YYYY
 

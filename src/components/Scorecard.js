@@ -1,5 +1,7 @@
 import React from 'react';
-import { propTypes } from 'react-bootstrap/esm/Image';
+
+import { Modal } from "react-bootstrap";
+import Spinner from './Spinner';
 
 const scoreCard = (props) => {
 
@@ -520,174 +522,185 @@ const scoreCard = (props) => {
     let totalPoints = front9Points + back9Points;
 
     return (
-      <div>
-      <h3>{props.entrant.member.firstName} {props.entrant.member.surname} ({props.entrant.coursehcp})</h3>
-    <article className="front9">
-    <div className="hole">
-        <span span className={'holeSpanH'}>Front</span>
-        <span span className='holeSpan'>1</span>
-        <span span className='holeSpan'>2</span>
-        <span span className='holeSpan'>3</span>
-        <span span className='holeSpan'>4</span>
-        <span span className='holeSpan'>5</span>
-        <span span className='holeSpan'>6</span>
-        <span span className='holeSpan'>7</span>
-        <span span className='holeSpan'>8</span>
-        <span span className='holeSpan'>9</span>
-        <span span className='holeSpan'>Out</span>
-    </div>
-    <div className="par">
-        <span span className='holeSpanH'>Par</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h1Par}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h2Par}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h3Par}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h4Par}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h5Par}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h6Par}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h7Par}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h8Par}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h9Par}</span>
-        <span span className='holeSpan'>{front9Par}</span>
-    </div>
-    <div className="index">
-        <span span className='holeSpanH'>Index</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h1Index}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h2Index}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h3Index}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h4Index}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h5Index}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h6Index}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h7Index}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h8Index}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h9Index}</span>
-    </div>
-    <div className="gross">
-        <span span className='holeSpanH'>Gross</span>
-        <span span className={grossScoreClassnameh1}>{props.entrant.scoreCard.h1Score}</span>
-        <span span className={grossScoreClassnameh2}>{props.entrant.scoreCard.h2Score}</span>
-        <span span className={grossScoreClassnameh3}>{props.entrant.scoreCard.h3Score}</span>
-        <span span className={grossScoreClassnameh4}>{props.entrant.scoreCard.h4Score}</span>
-        <span span className={grossScoreClassnameh5}>{props.entrant.scoreCard.h5Score}</span>
-        <span span className={grossScoreClassnameh6}>{props.entrant.scoreCard.h6Score}</span>
-        <span span className={grossScoreClassnameh7}>{props.entrant.scoreCard.h7Score}</span>
-        <span span className={grossScoreClassnameh8}>{props.entrant.scoreCard.h8Score}</span>
-        <span span className={grossScoreClassnameh9}>{props.entrant.scoreCard.h9Score}</span>
-        <span className="sub">{front9Score}</span>
-    </div>
-    <div className="score">
-        <span span className='holeSpanH'>Nett</span>
-        <span span className={NettScoreClassnameh1}>{props.entrant.scoreCard.h1NettScore}</span>
-        <span span className={NettScoreClassnameh2}>{props.entrant.scoreCard.h2NettScore}</span>
-        <span span className={NettScoreClassnameh3}>{props.entrant.scoreCard.h3NettScore}</span>
-        <span span className={NettScoreClassnameh4}>{props.entrant.scoreCard.h4NettScore}</span>
-        <span span className={NettScoreClassnameh5}>{props.entrant.scoreCard.h5NettScore}</span>
-        <span span className={NettScoreClassnameh6}>{props.entrant.scoreCard.h6NettScore}</span>
-        <span span className={NettScoreClassnameh7}>{props.entrant.scoreCard.h7NettScore}</span>
-        <span span className={NettScoreClassnameh8}>{props.entrant.scoreCard.h8NettScore}</span>
-        <span span className={NettScoreClassnameh9}>{props.entrant.scoreCard.h9NettScore}</span>
-        <span className="sub">{front9NettScore}</span>
-    </div>
-    <div className="points">
-        <span span className='holeSpanH'>Points</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h1Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h2Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h3Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h4Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h5Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h6Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h7Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h8Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h9Points}</span>
-        <span className="sub">{front9Points}</span>
-    </div>
-</article>
-<article className="back9">
-    <div className="hole">
-        <span className='holeSpanH'>Back</span>
-        <span className='holeSpan'>10</span>
-        <span className='holeSpan'>11</span>
-        <span className='holeSpan'>12</span>
-        <span className='holeSpan'>13</span>
-        <span className='holeSpan'>14</span>
-        <span className='holeSpan'>15</span>
-        <span className='holeSpan'>16</span>
-        <span className='holeSpan'>17</span>
-        <span className='holeSpan'>18</span>
-        <span className='holeSpan'>In</span>
-        <span className='holeSpan'>Total</span>
-    </div>
-    <div className="par">
-        <span className='holeSpanH'>Par</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h1Par}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h2Par}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h3Par}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h4Par}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h5Par}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h6Par}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h7Par}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h8Par}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h9Par}</span>
-        <span className='holeSpan'>{back9Par}</span>
-		<span className='holeSpan'>{totalPar}</span>
-    </div>
-    <div className="index">
-        <span className='holeSpanH'>Index</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h10Index}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h11Index}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h12Index}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h13Index}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h14Index}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h15Index}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h16Index}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h17Index}</span>
-        <span className='holeSpan'>{props.entrant.scoreCard.h18Index}</span>
-    </div>
-    <div className="gross">
-        <span span className='holeSpanH'>Gross</span>
-        <span span className={grossScoreClassnameh10}>{props.entrant.scoreCard.h10Score}</span>
-        <span span className={grossScoreClassnameh11}>{props.entrant.scoreCard.h11Score}</span>
-        <span span className={grossScoreClassnameh12}>{props.entrant.scoreCard.h12Score}</span>
-        <span span className={grossScoreClassnameh13}>{props.entrant.scoreCard.h13Score}</span>
-        <span span className={grossScoreClassnameh14}>{props.entrant.scoreCard.h14Score}</span>
-        <span span className={grossScoreClassnameh15}>{props.entrant.scoreCard.h15Score}</span>
-        <span span className={grossScoreClassnameh16}>{props.entrant.scoreCard.h16Score}</span>
-        <span span className={grossScoreClassnameh17}>{props.entrant.scoreCard.h17Score}</span>
-        <span span className={grossScoreClassnameh18}>{props.entrant.scoreCard.h18Score}</span>
-        <span className="sub">{back9Score}</span>
-        <span className="total">{front9Score + back9Score}</span>
-    </div>
-    <div className="score">
-        <span span className='holeSpanH'>Nett</span>
-        <span span className={NettScoreClassnameh10}>{props.entrant.scoreCard.h10NettScore}</span>
-        <span span className={NettScoreClassnameh11}>{props.entrant.scoreCard.h11NettScore}</span>
-        <span span className={NettScoreClassnameh12}>{props.entrant.scoreCard.h12NettScore}</span>
-        <span span className={NettScoreClassnameh13}>{props.entrant.scoreCard.h13NettScore}</span>
-        <span span className={NettScoreClassnameh14}>{props.entrant.scoreCard.h14NettScore}</span>
-        <span span className={NettScoreClassnameh15}>{props.entrant.scoreCard.h15NettScore}</span>
-        <span span className={NettScoreClassnameh16}>{props.entrant.scoreCard.h16NettScore}</span>
-        <span span className={NettScoreClassnameh17}>{props.entrant.scoreCard.h17NettScore}</span>
-        <span span className={NettScoreClassnameh18}>{props.entrant.scoreCard.h18NettScore}</span>
-        <span className="sub">{back9NettScore}</span>
-        <span className="total">{totalNett}</span>
-    </div>
+        <>
+        
+        <Modal.Header closeButton>
+        <Modal.Title id='scoreCardModal'>
+          Score Card for {props.event.name}
+          
+        </Modal.Title>
+      </Modal.Header>
+        <Modal.Body>
+            <div>
+                <h3>{props.entrant.member.firstName} {props.entrant.member.surname} ({props.entrant.coursehcp})</h3>
+                <article className="front9">
+                    <div className="hole">
+                        <span span className={'holeSpanH'}>Front</span>
+                        <span span className='holeSpan'>1</span>
+                        <span span className='holeSpan'>2</span>
+                        <span span className='holeSpan'>3</span>
+                        <span span className='holeSpan'>4</span>
+                        <span span className='holeSpan'>5</span>
+                        <span span className='holeSpan'>6</span>
+                        <span span className='holeSpan'>7</span>
+                        <span span className='holeSpan'>8</span>
+                        <span span className='holeSpan'>9</span>
+                        <span span className='holeSpan'>Out</span>
+                    </div>
+                    <div className="par">
+                        <span span className='holeSpanH'>Par</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h1Par}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h2Par}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h3Par}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h4Par}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h5Par}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h6Par}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h7Par}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h8Par}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h9Par}</span>
+                        <span span className='holeSpan'>{front9Par}</span>
+                    </div>
+                    <div className="index">
+                        <span span className='holeSpanH'>Index</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h1Index}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h2Index}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h3Index}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h4Index}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h5Index}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h6Index}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h7Index}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h8Index}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h9Index}</span>
+                    </div>
+                    <div className="gross">
+                        <span span className='holeSpanH'>Gross</span>
+                        <span span className={grossScoreClassnameh1}>{props.entrant.scoreCard.h1Score}</span>
+                        <span span className={grossScoreClassnameh2}>{props.entrant.scoreCard.h2Score}</span>
+                        <span span className={grossScoreClassnameh3}>{props.entrant.scoreCard.h3Score}</span>
+                        <span span className={grossScoreClassnameh4}>{props.entrant.scoreCard.h4Score}</span>
+                        <span span className={grossScoreClassnameh5}>{props.entrant.scoreCard.h5Score}</span>
+                        <span span className={grossScoreClassnameh6}>{props.entrant.scoreCard.h6Score}</span>
+                        <span span className={grossScoreClassnameh7}>{props.entrant.scoreCard.h7Score}</span>
+                        <span span className={grossScoreClassnameh8}>{props.entrant.scoreCard.h8Score}</span>
+                        <span span className={grossScoreClassnameh9}>{props.entrant.scoreCard.h9Score}</span>
+                        <span className="sub">{front9Score}</span>
+                    </div>
+                    <div className="score">
+                        <span span className='holeSpanH'>Nett</span>
+                        <span span className={NettScoreClassnameh1}>{props.entrant.scoreCard.h1NettScore}</span>
+                        <span span className={NettScoreClassnameh2}>{props.entrant.scoreCard.h2NettScore}</span>
+                        <span span className={NettScoreClassnameh3}>{props.entrant.scoreCard.h3NettScore}</span>
+                        <span span className={NettScoreClassnameh4}>{props.entrant.scoreCard.h4NettScore}</span>
+                        <span span className={NettScoreClassnameh5}>{props.entrant.scoreCard.h5NettScore}</span>
+                        <span span className={NettScoreClassnameh6}>{props.entrant.scoreCard.h6NettScore}</span>
+                        <span span className={NettScoreClassnameh7}>{props.entrant.scoreCard.h7NettScore}</span>
+                        <span span className={NettScoreClassnameh8}>{props.entrant.scoreCard.h8NettScore}</span>
+                        <span span className={NettScoreClassnameh9}>{props.entrant.scoreCard.h9NettScore}</span>
+                        <span className="sub">{front9NettScore}</span>
+                    </div>
+                    <div className="points">
+                        <span span className='holeSpanH'>Points</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h1Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h2Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h3Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h4Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h5Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h6Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h7Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h8Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h9Points}</span>
+                        <span className="sub">{front9Points}</span>
+                    </div>
+                </article>
+                <article className="back9">
+                    <div className="hole">
+                        <span className='holeSpanH'>Back</span>
+                        <span className='holeSpan'>10</span>
+                        <span className='holeSpan'>11</span>
+                        <span className='holeSpan'>12</span>
+                        <span className='holeSpan'>13</span>
+                        <span className='holeSpan'>14</span>
+                        <span className='holeSpan'>15</span>
+                        <span className='holeSpan'>16</span>
+                        <span className='holeSpan'>17</span>
+                        <span className='holeSpan'>18</span>
+                        <span className='holeSpan'>In</span>
+                        <span className='holeSpan'>Total</span>
+                    </div>
+                    <div className="par">
+                        <span className='holeSpanH'>Par</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h1Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h2Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h3Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h4Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h5Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h6Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h7Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h8Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h9Par}</span>
+                        <span className='holeSpan'>{back9Par}</span>
+                        <span className='holeSpan'>{totalPar}</span>
+                    </div>
+                    <div className="index">
+                        <span className='holeSpanH'>Index</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h10Index}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h11Index}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h12Index}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h13Index}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h14Index}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h15Index}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h16Index}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h17Index}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h18Index}</span>
+                    </div>
+                    <div className="gross">
+                        <span span className='holeSpanH'>Gross</span>
+                        <span span className={grossScoreClassnameh10}>{props.entrant.scoreCard.h10Score}</span>
+                        <span span className={grossScoreClassnameh11}>{props.entrant.scoreCard.h11Score}</span>
+                        <span span className={grossScoreClassnameh12}>{props.entrant.scoreCard.h12Score}</span>
+                        <span span className={grossScoreClassnameh13}>{props.entrant.scoreCard.h13Score}</span>
+                        <span span className={grossScoreClassnameh14}>{props.entrant.scoreCard.h14Score}</span>
+                        <span span className={grossScoreClassnameh15}>{props.entrant.scoreCard.h15Score}</span>
+                        <span span className={grossScoreClassnameh16}>{props.entrant.scoreCard.h16Score}</span>
+                        <span span className={grossScoreClassnameh17}>{props.entrant.scoreCard.h17Score}</span>
+                        <span span className={grossScoreClassnameh18}>{props.entrant.scoreCard.h18Score}</span>
+                        <span className="sub">{back9Score}</span>
+                        <span className="total">{front9Score + back9Score}</span>
+                    </div>
+                    <div className="score">
+                        <span span className='holeSpanH'>Nett</span>
+                        <span span className={NettScoreClassnameh10}>{props.entrant.scoreCard.h10NettScore}</span>
+                        <span span className={NettScoreClassnameh11}>{props.entrant.scoreCard.h11NettScore}</span>
+                        <span span className={NettScoreClassnameh12}>{props.entrant.scoreCard.h12NettScore}</span>
+                        <span span className={NettScoreClassnameh13}>{props.entrant.scoreCard.h13NettScore}</span>
+                        <span span className={NettScoreClassnameh14}>{props.entrant.scoreCard.h14NettScore}</span>
+                        <span span className={NettScoreClassnameh15}>{props.entrant.scoreCard.h15NettScore}</span>
+                        <span span className={NettScoreClassnameh16}>{props.entrant.scoreCard.h16NettScore}</span>
+                        <span span className={NettScoreClassnameh17}>{props.entrant.scoreCard.h17NettScore}</span>
+                        <span span className={NettScoreClassnameh18}>{props.entrant.scoreCard.h18NettScore}</span>
+                        <span className="sub">{back9NettScore}</span>
+                        <span className="total">{totalNett}</span>
+                    </div>
 
-    <div className="points">
-        <span span className='holeSpanH'>Points</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h10Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h11Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h12Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h13Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h14Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h15Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h16Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h17Points}</span>
-        <span span className='holeSpan'>{props.entrant.scoreCard.h18Points}</span>
-        <span className="sub">{back9Points}</span>
-        <span className="sub">{totalPoints}</span>
-    </div>
-</article>
-</div>
-  );
+                    <div className="points">
+                        <span span className='holeSpanH'>Points</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h10Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h11Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h12Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h13Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h14Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h15Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h16Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h17Points}</span>
+                        <span span className='holeSpan'>{props.entrant.scoreCard.h18Points}</span>
+                        <span className="sub">{back9Points}</span>
+                        <span className="sub">{totalPoints}</span>
+                    </div>
+                </article>
+            </div>
+        </Modal.Body>
+        </>
+    );
 };
 
 export default scoreCard;

@@ -12,8 +12,6 @@ import Spinner from './Spinner';
 
 const EventListItem = (props) => {
 
-    console.log(props)
-
     const thisTournamentType = props.tournament.type;
     const [errors, setErrors] = useState({});
     const [pendingApiCall, setPendingApiCall] = useState(false);
