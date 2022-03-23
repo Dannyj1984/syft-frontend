@@ -236,13 +236,17 @@ const EventListItem = (props) => {
         }
     };
 
-    const checkIfUserEntered =(username) => {
-        for(let i = 0; i < props.tournament.tournamentEntrant.length; i++) {
-          if(props.tournament.tournamentEntrant[i].member.username === username) {
-            setEntered(true)
-          }
-      }
-  }
+    console.log(props.tournament)
+
+  //   const checkIfUserEntered =(username) => {
+  //     if(props.tournament.tournamentEntrant.length > 0) {
+  //       for(let i = 0; i < props.tournament.tournamentEntrant.length; i++) {
+  //         if(props.tournament.tournamentEntrant[i].member.username === username) {
+  //           setEntered(true)
+  //         }
+  //     }
+  //   }
+  // }
 
   //load data -  and check if the logged in user has already entered the event
   useEffect(() => {
@@ -287,7 +291,7 @@ const EventListItem = (props) => {
             console.log(e)
           })
         
-        checkIfUserEntered(username)
+        
             //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
     if(thisTournamentType === 'Medal') {
         setMedalEntrants(props.tournament.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));

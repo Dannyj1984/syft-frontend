@@ -1495,6 +1495,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                       teeTimes={teeTimes}
                       loggedInUser={props.loggedInUser}
                       handleShowTeeTime={handleShowTeeTime}
+                      handleShowAddTeeTime={handleShowAddTeeTime}
                       handleShowEditTeeTime={handleShowEditTeeTime}
                     />
 

@@ -49,7 +49,7 @@ export const TournamentList = (props) => {
     };
 
     const { content, first, last } = page;
-
+    console.log(content)
     
   return (
         <div >
