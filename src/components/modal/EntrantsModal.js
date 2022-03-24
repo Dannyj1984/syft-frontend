@@ -8,8 +8,9 @@ const EntrantsModal = (props) => {
 
   //Check if previous event
   let date = new Date(props.event.date)
-    let today = new Date();
-    const previous = date < today
+  let today = new Date();
+  today.setHours(0,0,0,0);
+  const previous = date < today
     return (
 <Modal show={props.showModalEntrants} onHide={props.handleCloseEntrants}>
         <Modal.Header closeButton>
