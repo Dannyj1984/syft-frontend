@@ -203,13 +203,13 @@ const removeTournamentEntrant = () => {
     })
           //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
           if(thisTournamentType === 'Medal') {
-            setSortedEntrants(props.tournament.tournamentEntrants.sort((a, b) => (a.totalScore < b.tournamentEntrants) ? -1 : 1));
+            setSortedEntrants(props.tournament.tournamentEntrants.sort((a, b) => (a.totalScore < b.totalScore) ? -1 : 1));
           }
           if(thisTournamentType === 'Stableford') {
-            setSortedEntrants(props.tournament.tournamentEntrants.sort((a, b) => (a.totalScore < b.tournamentEntrants) ? 1 : -1));
+            setSortedEntrants(props.tournament.tournamentEntrants.sort((a, b) => (a.totalScore < b.totalScore) ? 1 : -1));
           }
           checkIfUserEntered(props.loggedInUser.username);
-}, [tournament, props.loggedInUser, thisTournamentType,]);
+}, [tournament]);
 
 console.log(props.tournament)
     return (
@@ -365,7 +365,7 @@ console.log(props.tournament)
              </div>
         </div>
         {!entered &&
-            <div className="float-right btn-group btn-group-l">
+            <div className="float-right mt-2">
                     <ButtonWithProgress
                     onClick={enterTournament}
                     disabled={
@@ -388,8 +388,13 @@ console.log(props.tournament)
             <div>
                 {props.loggedInUser.role === 'ADMIN' && 
                 <div>
-                    <button className="btn float-left btn-success mt-2" onClick={handleShowAdminEnterMember} style={{width:"46%"}} >Manage Entrants</button>
+                    <button 
+                        className="btn float-left btn-success mt-2" 
+                        onClick={handleShowAdminEnterMember} 
+                        style={{width:"46%"}} >Manage Entrants
+                    </button>
                 </div>}
+
             </div>
     </div>
     )
