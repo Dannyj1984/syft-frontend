@@ -41,7 +41,7 @@ export const TournamentRegistrationPage = (props) => {
       const onClickTournamentRegister = () => {
 
         let societyId = props.user.society.id;
-        const event = {
+        const tournament = {
           name: form.name.trim(),
           type: form.type,
           startDate: form.startDate,
@@ -49,16 +49,15 @@ export const TournamentRegistrationPage = (props) => {
       };
       
         setPendingApiCall(true);
-          props.actions
-            .postSignupTournament(event, societyId)
+          apiCalls
+            .createTournament(societyId, tournament)
             .then((response) => {
             setPendingApiCall(false);
-          props.history.push('/events');
+          props.history.push('/tournaments');
           })
         .catch((apiError) => {
-          if (apiError.response.data && apiError.response.data.validationErrors) {
-            setErrors(apiError.response.data.validationErrors);
-          }
+          console.log(apiError)
+          
           setPendingApiCall(false);
         });
       };
@@ -67,6 +66,7 @@ export const TournamentRegistrationPage = (props) => {
           
           <div className="container">
           {pendingApiCall && <Spinner />}
+          {!pendingApiCall &&
             <div>
             <h1 className="text-center">Register Tournament</h1>
             <div>
@@ -131,7 +131,7 @@ export const TournamentRegistrationPage = (props) => {
                 />
                   <hr></hr>
               </div>
-              </div>
+              </div>}
           </div>
           );
         }
@@ -158,7 +158,7 @@ export const TournamentRegistrationPage = (props) => {
         const mapDispatchToProps = (dispatch) => {
             return {
               actions: {
-                postSignupTournament: (event, societyId) => dispatch(authActions.tournamentSignupHandler(event, societyId))
+                postSignupTournament: (societyId, tournament) => dispatch(authActions.tournamentSignupHandler(societyId, tournament))
               }
             };
           };

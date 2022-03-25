@@ -267,6 +267,10 @@ export const signupSociety = (society) => {
 
 //tournament calls
 
+export const createTournament = (societyId, tournament) => {
+  return axios.post(url + '/api/1.0/management/tournament/create/' + societyId, tournament);
+};
+
 export const tournamentPage = (societyId, param = { page: 0, size: 9 }) => {
   const path = url + `/api/1.0/tournament/${societyId}?page=${param.page || 0}&size=${param.size || 9}&sort=start_date,asc`;
  
@@ -295,12 +299,12 @@ export const completeTournament = (id) => {
 
 export const enterTournamentEntrant = (tournamentId, memberId) => {
   const path = url + `/api/1.0/tournament/entrants/${tournamentId}/${memberId}`;
-  return axios.get(path);
+  return axios.post(path);
 };
 
 export const removeTournamentEntrant = (tournamentId, memberId) => {
   const path = url + `/api/1.0/tournament/entrants/${memberId}/${tournamentId}`;
-  return axios.get(path);
+  return axios.delete(path);
 };
 
 export const getTournamentEntrants = (tournamentId) => {

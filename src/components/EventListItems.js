@@ -353,6 +353,7 @@ const [newTeeTime, setNewTeeTime] = useState({
               onClick: () => 
                 apiCalls.completeEvent(props.event.id)
                 .then((response) => {
+                  console.log(response)
                   window.location.reload()
                 }) 
             },

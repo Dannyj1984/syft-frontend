@@ -7,6 +7,7 @@ import TournamentEntrantsModal from './modal/TournamentEntrantsModal';
 import TournamentEventsModal from './modal/TournamentEventModal';
 import { confirmAlert } from 'react-confirm-alert';
 import AddEventModal from './modal/AddEventModal';
+import ButtonWithProgress from './ButtonWithProgress';
 
 const TournamentCard = (props) => {
 
@@ -22,12 +23,24 @@ const TournamentCard = (props) => {
   const [showAddEvent, setShowAddEvent] = useState(false);
   const handleCloseAddEvent = () => setShowAddEvent(false);
   const handleShowAddEvents = () => setShowAddEvent(true);
+  const [showAdminTournamentEnterMember, setShowAdminTournamentEnterMember] = useState(false);
+  const handleCloseAdminEnterMember = () => setShowAdminTournamentEnterMember(false);
+  const handleShowAdminEnterMember = () => setShowAdminTournamentEnterMember(true);
   const [entrants, setEntrants] = useState([])
   const [sortedEntrants, setSortedEntrants] = useState([]);
   const [showEvents, setShowEvents] = useState(false);
   const handleCloseEvents = () => setShowEvents(false);
   const handleShowEvents = () => setShowEvents(true);
   const [events, setEvents] = useState([{}]);
+  const [pendingApiCall, setPendingApiCall] = useState(false);
+  const [entered, setEntered] = useState(false);
+  const checkIfUserEntered =(username) => {
+    for(let i = 0; i < props.tournament.tournamentEntrants.length; i++) {
+      if(props.tournament.tournamentEntrants[i].member.username === username) {
+        setEntered(true)
+      }
+  }
+}
   
 
   const deleteTournament = () => {
@@ -74,6 +87,105 @@ const TournamentCard = (props) => {
       });
 }
 
+const enterTournament = () => {
+    const tournamentId = props.tournament.id;
+    const memberId = props.loggedInUser.id;
+
+    confirmAlert({
+        title: 'Do you want to enter this tournament?',
+        message: 'This will enter you into this tournament',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => 
+              apiCalls.enterTournamentEntrant(tournamentId, memberId)
+              .then ((response => {
+                //Confirm entry with member
+                confirmAlert({
+                  title: 'You have successully entered',
+                  message: 'Please ensure you also enter the events for this tournament',
+                  buttons: [
+                    {
+                      label: 'OK',
+                      onClick: () =>  window.location.reload()
+                    }
+                  ]
+                });
+              }))
+              .catch((apiError) => {
+                //If error returned because the course has no holes set up yet
+                if (apiError.response.status === 500) {
+                  confirmAlert({
+                    title: 'Oops, looks like this tournament isnt ready for entry yet.',
+                    message: 'Please speak to the tournament organiser',
+                    buttons: [
+                      {
+                        label: 'ok',
+                        onClick: () => ''
+                      }
+                    ]
+                  });
+                } 
+                setPendingApiCall(false);
+              })
+          },
+          {
+            label: 'No',
+            onClick: () => ''
+          }
+        ]
+      });
+}
+
+const removeTournamentEntrant = () => {
+    const tournamentId = props.tournament.id;
+    const memberId = props.loggedInUser.id;
+    confirmAlert({
+        title: 'Do you want to withdraw this tournament?',
+        message: 'This will remove you from this tournament',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => 
+              apiCalls.removeTournamentEntrant(tournamentId, memberId)
+              .then ((response => {
+                //Confirm entry with member
+                confirmAlert({
+                  title: 'You have successully withdrawn',
+                  message: 'Please ensure you withdraw from all of the events',
+                  buttons: [
+                    {
+                      label: 'OK',
+                      onClick: () =>  window.location.reload()
+                    }
+                  ]
+                });
+              }))
+              .catch((apiError) => {
+                //If error returned because the course has no holes set up yet
+                if (apiError.response.status === 500) {
+                  confirmAlert({
+                    title: 'Oops, please try again',
+                    message: 'If the problem continues please speak to the organiser',
+                    buttons: [
+                      {
+                        label: 'ok',
+                        onClick: () => ''
+                      }
+                    ]
+                  });
+                } 
+                setPendingApiCall(false);
+              })
+          },
+          {
+            label: 'No',
+            onClick: () => ''
+          }
+        ]
+      });
+}
+
   useEffect(() => {
     const tournamentId = tournament.id;
     apiCalls
@@ -96,7 +208,10 @@ const TournamentCard = (props) => {
           if(thisTournamentType === 'Stableford') {
             setSortedEntrants(props.tournament.tournamentEntrants.sort((a, b) => (a.totalScore < b.tournamentEntrants) ? 1 : -1));
           }
+          checkIfUserEntered(props.loggedInUser.username);
 }, [tournament, props.loggedInUser, thisTournamentType,]);
+
+console.log(props.tournament)
     return (
     <div>
         <div className="card-body">
@@ -106,9 +221,9 @@ const TournamentCard = (props) => {
                 <p className="m-0">ID: {props.tournament.id}</p>}
                 <p className="m-0">Start Date : {props.formatStartDate}</p>
                 <p className="m-0">End Date : {props.formatEndDate}</p>
-                <p className="m-0">Entries : {props.tournament.noOfEntrants}</p>
+                <p className="m-0">Entries : {props.tournament.tournamentEntrants.length}</p>
                 <p className="m-0">Tournament Format : {props.tournament.type}</p>
-                <p className="m-0">No of events: {props.tournament.noOfEvents}</p>
+                <p className="m-0">No of events: {props.tournament.events.length}</p>
                 <p className="m-0">Status : {props.tournament.status === 'open' ? 'Open' : 'Complete'}</p>
             </div>
         </div>
@@ -215,10 +330,10 @@ const TournamentCard = (props) => {
         </div>
         <div className="float-left btn-group btn-group-m p-2">
             <div>
-                {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  && (props.tournament.status === 'Open') &&
+                {(props.loggedInUser.role === 'ADMIN')  && (props.tournament.status === 'Open') &&
                     <button  
                         className="btn btn-success tooltips" 
-                        // onClick={completeTournament} 
+                        //onClick={completeTournament} 
                         data-placement="top" 
                         data-toggle="tooltip" 
                         title="complete tournament"
@@ -249,6 +364,33 @@ const TournamentCard = (props) => {
                 
              </div>
         </div>
+        {!entered &&
+            <div className="float-right btn-group btn-group-l">
+                    <ButtonWithProgress
+                    onClick={enterTournament}
+                    disabled={
+                    pendingApiCall  ? true : false
+                    }
+                    pendingApiCall={pendingApiCall}
+                    text="Enter"/>
+            </div>}
+            {entered && 
+            <div className="float-right mt-2">
+                <ButtonWithProgress
+                    onClick={removeTournamentEntrant}
+                    disabled={
+                    pendingApiCall  ? true : false
+                    }
+                    pendingApiCall={pendingApiCall}
+                    text="Withdraw"
+                />
+            </div>}
+            <div>
+                {props.loggedInUser.role === 'ADMIN' && 
+                <div>
+                    <button className="btn float-left btn-success mt-2" onClick={handleShowAdminEnterMember} style={{width:"46%"}} >Manage Entrants</button>
+                </div>}
+            </div>
     </div>
     )
 };

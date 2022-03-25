@@ -66,9 +66,9 @@ export const signupSocietyHandler = (society) => {
 
 //Tournament sign up
 
-export const tournamentSignupHandler = (tournament, societyId) => {
+export const tournamentSignupHandler = (societyId, tournament) => {
   return async function(dispatch) {
-    await apiCalls.enterTournamentEntrant(tournament, societyId); 
+    await apiCalls.createTournament(societyId, tournament); 
   };
 };
 

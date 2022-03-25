@@ -23,7 +23,7 @@ const TournamentStablefordModalLeaderboard = (props) => {
                       <thead>
                         <tr>
                           <th >Member </th>
-                          <th >Total Score</th>
+                          <th >Total Score (events played)</th>
                         </tr>
                       </thead>
                       <tbody >
@@ -31,7 +31,7 @@ const TournamentStablefordModalLeaderboard = (props) => {
                         
                         <tr key={entrant.member.id}>
                           <th >{entrant.member.firstName} {entrant.member.surname}</th>
-                          <th >{Math.round(entrant.totalScore)}<span style={{marginLeft:"10px"}}></span> </th>
+                          <th >{Math.round(entrant.totalScore)} <span style={{marginLeft:"10px"}}>({entrant.eventsPlayed} / {props.tournament.noOfEvents})</span> </th>
                         </tr>
                       ))}
                       </tbody>
