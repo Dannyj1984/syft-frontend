@@ -13,11 +13,20 @@ export const login = (user) => {
   return axios.post(url + '/api/1.0/login', {}, { auth: user });
 };
 
+// export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
+//   if (isLoggedIn) {
+//     axios.defaults.headers.common['Authorization'] = `Basic ${btoa(
+//       username + ':' + password
+//     )}`;
+//   } else {
+//     delete axios.defaults.headers.common['Authorization'];
+//   }
+// };
+
 export const setAuthorizationHeader = ({ username, password, isLoggedIn }) => {
   if (isLoggedIn) {
-    axios.defaults.headers.common['Authorization'] = `Basic ${btoa(
-      username + ':' + password
-    )}`;
+      axios.defaults.headers.common['Authorization'] = `Basic ${Buffer.from(username + ':' + password).toString('base64')
+    }`
   } else {
     delete axios.defaults.headers.common['Authorization'];
   }
@@ -173,8 +182,8 @@ export const getEvent = (eventname) => {
   return axios.get(url + `/api/1.0/events/${eventname}`);
 };
 
-export const getEvents = () => {
-  return axios.get(url + `/api/1.0/management/events`);
+export const getEvents = (societyId) => {
+  return axios.get(url + `/api/1.0/Events/list/${societyId}`);
 };
 
 export const updateEvent = (eventId, body) => {
@@ -258,8 +267,9 @@ export const signupSociety = (society) => {
 
 //tournament calls
 
-export const tournamentPage = (id, param = { page: 0, size: 9 }) => {
-  const path = url + `/api/1.0/tournament/${id}?page=${param.page || 0}&size=${param.size || 9}&sort=start_date,asc`;
+export const tournamentPage = (societyId, param = { page: 0, size: 9 }) => {
+  const path = url + `/api/1.0/tournament/${societyId}?page=${param.page || 0}&size=${param.size || 9}&sort=start_date,asc`;
+ 
   return axios.get(path);
 };
 
@@ -268,7 +278,7 @@ export const previousTournamentPage = (id, param = { page: 0, size: 9 }) => {
   return axios.get(path);
 };
 
-export const tournamentList = (id, param = { page: 0, size: 9 }) => {
+export const tournamentList = (id) => {
   const path = url + `/api/1.0/tournament/list/${id}`;
   return axios.get(path);
 };
@@ -283,7 +293,7 @@ export const completeTournament = (id) => {
   return axios.get(path);
 };
 
-export const addTournamentEntrant = (tournamentId, memberId) => {
+export const enterTournamentEntrant = (tournamentId, memberId) => {
   const path = url + `/api/1.0/tournament/entrants/${tournamentId}/${memberId}`;
   return axios.get(path);
 };
@@ -297,6 +307,16 @@ export const getTournamentEntrants = (tournamentId) => {
   const path = url + `/api/1.0/tournament/entrants/${tournamentId}`;
   return axios.get(path);
 };
+
+export const removeEventFromTournament = (tournamentId, eventId) => {
+  const path = url + `/api/1.0/management/tournament/removeEvent/${tournamentId}/${eventId}`;
+  return axios.put(path);
+}
+
+export const addEvent = (tournamentId, eventId) => {
+  const path = url + `/api/1.0/management/tournament/addEvent/${tournamentId}/${eventId}`;
+  return axios.put(path);
+}
 
 
 

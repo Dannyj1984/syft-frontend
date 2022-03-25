@@ -7,8 +7,6 @@ import Spinner from './Spinner';
 
 export const TournamentList = (props) => {
 
-    const [tournaments] = useState();
-
     const [page, setPage] = useState({
         content: [],
         number: 0,
@@ -30,7 +28,6 @@ export const TournamentList = (props) => {
     apiCalls
       .tournamentPage(id,{ page: requestedPage, size: 9 })
       .then((response) => {
-          console.log(response)
         setPage(response.data);
         setPendingApiCall(false)
       })
@@ -49,7 +46,6 @@ export const TournamentList = (props) => {
     };
 
     const { content, first, last } = page;
-    console.log(content)
     
   return (
         <div >
@@ -67,11 +63,12 @@ export const TournamentList = (props) => {
                       data-original-title="view"> Previous tournaments
                     </button>
             </Link>
+            <hr />
             <div className="list-group list-group-flush" data-testid="tournamentgroup">
               <div className="row">
               {content.map((tournament) => (
                   <div key={tournament.id} className="col-xl-4 col-m-12 mb-4">
-                  <TournamentsListItem tournament={tournament} tournaments={tournaments} />
+                  <TournamentsListItem tournament={tournament} />
                   </div>
                 ))}
               </div>

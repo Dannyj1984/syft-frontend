@@ -724,7 +724,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       const addHoles = () => {
         apiCalls.getCourseHoles(courseId)
           .then((response) => {
-            console.log(response)
           })
       }
 
@@ -846,7 +845,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h18Score" : p1ScoreCardObj.h18P1Score,
     
     })
-    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
@@ -1023,7 +1021,6 @@ const [newTeeTime, setNewTeeTime] = useState({
 
   const onChangeP1ScoreCard = (e) => {
     const { value, name } = e.target;
-    console.log(value, name)
     window.sessionStorage.setItem(name, value)
     setp1ScoreCardObj((previousp1ScoreCardObj) => {
       return {
@@ -1031,7 +1028,6 @@ const [newTeeTime, setNewTeeTime] = useState({
         [name]: value
       };
     });
-    console.log(p1ScoreCardObj);
     setErrors((previousErrors) => {
       return {
         ...previousErrors,
@@ -1348,14 +1344,12 @@ const [newTeeTime, setNewTeeTime] = useState({
       let score = parseInt(window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`));
       let newScore = score + 1;
       window.sessionStorage.setItem(`h${p1HoleIndex+1}P1Score`, newScore);
-      console.log(window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`))
     }
 
     const p1ScoreTakeOne = () => {
       let score = parseInt(window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`));
       let newScore = score - 1;
       window.sessionStorage.setItem(`h${p1HoleIndex+1}P1Score`, newScore);
-      console.log(window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`))
     }
 
     

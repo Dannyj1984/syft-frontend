@@ -1,7 +1,7 @@
 import React from 'react';
 import TournamentList from '../components/TournamentList';
 
-const Tournaments = () => {
+const TournamentsPage = () => {
     
         return (
             <div data-testid="tournamentPage">
@@ -11,4 +11,4 @@ const Tournaments = () => {
     }
 
 
-export default Tournaments;
+export default TournamentsPage;

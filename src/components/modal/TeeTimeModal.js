@@ -14,7 +14,6 @@ const TeeTimeModal = (props) => {
     let today = new Date();
     today.setHours(0, 0, 0, 0);
     const previous = date < today
-    console.log(date, today, previous)
     
 
     //Delete a teesheet

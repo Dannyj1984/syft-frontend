@@ -924,7 +924,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       window.sessionStorage.setItem(name, value);
       window.sessionStorage.setItem('member1_id', value);
       
-      console.log(value);
+      
       setErrors((previousErrors) => {
         return {
           ...previousErrors,
@@ -938,7 +938,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       window.sessionStorage.setItem(name, value);
       setMember2Id(value);
       setMember2Selected(true)
-      console.log(value);
+      
       setErrors((previousErrors) => {
         return {
           ...previousErrors,
@@ -952,7 +952,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       window.sessionStorage.setItem(name, value);
       setMember3Id(value);
       setMember3Selected(true)
-      console.log(value);
       setErrors((previousErrors) => {
         return {
           ...previousErrors,
