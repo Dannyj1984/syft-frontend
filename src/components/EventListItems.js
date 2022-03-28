@@ -353,7 +353,6 @@ const [newTeeTime, setNewTeeTime] = useState({
               onClick: () => 
                 apiCalls.completeEvent(props.event.id)
                 .then((response) => {
-                  console.log(response)
                   window.location.reload()
                 }) 
             },
@@ -599,7 +598,7 @@ const [newTeeTime, setNewTeeTime] = useState({
           .then((response) => {
             setMembers(response.data)
             setPendingApiCall(false)
-          })
+          }) 
           .catch = (e) => {
             console.log(e)
             setPendingApiCall(false)
@@ -1373,7 +1372,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                         <p className="m-0">ID: {props.event.id}</p>}
                         <p className="m-0">Course: {courseName}</p>
                         <p className="m-0">Date : {formatDate}</p>
-                        <p className="m-0">Entries : {props.event.currentEntrants} / {props.event.maxEntrants}</p>
+                        <p className="m-0">Entries : {props.event.entrants.length} / {props.event.maxEntrants}</p>
                         <p className="m-0">Event Format : {props.event.type}</p>
                         <p className="m-0">Cost : £{props.event.cost}</p>
                         <p className="m-0">Playing handicap : {props.event.ninetyFivePercent ? '95%' : '100%'}</p>
@@ -1574,7 +1573,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                     </div>
                   </div>
 
-                        {!entered &&
+                        {!entered && props.event.currentEntrants !== props.event.maxEntrants &&
                   <div className="float-right btn-group btn-group-m">
                           <ButtonWithProgress
                             onClick={enterEvent}
@@ -1585,9 +1584,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                             text="Enter"/>
                   </div>}
 
-                    
-
-                    {entered && props.event.currentEntrants === props.event.maxEntrants &&
+                  {!entered && props.event.currentEntrants === props.event.maxEntrants &&
                 <div className="float-right btn-group btn-group-m">
                             <button  
                                 className="btn btn-success tooltips m-2" 
@@ -1599,6 +1596,20 @@ const [newTeeTime, setNewTeeTime] = useState({
                             </button>
                     </div>}
 
+                    
+
+                    {entered && props.event.currentEntrants === props.event.maxEntrants &&
+                <div className="float-right btn-group btn-group-m">
+                            <button  
+                                className="btn btn-success tooltips m-2" 
+                                onClick={removeEntrant} 
+                                data-placement="top" 
+                                data-toggle="tooltip" 
+                                data-original-title="full">
+                                Withdraw
+                            </button>
+                    </div>}
+
                     {entered && props.event.currentEntrants !== props.event.maxEntrants &&
                 <div className="float-right btn-group btn-group-m">
                             <ButtonWithProgress
@@ -1607,7 +1618,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                               pendingApiCall  ? true : false
                               }
                               pendingApiCall={pendingApiCall}
-                              text="Remove"/>
+                              text="Withdraw"/>
                     </div>}
                       {entryError &&
                     <div className='error' style={{color: "red", fontSize: "20px"}}>

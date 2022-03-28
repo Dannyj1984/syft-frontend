@@ -410,6 +410,12 @@ const TopBar = (props) => {
               >
                 <i className="fas fa-calendar text-info"/> Events
               </Link>
+              <Link
+                to={`/tournaments`}
+                className="dropdown-item"
+              >
+                <i className="fas fa-trophy text-info"/> Tournaments
+              </Link>
                 <Link
                     to={"login"}
                     className="dropdown-item"

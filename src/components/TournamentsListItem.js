@@ -9,7 +9,11 @@ const TournamentListItem = (props) => {
 
   const [pendingApiCall, setPendingApiCall] = useState(false);
   const [entrants, setEntrants] = useState([{}]);
-  const [entered, setEntered] = useState(false)
+  const [entered, setEntered] = useState(false);
+  const [members, setMembers] = useState([{}]);
+  const [memberSelected, setMemberSelected] = useState(false);
+  const [membersId, setMembersId] = useState('');
+  const [errors, setErrors] = useState(null)
 
   
 
@@ -26,7 +30,78 @@ const TournamentListItem = (props) => {
         .catch((error) => {
           console.log(error)
         })
+        apiCalls
+          .getListOfMembers(props.loggedInUser.society.id)
+          .then((response) => {
+            setMembers(response.data)
+            setPendingApiCall(false)
+          }) 
+          .catch = (e) => {
+            console.log(e)
+            setPendingApiCall(false)
+          }
     }, [props.tournament]);
+
+    //Admin enter a member
+    const adminAddMember = () => {
+      if(Object.keys(membersId).length === 0){
+        alert(Object.keys(membersId).length);
+      } else {
+      const tournament = {...props.tournament}
+      const tournamentId = tournament.id;
+      setPendingApiCall(true)
+      //Enter event
+        apiCalls.enterTournamentEntrant(tournamentId, membersId.split(" ")[0])
+        .then ((response => {
+          setPendingApiCall(false)
+          if(response.data.message === 'This member is already entered in this tournament') {
+          alert(response.data.message)
+          } else {
+            alert('member entered') 
+            setTimeout(window.location.reload(), 5000)
+          }
+        }))
+        .catch((apiError) => {
+          setPendingApiCall(false);
+        })
+      }
+      };
+
+      //Admin remove user from event
+      const adminRemoveEntrant = () => {
+        if(Object.keys(membersId).length === 0){
+          alert('Choose a member to remove');
+        } else {
+        const tournament = {...props.tournament}
+        const tournamentId = tournament.id;
+        setPendingApiCall(true);
+          apiCalls.removeTournamentEntrant(tournamentId, membersId.split(" ")[0])
+          .then ((response => {
+            setPendingApiCall(false)
+            if(response.data.message === 'Member not entered') {
+            alert(response.data.message)
+            } else {
+              alert('member removed') 
+              setTimeout(window.location.reload(), 5000)
+            }
+          }))
+          .catch((apiError) => {
+            setPendingApiCall(false);
+          })
+        }
+        };
+
+        const onChangeMember = (event) => {
+          const { value, name } = event.target;
+            setMemberSelected(true);
+            setMembersId(value);
+          setErrors((previousErrors) => {
+            return {
+              ...previousErrors,
+              [name]: undefined
+            };
+          });
+        };
 
   //Format date from backend to be DD-MM-YYYY
   let formatStartDate = new Date(props.tournament.startDate).toString().substring(0,15)
@@ -41,7 +116,13 @@ const TournamentListItem = (props) => {
         formatStartDate={formatStartDate}
         formatEndDate={formatEndDate}
         loggedInUser={props.loggedInUser}
-        entered={entered} />
+        entered={entered}
+        members={members}
+        adminAddMember={adminAddMember}
+        adminRemoveEntrant={adminRemoveEntrant}
+        onChangeMember={onChangeMember}
+        membersId={membersId}
+        memberSelected={memberSelected} />
       </div>
     )
 

@@ -272,10 +272,15 @@ export const createTournament = (societyId, tournament) => {
 };
 
 export const tournamentPage = (societyId, param = { page: 0, size: 9 }) => {
-  const path = url + `/api/1.0/tournament/${societyId}?page=${param.page || 0}&size=${param.size || 9}&sort=start_date,asc`;
+  const path = url + `/api/1.0/tournaments/${societyId}?page=${param.page || 0}&size=${param.size || 9}&sort=start_date,asc`;
  
   return axios.get(path);
 };
+
+export const getTournament = (tournamentName) => {
+  const path = url + `/api/1.0/tournament/${tournamentName}`;
+  return axios.get(path)
+}
 
 export const previousTournamentPage = (id, param = { page: 0, size: 9 }) => {
   const path = url + `/api/1.0/tournament/previous/${id}?page=${param.page || 0}&size=${param.size || 9}&sort=start_date,desc`;
@@ -294,7 +299,7 @@ export const deleteTournament = (id) => {
 
 export const completeTournament = (id) => {
   const path = url + `/api/1.0/management/tournament/complete/${id}`;
-  return axios.get(path);
+  return axios.put(path);
 };
 
 export const enterTournamentEntrant = (tournamentId, memberId) => {
@@ -320,6 +325,10 @@ export const removeEventFromTournament = (tournamentId, eventId) => {
 export const addEvent = (tournamentId, eventId) => {
   const path = url + `/api/1.0/management/tournament/addEvent/${tournamentId}/${eventId}`;
   return axios.put(path);
+}
+
+export const updateTournament = (tournamentId, tournamentUpdate) => {
+  return axios.put(url + '/api/1.0/management/tournament/update/' + tournamentId, tournamentUpdate);
 }
 
 

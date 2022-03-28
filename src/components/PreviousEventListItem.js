@@ -1179,6 +1179,8 @@ const [newTeeTime, setNewTeeTime] = useState({
       let yourDate = props.event.date;
       let formatDate = new Date(yourDate).toString().substring(0,15)
 
+      console.log(props.event)
+
   return (
     <div className="card col-12" style={{height:"100%", backgroundColor: "white", boxShadow: "15px 10px 5px lightgray"}}>
     <div className="card-body">
@@ -1188,7 +1190,7 @@ const [newTeeTime, setNewTeeTime] = useState({
             <p className="m-0">ID: {props.event.id}</p>}
             <p className="m-0">Course: {courseName}</p>
             <p className="m-0">Date : {formatDate}</p>
-            <p className="m-0">Entries : {props.event.currentEntrants} / {props.event.maxEntrants}</p>
+            <p className="m-0">Entries : {props.event.entrants.length} / {props.event.maxEntrants}</p>
             <p className="m-0">Event Format : {props.event.type}</p>
             <p className="m-0">Cost : £{props.event.cost}</p>
             <p className="m-0">Playing handicap : {props.event.ninetyFivePercent ? '95%' : '100%'}</p>

@@ -13,6 +13,7 @@ import Footer from '../components/Footer';
 import CourseRegisterPage from '../pages/CourseRegisterPage';
 import CourseInfoPage from '../pages/CourseInfoPage';
 import EventInfoPage from '../pages/EventInfoPage';
+import TournamentInfoPage from '../pages/TournamentInfoPage';
 import Events from '../pages/Events';
 import PreviousEvents from '../pages/PreviousEvents';
 import Terms from '../pages/Terms';
@@ -22,6 +23,7 @@ import SocietySignupPage from "../pages/SocietySignupPage";
 import TournamentRegistrationPage from '../pages/TournamentRegistrationPage';
 import TournamentsPage from '../pages/TournamentsPage';
 import SYFTCup from '../pages/SYFTCup';
+import PreviousTournamentPage from '../pages/PreviousTournamentPage';
 
 
 
@@ -51,10 +53,12 @@ function App() {
           <Route  path="/members" exact component={MemberPage} />
           <Route  path="/events" exact component={Events} />
           <Route  path="/previousEvent" exact component={PreviousEvents} />
+          <Route path="/previousTournament" exact component={PreviousTournamentPage} />
           <Route  path="/courses" exact component={CoursePage} />
           <Route  path="/member/:username" exact component={UserPage} />
           <Route path="/course/:coursename" extact component={CourseInfoPage} />
           <Route path="/event/:eventname" extact component={EventInfoPage} />
+          <Route path="/tournament/:tournamentname" extact component={TournamentInfoPage} />
           <Route path="/syftCup" extact component={SYFTCup} />
           
         </Switch>

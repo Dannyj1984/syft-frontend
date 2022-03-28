@@ -55,7 +55,7 @@ class CourseInfoPage extends React.Component{
     onClickCancel = () => {
       const course = { ...this.state.course };
     if (this.state.originalCoursename !== undefined) {
-      course.courseName = this.state.originalCoursename;
+      course.name = this.state.originalCoursename;
       course.par = this.state.originalPar;
       course.slope = this.state.originalSlope;
       course.rating = this.state.originalRating;
@@ -78,7 +78,7 @@ class CourseInfoPage extends React.Component{
       const course = { ...this.state.course };
       const courseId = course.id;
       const courseUpdate = {
-        name: course.courseName,
+        name: course.name,
         par: course.par,
         slopeRating: course.slopeRating,
         courseRating: course.courseRating,
@@ -126,9 +126,9 @@ class CourseInfoPage extends React.Component{
       const course = { ...this.state.course };
       let originalCoursename = this.state.originalCoursename;
     if (originalCoursename === undefined) {
-        originalCoursename = course.courseName;
+        originalCoursename = course.name;
     }
-      course.courseName = event.target.value;
+      course.name = event.target.value;
       const errors = { ...this.state.errors };
       errors.courseName = undefined;
       this.setState({ course, originalCoursename, errors });
