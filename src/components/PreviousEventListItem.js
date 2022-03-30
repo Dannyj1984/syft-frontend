@@ -1179,7 +1179,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       let yourDate = props.event.date;
       let formatDate = new Date(yourDate).toString().substring(0,15)
 
-      console.log(props.event)
 
   return (
     <div className="card col-12" style={{height:"100%", backgroundColor: "white", boxShadow: "15px 10px 5px lightgray"}}>

@@ -65,7 +65,6 @@ export const CourseList = (props) => {
             .listCourses(id, { page: requestedPage, size: 12 })
             .then((response) => {
                 setPage(response.data);
-                setLoadError();
                 setPendingApiCall(false)
             })
             .catch((error) => {
@@ -88,8 +87,11 @@ export const CourseList = (props) => {
 
     const { content, first, last } = page;
     return (
+      
       <div >
-        
+      {pendingApiCall &&
+        <Spinner></Spinner>}
+        {!pendingApiCall &&
       <div className="container">
         <div className="row">
           <div className="col-sm">
@@ -103,17 +105,17 @@ export const CourseList = (props) => {
           </div>
         </div>
       </div>
+        }
       
       <hr />
-      {pendingApiCall &&
-        <Spinner></Spinner>}
+      
         <hr/>
         {!pendingApiCall &&
         <div>
         <div className="list-group list-group-flush" data-testid="coursegroup">
           <div className="row">
-          {content.map((course, index) => (
-              <div key={index} className="col-xl-4 col-m-12 mb-4">
+          {content.map((course) => (
+              <div key={course.id} className="col-xl-4 col-m-12 mb-4">
               <CourseListItem  course={course} pendingApiCall={pendingApiCall}  />
               </div>
             ))}

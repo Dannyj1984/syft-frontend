@@ -30,6 +30,7 @@ const ScoreEntryModal = (props) => {
                             <div id='score-entry'>
                                 <h2>Hole {props.holeIndex + 1}</h2>
                                 <input name={`h${props.holeIndex + 1}Score`} value={props.scoreCardObj[`h${props.holeIndex + 1}Score`]} onChange={props.onChangeScoreCard} type="number" min={"0"} max={"15"} style={{ width: "8rem", height: "8rem", padding: "12px 20px", display: "inline-block", border: "1px solid #ccc", borderRadius: "4px", fontSize: "64px", textAlign: "center" }}></input>
+                                
                                 <p style={{ color: "red", fontSize: "13px", width: "140%" }}>Please enter gross scores</p>
                             </div>
                         </Col>

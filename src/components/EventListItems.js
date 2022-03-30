@@ -656,29 +656,29 @@ const [newTeeTime, setNewTeeTime] = useState({
           })
         checkIfUserEntered(username)
               //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
-      if(thisEventType === 'Medal') {
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
-      }
-      if(thisEventType === 'Multi round event - Medal') { 
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
-      }
-      if(thisEventType === 'Stableford') {
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
-      }
-      if(thisEventType === 'Multi round event - Stableford') {
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
-      }
-      setPendingApiCall(true)
-        apiCalls
-          .getTeesheet(props.event.id)
-          .then((response) => {
-            setTeeTimes(response.data)
-            setPendingApiCall(false)
-          },
-           [])
-           .catch((e) => {
-             console.log(e)
-           });
+        if(thisEventType === 'Medal') {
+          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
+        }
+        if(thisEventType === 'Multi round event - Medal') { 
+          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
+        }
+        if(thisEventType === 'Stableford') {
+          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
+        }
+        if(thisEventType === 'Multi round event - Stableford') {
+          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
+        }
+        setPendingApiCall(true)
+          apiCalls
+            .getTeesheet(props.event.id)
+            .then((response) => {
+              setTeeTimes(response.data)
+              setPendingApiCall(false)
+            },
+            [])
+            .catch((e) => {
+              console.log(e)
+            });
            
       }, [props.event, member1Id, member2Id, member3Id, member4Id, p1HoleIndex, p2HoleIndex, p3HoleIndex, p4HoleIndex]);
 
@@ -720,13 +720,6 @@ const [newTeeTime, setNewTeeTime] = useState({
           
       }
 
-      //add holes
-      const addHoles = () => {
-        apiCalls.getCourseHoles(courseId)
-          .then((response) => {
-          })
-      }
-
       //Randomise entrants
       const randomiseEntrants = () => {
         const eventId = props.event.id;
@@ -743,10 +736,6 @@ const [newTeeTime, setNewTeeTime] = useState({
           setPendingApiCall(false)
         }
       }
-
-      
-
-  const [scoreCardUpdateErrors, setScoreCardUpdateErrors] = useState({})
 
   const toNextHole = () => {
     if(holeIndex+1 < 18){
@@ -813,9 +802,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       setPendingApiCall(false),
     )
     .catch((apiError) => {
-      if (apiError.response.data && apiError.response.data.validationErrors) {
-        setScoreCardUpdateErrors(apiError.response.data.validationErrors);
-      }
       setPendingApiCall(false)
     })
     
@@ -852,9 +838,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       setPendingApiCall(false),
     )
     .catch((apiError) => {
-      if (apiError.response.data && apiError.response.data.validationErrors) {
-        setScoreCardUpdateErrors(apiError.response.data.validationErrors);
-      }
       setPendingApiCall(false)
     })
     
@@ -891,9 +874,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       setPendingApiCall(false),
     )
     .catch((apiError) => {
-      if (apiError.response.data && apiError.response.data.validationErrors) {
-        setScoreCardUpdateErrors(apiError.response.data.validationErrors);
-      }
       setPendingApiCall(false)
     })
     
@@ -930,9 +910,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       setPendingApiCall(false),
     )
     .catch((apiError) => {
-      if (apiError.response.data && apiError.response.data.validationErrors) {
-        setScoreCardUpdateErrors(apiError.response.data.validationErrors);
-      }
       setPendingApiCall(false)
     })
     
@@ -969,9 +946,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       setPendingApiCall(false),
     )
     .catch((apiError) => {
-      if (apiError.response.data && apiError.response.data.validationErrors) {
-        setScoreCardUpdateErrors(apiError.response.data.validationErrors);
-      }
       setPendingApiCall(false)
     })
     
@@ -994,9 +968,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       window.location.reload()
     )
     .catch((apiError) => {
-      if (apiError.response.data && apiError.response.data.validationErrors) {
-        setScoreCardUpdateErrors(apiError.response.data.validationErrors);
-      }
       setPendingApiCall(false)
     })
     

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import CourseImageWithDefault from '../components/CourseImageWithDefault';
 import { confirmAlert } from 'react-confirm-alert';
@@ -28,24 +28,53 @@ const CourseListItem = (props) => {
           ]
         });
       }
+    const [icon, setIcon] = useState('');
 
-     
-let pending = props.pendingApiCall;
+    async function getWeather(postcode, country) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?zip=${postcode},${country}&appid=8feabdd26e08ce9f20f50bf57d3caa22`;
+     await fetch(url)
+        .then(res => res.json())
+        .then(result => {
+            setIcon((previousIcon) => { return `http://openweathermap.org/img/w/${result.weather[0].icon}.png`});
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+    getWeather(props.course.postcode.split(" ")[0], props.course.country);
+
       
   return (
             <div className="card col-12" style={{boxShadow: "15px 10px 5px lightgray"}}>
                 <div className="card-body">
-                    <div className="col-4">
-                        <CourseImageWithDefault
-                            className="rounded-circle"
-                            alt="profile"
-                            width="32"
-                            height="32"
-                            image={props.course.image}
-                        />                    
+                    <div className="row">
+                      <div className="col-3 float-left">
+                          <CourseImageWithDefault
+                              className="rounded-circle"
+                              alt="profile"
+                              width="32"
+                              height="32"
+                              image={props.course.image}
+                          />                    
+                      </div>
+                      <div className="col-2 float-left"></div>
+                      <div id='weatherData' className="col-6 float-right">
+                        <div className='row'>
+                        <div className='col-4 float-left'>
+                          <img className='float-left' id='wicon' src={icon} alt='weather-icon'/>
+                        </div>
+                        <div className='col-8 float-right'>
+                          <div className='float-right' id='wDesc'></div>
+                        </div>
+                           
+                        </div>
+                                    
+                      </div>
                     </div>
                     <div className="col-12 card-title align-self-center mb-0">
                         <h5>{props.course.name} </h5>
+                        {props.loggedInUser.role === 'ADMIN' &&
+                        <p className="m-0">ID : {props.course.id}</p>}
                         <p className="m-0">Par : {props.course.par}</p>
                         <p className="m-0">Slope : {props.course.slopeRating}</p>
                         <p className="m-0">Rating : {props.course.courseRating}</p>
@@ -100,8 +129,6 @@ let pending = props.pendingApiCall;
                     
                 </div>
             </div>
-        
-    
   );
 };
 

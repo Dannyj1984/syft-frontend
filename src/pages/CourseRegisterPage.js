@@ -11,8 +11,9 @@ export const CourseRegisterPage = (props) => {
       name: '',
       par: '',
       courseRating: '',
-      slopeRating: ''
-      
+      slopeRating: '',
+      postcode: '',
+      country: ''
     });
 
   const [errors, setErrors] = useState({});
@@ -41,7 +42,9 @@ export const CourseRegisterPage = (props) => {
           name: form.name.trim(),
           par: form.par,
           courseRating: form.courseRating,
-          slopeRating: form.slopeRating
+          slopeRating: form.slopeRating,
+          postcode: form.postcode,
+          country: form.country
           };
           setPendingApiCall(true);
         props.actions
@@ -108,6 +111,28 @@ export const CourseRegisterPage = (props) => {
                 error={errors.slopeRating}
               />
             </div>
+            <div className="col-12 mb-3">
+            <Input
+                name="postcode"
+                label="Postcode 'AA11 2BB'"
+                placeholder="AA11 2BB"
+                value={form.postcode}
+                onChange={onChange}
+                hasError={errors.postcode && true}
+                error={errors.postcode}
+              />
+            </div>
+            <div className="col-12 mb-3">
+            <Input
+                name="country"
+                label="Country code"
+                placeholder="GB"
+                value={form.country}
+                onChange={onChange}
+                hasError={errors.country && true}
+                error={errors.country}
+              />
+            </div>
             <div className="text-center">
               <ButtonWithProgress
                   onClick={onClickCourseRegister}
@@ -135,7 +160,7 @@ export const CourseRegisterPage = (props) => {
             push: () => {}
           }
         };
-
+        
         const mapStateToProps = (state) => {
           return {
             user: state
