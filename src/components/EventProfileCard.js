@@ -3,7 +3,7 @@ import Input from './Input';
 import ButtonWithProgress from './ButtonWithProgress';
 
 const EventProfileCard = (props) => {
-  const { name, date, maxEntrants, cost, type, qualifier, winner, info, ninetyFivePercent} = props.event;
+  const { name, date, maxEntrants, cost, type, qualifier, winner, info, ninetyFivePercent, major} = props.event;
 
   const showEditButton = props.isEditable && !props.inEditMode;
 
@@ -34,6 +34,7 @@ const EventProfileCard = (props) => {
       <h5>{`Date: ${formatDate}`}</h5>
       <h5>{`Format: ${type}`}</h5>
       <h5>{`Qualifier: ${qualifier}`}</h5>
+      <h5>{`Major: ${major}`}</h5>
       <h5>{`Max Entrants: ${maxEntrants}`}</h5>
       <h5>{`Cost: £${cost}`}</h5>
       <h5>{`Event info: ${info}`}</h5>
@@ -117,6 +118,19 @@ const EventProfileCard = (props) => {
                 name="ninetyFivePercent"
                 onChange={props.onChangeNinetyFivePercent} 
                 defaultChecked={ninetyFivePercent}
+              />  
+              {props.hasError && (
+              <span className="invalid-feedback">{props.error}</span>
+              )}
+            </div>
+            <div>
+              <label>Major</label>
+              <input 
+                className='form-control' 
+                type="checkbox" 
+                name="major"
+                onChange={props.onChangeMajor} 
+                defaultChecked={major}
               />  
               {props.hasError && (
               <span className="invalid-feedback">{props.error}</span>

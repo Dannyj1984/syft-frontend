@@ -1334,8 +1334,6 @@ const [newTeeTime, setNewTeeTime] = useState({
         alert(member3Id)
       }
 
-      console.log(props.event)
-
   return (
               <div className="card col-12" style={{height:"100%", backgroundColor: "white", boxShadow: "15px 10px 5px lightgray"}}>
                 <div className="card-body">
