@@ -17,6 +17,7 @@ class EventInfoPage extends React.Component{
         originalMaxentrants: undefined,
         originalQualifier: undefined,
         originalNinetyFive: undefined,
+        originalMajor: undefined,
         originalCost: undefined,
         originalInfo: undefined,
         pendingUpdateCall: false,
@@ -69,7 +70,8 @@ class EventInfoPage extends React.Component{
           event.qualifier = this.state.originalQualifier;
           event.maxEntrants = this.state.originalMaxentrants;
           event.winner = this.state.originalWinner;
-          event.ninetyFivePercent = this.state.originalNinetyFive
+          event.ninetyFivePercent = this.state.originalNinetyFive;
+          event.major = this.state.originalMajor;
           
         }
           this.setState({
@@ -84,6 +86,7 @@ class EventInfoPage extends React.Component{
             originalCost: undefined,
             originalInfo: undefined,
             originalNinetyFive: undefined,
+            originalMajor: undefined,
             inEditMode: false
             
           });
@@ -101,7 +104,8 @@ class EventInfoPage extends React.Component{
             qualifier: event.qualifier,
             cost: event.cost,
             info: event.info,
-            ninetyFivePercent: event.ninetyFivePercent
+            ninetyFivePercent: event.ninetyFivePercent,
+            major: event.major
           };
           this.setState({ pendingUpdateCall: true });
         apiCalls
@@ -120,6 +124,7 @@ class EventInfoPage extends React.Component{
                 originalCost: undefined,
                 originalInfo: undefined,
                 originalNinetyFive: undefined,
+                originalMajor: undefined,
                 pendingUpdateCall: false,
                 event
               },
@@ -252,6 +257,19 @@ class EventInfoPage extends React.Component{
           errors.originalNinetyFive = undefined;
           this.setState({ event, originalNinetyFive, errors });
         };
+
+        onChangeMajor = (e) => {
+          const event = { ...this.state.event };
+          let originalMajor = this.state.originalMajor;
+        if (originalMajor === undefined) {
+          originalMajor = event.major;
+        }
+          const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+          event.major = value;
+          const errors = { ...this.state.errors };  
+          errors.originalMajor = undefined;
+          this.setState({ event, originalMajor, errors });
+        };
         
     
         render() {
@@ -288,7 +306,7 @@ class EventInfoPage extends React.Component{
                 onChangeEventtype = {this.onChangeEventtype}
                 onChangeMaxentrants = {this.onChangeMaxentrants}
                 onChangeQualifier = {this.onChangeQualifier}
-                onChangeNinetyFivePercent = {this.onChangeNinetyFivePercent}
+                onChangeMajor = {this.onChangeMajor}
                 onChangeCost = {this.onChangeCost}
                 onChangeInfo = {this.onChangeInfo}
                 pendingUpdateCall={this.state.pendingUpdateCall}

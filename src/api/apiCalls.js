@@ -5,6 +5,10 @@ const url = 'https://glacial-sierra-91195.herokuapp.com';
 
 //user calls
 
+export const getWeather = (postcode, country) => {
+  return fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${postcode},${country}&appid=8feabdd26e08ce9f20f50bf57d3caa22`)
+}
+
 export const signup = (user) => {
   return axios.post(url + `/api/1.0/management/member`, user);
 };

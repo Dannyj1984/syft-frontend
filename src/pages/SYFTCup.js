@@ -3,12 +3,15 @@ import * as apiCalls from '../api/apiCalls';
 import { connect } from 'react-redux';
 import Spinner from '../components/Spinner';
 import { Table } from "react-bootstrap";
+import RulesModal from '../components/modal/RulesModal';
 
 
 export const SYFTCup = (props) => {
 
     const [members, setMembers] = useState([{}]);
     const [pendingApiCall, setPendingApiCall] = useState(false);
+
+    const [showRules, setShowRules] = useState(false)
 
     const loadData = () => {
         setPendingApiCall(true);
@@ -27,6 +30,14 @@ export const SYFTCup = (props) => {
     useEffect(() => { 
         loadData();
       },[]);
+
+      const handleShowRules = () => {
+        setShowRules(true);
+      }
+
+      const handleCloseRules = () => {
+        setShowRules(false);
+      }
 
       return (
         <div >
@@ -49,7 +60,7 @@ export const SYFTCup = (props) => {
                     <tr>
                       <th>Player</th>
                       <th>Events played</th>
-                      <th>points</th>
+                      <th>Points</th>
                     </tr>
                   </thead>
                   {members && members.map( (member => 
@@ -61,8 +72,14 @@ export const SYFTCup = (props) => {
                       </tr>
                   </tbody>
                   ))}
-                </Table>
-              </section>}
+                </Table>  
+                <button className='btn btn-primary float-right' onClick={handleShowRules}>Rules</button>
+                <RulesModal
+                  handleCloseRules={handleCloseRules}
+                  showRules = {showRules}
+                   />
+              </section>
+             }
         </div>
       );
 

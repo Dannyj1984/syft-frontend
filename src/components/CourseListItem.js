@@ -5,6 +5,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import * as apiCalls from '../api/apiCalls';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 const CourseListItem = (props) => {
 
@@ -28,20 +29,29 @@ const CourseListItem = (props) => {
           ]
         });
       }
-    const [icon, setIcon] = useState('');
+    var [icon, setIcon] = useState('');
+    var [desc, setDesc] = useState('');
+    var [wind, setWind] = useState('');
+    var [temp, setTemp] = useState('');
+    const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
-    async function getWeather(postcode, country) {
-    const url = `https://api.openweathermap.org/data/2.5/weather?zip=${postcode},${country}&appid=8feabdd26e08ce9f20f50bf57d3caa22`;
+    const getWeatherIcon = async (postcode, country) => {
+      const url = `https://api.openweathermap.org/data/2.5/weather?zip=${postcode},${country}&units=metric&appid=${apiKey}`
+    try {
      await fetch(url)
-        .then(res => res.json())
+      .then(res => res.json())
         .then(result => {
-            setIcon((previousIcon) => { return `http://openweathermap.org/img/w/${result.weather[0].icon}.png`});
+          setIcon((previousIcon) => { return `http://openweathermap.org/img/w/${result.weather[0].icon}.png`});
+          setDesc((previousDesc) => {return `${result.weather[0].description}`});
+          setWind((previousWind) => {return `${result.wind.speed}`});
+          setTemp((previousTemp) => {return `${result.main.temp_max}`});
+          console.log(result)
         })
-        .catch((error) => {
-          console.log(error)
-        })
+      } catch(error) {
+        console.log(error)
+      }
     }
-    getWeather(props.course.postcode.split(" ")[0], props.course.country);
+    getWeatherIcon(props.course.postcode.split(" ")[0], props.course.country);
 
       
   return (
@@ -57,14 +67,24 @@ const CourseListItem = (props) => {
                               image={props.course.image}
                           />                    
                       </div>
-                      <div className="col-2 float-left"></div>
-                      <div id='weatherData' className="col-6 float-right">
+                      <div id='weatherData' className="col-9 float-right">
                         <div className='row'>
                         <div className='col-4 float-left'>
                           <img className='float-left' id='wicon' src={icon} alt='weather-icon'/>
                         </div>
                         <div className='col-8 float-right'>
-                          <div className='float-right' id='wDesc'></div>
+                          <div className='row'>
+                            <div className='col-12'>
+                              <div className='float-right' id='wDesc'>{desc}</div>
+                            </div>
+                            <div className='col-12'>
+                              <div className='float-right' id='wWind'> Wind : {wind}mph</div>
+                            </div>
+                            <div className='col-12'>
+                              <div className='float-right' id='wTemp'> Temp : {temp}<span>&#8451;</span></div>
+                            </div>
+                          </div>
+                          
                         </div>
                            
                         </div>

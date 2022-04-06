@@ -17,7 +17,8 @@ export const EventSignupPage = (props) => {
       type: '',
       course_id: '',
       info: '',
-      ninetyFivePercent: false
+      ninetyFivePercent: false,
+      major: false
     });
 
   const [errors, setErrors] = useState([]);
@@ -32,6 +33,15 @@ export const EventSignupPage = (props) => {
     setForm({
       ...form,
       ninetyFivePercent: value
+    })
+  }
+
+  const handleMajorCheckChange= (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    setForm({
+      ...form,
+      major: value
     })
   }
   
@@ -91,7 +101,8 @@ export const EventSignupPage = (props) => {
           currententrants: 0,
           qualifier: form.qualifier,
           cost: form.cost,
-          ninetyFivePercent: form.ninetyFivePercent
+          ninetyFivePercent: form.ninetyFivePercent,
+          major: form.major
       };
       
         setPendingApiCall(true);
@@ -219,6 +230,10 @@ export const EventSignupPage = (props) => {
             <div className="col-12 mb-3">
               <label>Set playing handicap at 95% for this event</label>
               <input type="checkbox" onChange={handleCheckChange} name="ninetyfivepercent" id='ninefivepercent' style={{marginLeft:"2rem"}}></input>
+            </div>
+            <div className="col-12 mb-3">
+              <label>Major round?</label>
+              <input type="checkbox" onChange={handleMajorCheckChange} name="major" id='major' style={{marginLeft:"2rem"}}></input>
             </div>
             
             <div className="text-center">
