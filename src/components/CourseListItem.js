@@ -29,29 +29,29 @@ const CourseListItem = (props) => {
           ]
         });
       }
-    var [icon, setIcon] = useState('');
-    var [desc, setDesc] = useState('');
-    var [wind, setWind] = useState('');
-    var [temp, setTemp] = useState('');
-    const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+    // var [icon, setIcon] = useState('');
+    // var [desc, setDesc] = useState('');
+    // var [wind, setWind] = useState('');
+    // var [temp, setTemp] = useState('');
+    // const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
-    const getWeatherIcon = async (postcode, country) => {
-      const url = `https://api.openweathermap.org/data/2.5/weather?zip=${postcode},${country}&units=metric&appid=${apiKey}`
-    try {
-     await fetch(url)
-      .then(res => res.json())
-        .then(result => {
-          setIcon((previousIcon) => { return `http://openweathermap.org/img/w/${result.weather[0].icon}.png`});
-          setDesc((previousDesc) => {return `${result.weather[0].description}`});
-          setWind((previousWind) => {return `${result.wind.speed}`});
-          setTemp((previousTemp) => {return `${result.main.temp_max}`});
-          console.log(result)
-        })
-      } catch(error) {
-        console.log(error)
-      }
-    }
-    getWeatherIcon(props.course.postcode.split(" ")[0], props.course.country);
+    // const getWeatherIcon = async (postcode, country) => {
+    //   const url = `https://api.openweathermap.org/data/2.5/weather?zip=${postcode},${country}&units=metric&appid=${apiKey}`
+    // try {
+    //  await fetch(url)
+    //   .then(res => res.json())
+    //     .then(result => {
+    //       setIcon((previousIcon) => { return `http://openweathermap.org/img/w/${result.weather[0].icon}.png`});
+    //       setDesc((previousDesc) => {return `${result.weather[0].description}`});
+    //       setWind((previousWind) => {return `${result.wind.speed}`});
+    //       setTemp((previousTemp) => {return `${result.main.temp_max}`});
+    //       console.log(result)
+    //     })
+    //   } catch(error) {
+    //     console.log(error)
+    //   }
+    // }
+    // getWeatherIcon(props.course.postcode.split(" ")[0], props.course.country);
 
       
   return (
@@ -67,7 +67,7 @@ const CourseListItem = (props) => {
                               image={props.course.image}
                           />                    
                       </div>
-                      <div id='weatherData' className="col-9 float-right">
+                      {/* <div id='weatherData' className="col-9 float-right">
                         <div className='row'>
                         <div className='col-4 float-left'>
                           <img className='float-left' id='wicon' src={icon} alt='weather-icon'/>
@@ -89,7 +89,7 @@ const CourseListItem = (props) => {
                            
                         </div>
                                     
-                      </div>
+                      </div> */}
                     </div>
                     <div className="col-12 card-title align-self-center mb-0">
                         <h5>{props.course.name} </h5>
