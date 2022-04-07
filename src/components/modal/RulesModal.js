@@ -47,6 +47,9 @@ const RulesModal = (props) => {
                             <li>
                                 Rounds designated as a 'MAJOR' competition will be played for double points
                             </li>
+                            <li>
+                                Only rounds entered onto the SYFTGOLF website are eligible for SYFTCUP points. It is the responsibility of all players to ensure the event is entered on there. Please let one of the admin team know once the event is complete so that they can complete the event.
+                            </li>
                         </ol>
                     </Modal.Body>}
                     <Modal.Footer>

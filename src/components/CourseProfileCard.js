@@ -198,8 +198,8 @@ const CourseProfileCard = (props) => {
                           <th>Admin</th>}
                         </tr>
                       </thead>
-                      {myDataObject.hole.map((holes) =>
-                      <tbody key={holes.id}>
+                      {myDataObject.hole.map((holes, index) =>
+                      <tbody key={index}>
                         <tr>
                           <td>{holes.holeNumber}</td>
                           <td>{holes.par}</td>

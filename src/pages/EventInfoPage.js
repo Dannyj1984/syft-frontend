@@ -107,10 +107,11 @@ class EventInfoPage extends React.Component{
             ninetyFivePercent: event.ninetyFivePercent,
             major: event.major
           };
+          console.log(eventUpdate)
           this.setState({ pendingUpdateCall: true });
         apiCalls
           .updateEvent(eventId, eventUpdate)
-          .then((response) => {
+          .then(() => {
             const event = { ...this.state.event };
             this.setState(
               {
@@ -269,6 +270,7 @@ class EventInfoPage extends React.Component{
           const errors = { ...this.state.errors };  
           errors.originalMajor = undefined;
           this.setState({ event, originalMajor, errors });
+          console.log(event.major)
         };
         
     

@@ -1191,9 +1191,10 @@ const [newTeeTime, setNewTeeTime] = useState({
             <p className="m-0">Date : {formatDate}</p>
             <p className="m-0">Entries : {props.event.entrants.length} / {props.event.maxEntrants}</p>
             <p className="m-0">Event Format : {props.event.type}</p>
+            <p className="m-0">Major : {props.event.major ? 'True' : 'False'}</p>
             <p className="m-0">Cost : £{props.event.cost}</p>
             <p className="m-0">Playing handicap : {props.event.ninetyFivePercent ? '95%' : '100%'}</p>
-            <p className="m-0">Status : {props.event.status === 'open' ? 'Open' : 'Complete'}</p>
+            <p className="m-0">Status : {props.event.status}</p>
         </div>
     </div>
     <hr/>
@@ -1309,7 +1310,7 @@ const [newTeeTime, setNewTeeTime] = useState({
         />
 
 
-        {entered && props.event.status === 'open' &&
+        {entered && props.event.status === 'Open' &&
         <div className="float-left btn-group btn-group-m p-2 col-6">
                 <button  
                     className="btn btn-primary tooltips float-left" 
@@ -1337,7 +1338,7 @@ const [newTeeTime, setNewTeeTime] = useState({
         />
 
         <div className="float-right btn-group btn-group-m p-2">
-          {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  && props.event.status === 'open' &&
+          {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  && props.event.status === 'Open' &&
                 <button  
                     className="btn btn-secondary tooltips" 
                     onClick={deleteEvent} 
@@ -1350,7 +1351,7 @@ const [newTeeTime, setNewTeeTime] = useState({
         </div>
 
         <div className="float-left btn-group btn-group-m p-2">
-          {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  && (props.event.status === 'open') &&
+          {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  && (props.event.status === 'Open') &&
                 <button  
                     className="btn btn-success tooltips" 
                     onClick={completeEvent} 

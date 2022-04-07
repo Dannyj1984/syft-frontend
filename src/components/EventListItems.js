@@ -435,7 +435,8 @@ const [newTeeTime, setNewTeeTime] = useState({
             alert(response.data.message)
             } else {
               alert('member entered') 
-              setTimeout(window.location.reload(), 5000)
+              getEntrants();
+              handleCloseEnterUser();
             }
           }))
           .catch((apiError) => {
@@ -503,7 +504,7 @@ const [newTeeTime, setNewTeeTime] = useState({
             alert(response.data.message)
             } else {
               alert('member removed') 
-              setTimeout(window.location.reload(), 5000)
+              handleCloseEnterUser();
             }
           }))
           .catch((apiError) => {
@@ -570,43 +571,13 @@ const [newTeeTime, setNewTeeTime] = useState({
           }
       }
 
-      
+      const loadData = () => {
+        console.log('loaded')
+      }
 
-      //load data - get Course details of the event, and check if the logged in user has already entered the event
-      useEffect(() => {
-        setMember1Id(window.sessionStorage.getItem('member1_id'))
-        setMember2Id(window.sessionStorage.getItem('member2_id'))
-        setMember3Id(window.sessionStorage.getItem('member3_id'))
-        setMember4Id(window.sessionStorage.getItem('member4_id'))
-        const event = props.event;
-        const eventid = event.id;
-        const username = props.loggedInUser.username
-        setPendingApiCall(true)
-        apiCalls
-          .getCourseDetails(eventid)
-          .then((response) => {
-            setCourseName(response.data.course);
-            setCourseSlope(response.data.courseSlope)
-            setCourseId(response.data.courseId)
-            setPendingApiCall(false)
-          })
-          .catch((e) => {
-            console.log(e)
-          })
-          apiCalls
-          .getListOfMembers(props.loggedInUser.society.id)
-          .then((response) => {
-            setMembers(response.data)
-            setPendingApiCall(false)
-          }) 
-          .catch = (e) => {
-            console.log(e)
-            setPendingApiCall(false)
-          }
-          
-          let entrantIndex = null;
-          setPendingApiCall(true)
-          apiCalls.getEntrants(eventid)
+      const getEntrants = () => {
+        let entrantIndex = null;
+        apiCalls.getEntrants(props.event.id)
           .then((response) => {
             setPendingApiCall(false)
             setEntrants(response.data)
@@ -654,6 +625,45 @@ const [newTeeTime, setNewTeeTime] = useState({
           .catch((e) => {
             console.log(e)
           })
+      }
+
+      
+
+      
+
+      //load data - get Course details of the event, and check if the logged in user has already entered the event
+      useEffect(() => {
+        setMember1Id(window.sessionStorage.getItem('member1_id'))
+        setMember2Id(window.sessionStorage.getItem('member2_id'))
+        setMember3Id(window.sessionStorage.getItem('member3_id'))
+        setMember4Id(window.sessionStorage.getItem('member4_id'))
+        const event = props.event;
+        const eventid = event.id;
+        const username = props.loggedInUser.username
+        setPendingApiCall(true)
+        apiCalls
+          .getCourseDetails(eventid)
+          .then((response) => {
+            setCourseName(response.data.course);
+            setCourseSlope(response.data.courseSlope)
+            setCourseId(response.data.courseId)
+            setPendingApiCall(false)
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+          apiCalls
+          .getListOfMembers(props.loggedInUser.society.id)
+          .then((response) => {
+            setMembers(response.data)
+            setPendingApiCall(false)
+          }) 
+          .catch = (e) => {
+            console.log(e)
+            setPendingApiCall(false)
+          }
+          getEntrants();
+          
         checkIfUserEntered(username)
               //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
         if(thisEventType === 'Medal') {
@@ -1345,10 +1355,10 @@ const [newTeeTime, setNewTeeTime] = useState({
                         <p className="m-0">Date : {formatDate}</p>
                         <p className="m-0">Entries : {props.event.entrants.length} / {props.event.maxEntrants}</p>
                         <p className="m-0">Event Format : {props.event.type}</p>
-                        <p className="m-0">Major : {props.event.major ? 'true' : 'false'}</p>
+                        <p className="m-0">Major : {props.event.major ? 'True' : 'False'}</p>
                         <p className="m-0">Cost : £{props.event.cost}</p>
                         <p className="m-0">Playing handicap : {props.event.ninetyFivePercent ? '95%' : '100%'}</p>
-                        <p className="m-0">Status : {props.event.status === 'open' ? 'Open' : 'Complete'}</p>
+                        <p className="m-0">Status : {props.event.status}</p>
                     </div>
                 </div>
                 <hr/>
@@ -1531,7 +1541,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                     </div>
 
                     <div className="float-left btn-group btn-group-m p-2">
-                      {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  && (props.event.status === 'open') &&
+                      {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER')  && (props.event.status === 'Open') &&
                             <button  
                                 className="btn btn-success tooltips" 
                                 onClick={completeEvent} 

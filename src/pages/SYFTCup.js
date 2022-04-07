@@ -55,7 +55,7 @@ export const SYFTCup = (props) => {
                   <h2>Standings</h2>
                   </div>
                 </nav>
-                <Table id="rankings" classname="leaderboard-results" width="100%">
+                <Table id="rankings" width="100%">
                   <thead>
                     <tr>
                       <th>Player</th>
@@ -63,14 +63,14 @@ export const SYFTCup = (props) => {
                       <th>Points</th>
                     </tr>
                   </thead>
-                  {members && members.map( (member => 
-                    <tbody key={member.id}>
-                      <tr>
-                        <td headers='Player'>{member.firstName} {member.surname}</td>
-                        <td headers='Events' className='text-center'>{member.eventsPlayed}</td>
-                        <td headers='points' className='text-center'>{member.fedExPoints}</td>
-                      </tr>
-                  </tbody>
+                {members && members.map( ((member, index) => 
+                      <tbody key={index}> 
+                        <tr>
+                          <td headers='Player'> {member.firstName} {member.surname}</td>
+                          <td headers='Events' className='text-center'>{member.eventsPlayed}</td>
+                          <td headers='points' className='text-center'>{member.fedExPoints}</td>
+                        </tr>
+                      </tbody>
                   ))}
                 </Table>  
                 <button className='btn btn-primary float-right' onClick={handleShowRules}>Rules</button>
