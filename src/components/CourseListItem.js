@@ -78,10 +78,10 @@ const CourseListItem = (props) => {
                               <div className='float-right' id='wDesc'>{desc}</div>
                             </div>
                             <div className='col-12'>
-                              <div className='float-right' id='wWind'> Wind : {wind}mph</div>
+                              <div className='float-right' id='wWind'> Wind: {wind}mph</div>
                             </div>
                             <div className='col-12'>
-                              <div className='float-right' id='wTemp'> Temp : {temp}<span>&#8451;</span></div>
+                              <div className='float-right' id='wTemp'> Temp: {temp}<span>&#8451;</span></div>
                             </div>
                           </div>
                           
