@@ -36,7 +36,6 @@ export const TournamentRegistrationPage = (props) => {
         [name]: undefined
       };
     });
-    console.log(name)
   };
 
       const onClickTournamentRegister = () => {
