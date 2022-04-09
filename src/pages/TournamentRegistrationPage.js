@@ -36,6 +36,7 @@ export const TournamentRegistrationPage = (props) => {
         [name]: undefined
       };
     });
+    console.log(name)
   };
 
       const onClickTournamentRegister = () => {
@@ -47,6 +48,7 @@ export const TournamentRegistrationPage = (props) => {
           startDate: form.startDate,
           endDate: form.endDate
       };
+      console.log(tournament)
       
         setPendingApiCall(true);
           apiCalls
@@ -56,8 +58,9 @@ export const TournamentRegistrationPage = (props) => {
           props.history.push('/tournaments');
           })
         .catch((apiError) => {
-          console.log(apiError)
-          
+          if (apiError.response.data && apiError.response.data.validationErrors) {
+            setErrors(apiError.response.data.validationErrors);
+          }
           setPendingApiCall(false);
         });
       };
@@ -91,8 +94,8 @@ export const TournamentRegistrationPage = (props) => {
                 type="date"
                 value={form.startDate}
                 onChange={onChange}
-                hasError={errors.date && true}
-                error={errors.date}
+                hasError={errors.startDate && true}
+                error={errors.startDate}
               />
             </div>
             <div className="col-12 mb-3">
@@ -103,8 +106,8 @@ export const TournamentRegistrationPage = (props) => {
                 type="date"
                 value={form.endDate}
                 onChange={onChange}
-                hasError={errors.date && true}
-                error={errors.date}
+                hasError={errors.endDate && true}
+                error={errors.endDate}
               />
             </div>
             <div className="col-12 mb-3">
@@ -114,8 +117,8 @@ export const TournamentRegistrationPage = (props) => {
                 placeholder="Stableford"
                 value={form.type}
                 onChange={onChange}
-                hasError={errors.maxEntrants && true}
-                error={errors.maxEntrants}
+                hasError={errors.type && true}
+                error={errors.type}
               />
             </div>
             

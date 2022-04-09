@@ -1,8 +1,5 @@
 var CACHE_NAME = 'SYFT_GOLF';
 var urlsToCache = [
-	'/',
-	'/logo192.png',
-	'/logo512.png'
 ];
 
 // Install a service worker

@@ -13,7 +13,7 @@ export const EventSignupPage = (props) => {
       date: '',
       maxEntrants: '',
       cost: 0.00,
-      qualifier: '',
+      qualifier: false,
       type: '',
       course_id: '',
       info: '',
@@ -21,6 +21,7 @@ export const EventSignupPage = (props) => {
       major: false
     });
 
+  const [courseErrors, setCourseErrors] = useState([]);
   const [errors, setErrors] = useState([]);
   const [pendingApiCall, setPendingApiCall] = useState(false);
   const [courseList, setCoursesList] = useState([]);
@@ -33,6 +34,15 @@ export const EventSignupPage = (props) => {
     setForm({
       ...form,
       ninetyFivePercent: value
+    })
+  }
+
+  const handleQualifierChange= (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    setForm({
+      ...form,
+      qualifier: value
     })
   }
 
@@ -109,12 +119,18 @@ export const EventSignupPage = (props) => {
           props.actions
             .postSignupEvent(event, societyId, courseId)
             .then((response) => {
+              console.log(response)
             setPendingApiCall(false);
           props.history.push('/events');
           })
         .catch((apiError) => {
-          if (apiError.response.data && apiError.response.data.validationErrors) {
-            setErrors(apiError.response.data.validationErrors);
+          if (apiError.response.data) {
+            setErrors((previousErrors) => {
+              return {
+                ...previousErrors,
+                course: apiError.response.data.message
+              };
+            });
           }
           setPendingApiCall(false);
         });
@@ -158,12 +174,6 @@ export const EventSignupPage = (props) => {
                 <option selected disabled value="">Please select</option>
                   <option>Stableford</option>
                   <option>Medal</option>
-                  <option>4BBB - Stableford</option>
-                  <option>4BBB - Medal</option>
-                  <option>4 man team - Stableford</option>
-                  <option>4 man team - Medal</option>
-                  <option>Multi round event - Medal</option>
-                  <option>Multi round event - Stableford</option>
               </select>
               <div id="eventtypeFeedback" className="invalid-feedback">
                 Please select a valid event type.
@@ -178,17 +188,6 @@ export const EventSignupPage = (props) => {
                 onChange={onChange}
                 hasError={errors.maxEntrants && true}
                 error={errors.maxEntrants}
-              />
-            </div>
-            <div className="col-12 mb-3">
-            <Input
-                name="qualifier"
-                label="Qualifier (true / false)"
-                placeholder="Qualifier"
-                value={form.qualifier}
-                onChange={onChange}
-                hasError={errors.qualifier && true}
-                error={errors.qualifier}
               />
             </div>
             <div className="col-12 mb-3">
@@ -215,6 +214,7 @@ export const EventSignupPage = (props) => {
                 error={errors.info}
               />
             </div>
+            
             <div className="col-12 mb-3">
             <label>Course</label>
               <select  name="course_id" id="course_id" className={`form-control ${courseSelected ? "is-valid" : "is-invalid"} `}  label="Course" placeholder="select" onChange={onChange} required>
@@ -226,6 +226,10 @@ export const EventSignupPage = (props) => {
               <div id="course_idFeedback" className="invalid-feedback">
                 Please select a valid course.
               </div>
+            </div>
+            <div className="col-12 mb-3">
+              <label>Society Qualifier?</label>
+              <input type="checkbox" onChange={handleQualifierChange} name="qualifier" id='qualifier' style={{marginLeft:"2rem"}}></input>
             </div>
             <div className="col-12 mb-3">
               <label>Set playing handicap at 95% for this event</label>
@@ -245,6 +249,8 @@ export const EventSignupPage = (props) => {
                   pendingApiCall={pendingApiCall}
                   text="Create"
                 />
+                {errors && 
+                <div className='text-danger border-danger rounded'>{errors.course}</div>}
                   <hr></hr>
               </div>
               </div>

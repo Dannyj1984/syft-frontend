@@ -18,6 +18,7 @@ import EntrantsModal from './modal/EntrantsModal';
 import ScoreEntryModal from './modal/ScoreEntryModal';
 import AdminEntrantsModal from  './modal/AdminEntrantsModal';
 import AdminScoreEntryModal from './modal/AdminScoreEntryModal';
+import axios from 'axios';
 
 const EventListItems = (props) => {
 
@@ -575,9 +576,9 @@ const [newTeeTime, setNewTeeTime] = useState({
         console.log('loaded')
       }
 
-      const getEntrants = () => {
+      const getEntrants = async () => {
         let entrantIndex = null;
-        apiCalls.getEntrants(props.event.id)
+        await apiCalls.getEntrants(props.event.id)
           .then((response) => {
             setPendingApiCall(false)
             setEntrants(response.data)
@@ -627,12 +628,38 @@ const [newTeeTime, setNewTeeTime] = useState({
           })
       }
 
-      
+      const getMembers = async () => {
+        setPendingApiCall(true);
+        await apiCalls
+        .getListOfMembers(props.loggedInUser.society.id)
+        .then((response) => {
+          setMembers(response.data)
+          setPendingApiCall(false)
+        }) 
+        .catch((error) => {
+          console.log(error);
+          setPendingApiCall(false)
+        })
+      }
+
+      const getTeeTimes = async () => {
+        await apiCalls
+            .getTeesheet(props.event.id)
+            .then((response) => {
+              setTeeTimes(response.data)
+              setPendingApiCall(false)
+            })
+            .catch((e) => {
+              console.log(e)
+            });
+      }
 
       
 
       //load data - get Course details of the event, and check if the logged in user has already entered the event
       useEffect(() => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
         setMember1Id(window.sessionStorage.getItem('member1_id'))
         setMember2Id(window.sessionStorage.getItem('member2_id'))
         setMember3Id(window.sessionStorage.getItem('member3_id'))
@@ -652,19 +679,9 @@ const [newTeeTime, setNewTeeTime] = useState({
           .catch((e) => {
             console.log(e)
           })
-          apiCalls
-          .getListOfMembers(props.loggedInUser.society.id)
-          .then((response) => {
-            setMembers(response.data)
-            setPendingApiCall(false)
-          }) 
-          .catch = (e) => {
-            console.log(e)
-            setPendingApiCall(false)
-          }
+          getMembers(); 
           getEntrants();
-          
-        checkIfUserEntered(username)
+          checkIfUserEntered(username);
               //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
         if(thisEventType === 'Medal') {
           setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
@@ -678,17 +695,11 @@ const [newTeeTime, setNewTeeTime] = useState({
         if(thisEventType === 'Multi round event - Stableford') {
           setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
         }
-        setPendingApiCall(true)
-          apiCalls
-            .getTeesheet(props.event.id)
-            .then((response) => {
-              setTeeTimes(response.data)
-              setPendingApiCall(false)
-            },
-            [])
-            .catch((e) => {
-              console.log(e)
-            });
+        getTeeTimes();
+        return () => {
+          // cancel the request before component unmounts
+          source.cancel();
+        };
            
       }, [props.event, member1Id, member2Id, member3Id, member4Id, p1HoleIndex, p2HoleIndex, p3HoleIndex, p4HoleIndex]);
 
