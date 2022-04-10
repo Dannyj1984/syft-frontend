@@ -5,6 +5,12 @@ import Spinner from './Spinner';
 
 const scoreCard = (props) => {
 
+     //Check if previous event
+   let date = new Date(props.formatDate)
+   let today = new Date();
+   today.setHours(0,0,0,0);
+   const previous = date < today
+
     let grossScoreClassnameh1 = 'holeSpan';
 
     if(props.entrant.scoreCard.h1Score < props.entrant.scoreCard.h1Par) {
@@ -521,6 +527,8 @@ const scoreCard = (props) => {
     let totalNett = front9NettScore + back9NettScore;
     let totalPoints = front9Points + back9Points;
 
+    console.log(Math.round(props.entrant.member.handicap/113*props.courseSlope)-props.entrant.member.socHcpRed)
+
     return (
         <>
         
@@ -532,7 +540,18 @@ const scoreCard = (props) => {
       </Modal.Header>
         <Modal.Body>
             <div>
-                <h3>{props.entrant.member.firstName} {props.entrant.member.surname} ({props.entrant.coursehcp})</h3>
+                <h3> 
+                {!props.event.ninetyFivePercent &&
+                          <th >{!previous ?
+                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (${Math.round(props.entrant.member.handicap/113*props.courseSlope)-props.entrant.member.socHcpRed})` :
+                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (${props.entrant.coursehcp})` }
+                          </th>}
+                          {props.event.ninetyFivePercent &&
+                          <th >{!previous ?
+                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (${Math.round(0.95*(props.entrant.member.handicap/113*props.courseSlope)-props.entrant.member.socHcpRed)})` :
+                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (${props.entrant.coursehcp})` }
+                          </th>}
+                </h3>
                 <article className="front9">
                     <div className="hole">
                         <span span className={'holeSpanH'}>Front</span>

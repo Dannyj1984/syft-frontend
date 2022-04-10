@@ -8,6 +8,12 @@ import { confirmAlert } from 'react-confirm-alert';
 import * as apiCalls from '../../api/apiCalls';
 
 const MedalModalLeaderboard = (props) => {
+
+   //Check if previous event
+   let date = new Date(props.formatDate)
+   let today = new Date();
+   today.setHours(0,0,0,0);
+   const previous = date < today
     return (
             <Modal 
                     show={props.showModalLeader} 
@@ -35,10 +41,16 @@ const MedalModalLeaderboard = (props) => {
                       {props.sortedEntrants.map((entrant) => (
                         <tr key={entrant.member.id}>
                           {!props.event.ninetyFivePercent &&
-                          <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(entrant.member.handicap/113*props.courseSlope)})</th>}
+                          <th >{!previous ?
+                            `${entrant.member.firstName} ${entrant.member.surname} (${Math.round(entrant.member.handicap/113*props.courseSlope)-entrant.member.socHcpRed})` :
+                            `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp})` }
+                          </th>}
                           {props.event.ninetyFivePercent &&
-                          <th >{entrant.member.firstName} {entrant.member.surname} ({Math.round(0.95*(entrant.member.handicap/113*props.courseSlope))})</th>}
-                          <th >{Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}<span style={{marginLeft:"10px"}}><button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant)}>View</button></span></th>
+                          <th >{!previous ?
+                            `${entrant.member.firstName} ${entrant.member.surname} (${Math.round(0.95*(entrant.member.handicap/113*props.courseSlope)-entrant.member.socHcpRed)})` :
+                            `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp})` }
+                          </th>}
+                          <th >{Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}<span style={{marginLeft:"10px"}}><button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant, props.courseSlope)}>View</button></span> </th>
                         </tr>
                       ))}
                       </tbody>

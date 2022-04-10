@@ -38,12 +38,12 @@ const StablefordModalLeaderboard = (props) => {
                         <tr key={entrant.member.id}>
                           {!props.event.ninetyFivePercent &&
                           <th >{!previous ?
-                            `${entrant.member.firstName} ${entrant.member.surname} (${Math.round(entrant.member.handicap/113*props.courseSlope)})` :
+                            `${entrant.member.firstName} ${entrant.member.surname} (${Math.round(entrant.member.handicap/113*props.courseSlope)-entrant.member.socHcpRed})` :
                             `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp})` }
                           </th>}
                           {props.event.ninetyFivePercent &&
                           <th >{!previous ?
-                            `${entrant.member.firstName} ${entrant.member.surname} (${Math.round(0.95*(entrant.member.handicap/113*props.courseSlope))})` :
+                            `${entrant.member.firstName} ${entrant.member.surname} (${Math.round(0.95*(entrant.member.handicap/113*props.courseSlope)-entrant.member.socHcpRed)})` :
                             `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp})` }
                           </th>}
                           <th >{Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}<span style={{marginLeft:"10px"}}><button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant)}>View</button></span> </th>

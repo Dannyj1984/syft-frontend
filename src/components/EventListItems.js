@@ -1433,7 +1433,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                       centered
                       responsive
                     >
-                      <Scorecard entrant={entrant} holes={holes} pendingApiCall={pendingApiCall} event={props.event} />
+                      <Scorecard entrant={entrant} holes={holes} pendingApiCall={pendingApiCall} courseSlope={courseSlope} event={props.event} />
                     </Modal>
 
                     <div className="float-left btn-group btn-group-m px-2 col-3">

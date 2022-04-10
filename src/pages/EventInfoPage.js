@@ -253,6 +253,7 @@ class EventInfoPage extends React.Component{
           originalNinetyFive = event.ninetyFivePercent;
         }
           const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+          console.log(value)
           event.ninetyFivePercent = value;
           const errors = { ...this.state.errors };  
           errors.originalNinetyFive = undefined;
@@ -308,6 +309,7 @@ class EventInfoPage extends React.Component{
                 onChangeEventtype = {this.onChangeEventtype}
                 onChangeMaxentrants = {this.onChangeMaxentrants}
                 onChangeQualifier = {this.onChangeQualifier}
+                onChangeNinetyFivePercent = {this.onChangeNinetyFivePercent}
                 onChangeMajor = {this.onChangeMajor}
                 onChangeCost = {this.onChangeCost}
                 onChangeInfo = {this.onChangeInfo}
