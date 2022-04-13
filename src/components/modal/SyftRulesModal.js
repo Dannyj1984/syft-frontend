@@ -77,6 +77,23 @@ const SyftRulesModal = (props) => {
                                     Players will be advised in due course as to the payout structure for a major event. This will of course be dependant on agreeing an entry fee.
                                 </li>
                             </ol>
+                            <h2>Handicaps</h2>
+                            <ol>
+                                <li>
+                                    All players will use their official WHS Handicap index (minus any applicable society reduction in qualifying events)
+                                </li>
+                                <li>All society reductions will be reset to 0 on the 1-April of each year</li>
+                                <li>
+                                    Any winner in a society qualifying will receive a handicap reduction,
+                                    <ol>
+                                        <li>1-4 shot winning margin = 1 shot reduction</li>
+                                        <li>5-8 shot winning margin = 2 shot reduction</li>
+                                        <li>8+ shot winning margin = 3 shot reduction</li>
+                                    </ol>
+                                </li>
+                                <li>This society reduction will apply for the next 3 qualifying events that member plays in. If they do not win again in those 3 qualifying events, they will receive 1 shot back</li>
+                                
+                            </ol>
                         </ol>
                     </Modal.Body>}
                     <Modal.Footer>
