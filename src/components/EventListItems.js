@@ -390,7 +390,10 @@ const [newTeeTime, setNewTeeTime] = useState({
                     buttons: [
                       {
                         label: 'OK',
-                        onClick: () =>  window.location.reload()
+                        onClick: () =>  {
+                          getEntrants()
+                          setEntered(true)
+                        }
                       }
                     ]
                   });
@@ -418,6 +421,7 @@ const [newTeeTime, setNewTeeTime] = useState({
             }
           ]
         });
+        checkIfUserEntered(props.loggedInUser.username)
       };
 
       //Admin enter a member
@@ -444,6 +448,7 @@ const [newTeeTime, setNewTeeTime] = useState({
             setPendingApiCall(false);
           })
         }
+        checkIfUserEntered(props.loggedInUser.username)
         };
 
       
@@ -471,7 +476,10 @@ const [newTeeTime, setNewTeeTime] = useState({
                     buttons: [
                       {
                         label: 'OK',
-                        onClick: () =>  window.location.reload()
+                        onClick: () =>  {
+                          getEntrants()
+                          setEntered(false)
+                        }
                       }
                     ]
                   });
@@ -479,7 +487,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                 .catch((apiError) => {
                   console.log(apiError)
                   setPendingApiCall(false)
-                })
+                }) 
             },
             {
               label: 'No',
@@ -487,7 +495,7 @@ const [newTeeTime, setNewTeeTime] = useState({
             }
           ]
         });
-        
+        checkIfUserEntered(props.loggedInUser.username)
       };
 
       //Admin remove user from event
@@ -505,6 +513,7 @@ const [newTeeTime, setNewTeeTime] = useState({
             alert(response.data.message)
             } else {
               alert('member removed') 
+              getEntrants();
               handleCloseEnterUser();
             }
           }))
@@ -512,6 +521,8 @@ const [newTeeTime, setNewTeeTime] = useState({
             setPendingApiCall(false);
           })
         }
+        checkIfUserEntered(props.loggedInUser.username)
+        console.log(entered)
         };
 
       //update tee times, if success, show confirm message and reload window after 2 seconds
@@ -551,7 +562,7 @@ const [newTeeTime, setNewTeeTime] = useState({
           .createTeeSheet(eventid, newTeeSheet)
           .then((response)=> {
               setPendingApiCall(false)
-              window.location.reload();
+              getTeeTimes();
               setNewTeeTime({});
               handleCloseAddTeeTime()
           })
@@ -582,17 +593,19 @@ const [newTeeTime, setNewTeeTime] = useState({
           .then((response) => {
             setPendingApiCall(false)
             setEntrants(response.data)
-            response.data.forEach((curEnt) => {
-              if(curEnt.member.id === props.loggedInUser.id) {
-                setCurrentEntrant(curEnt);
-              }
-            })
             function getUserIndex() {
               try{
                response.data.forEach((e, index) => {
                if(e.member.username === props.loggedInUser.username) {
                  entrantIndex = index;
                    } 
+                   //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
+        if(thisEventType === 'Medal') {
+          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
+        }
+        if(thisEventType === 'Stableford') {
+          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
+        }
                  })
                }catch(e) {}
              }
@@ -626,6 +639,7 @@ const [newTeeTime, setNewTeeTime] = useState({
           .catch((e) => {
             console.log(e)
           })
+          
       }
 
       const getMembers = async () => {
@@ -682,26 +696,14 @@ const [newTeeTime, setNewTeeTime] = useState({
           getMembers(); 
           getEntrants();
           checkIfUserEntered(username);
-              //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
-        if(thisEventType === 'Medal') {
-          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
-        }
-        if(thisEventType === 'Multi round event - Medal') { 
-          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
-        }
-        if(thisEventType === 'Stableford') {
-          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
-        }
-        if(thisEventType === 'Multi round event - Stableford') {
-          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
-        }
+              
         getTeeTimes();
         return () => {
           // cancel the request before component unmounts
           source.cancel();
         };
            
-      }, [props.event, member1Id, member2Id, member3Id, member4Id, p1HoleIndex, p2HoleIndex, p3HoleIndex, p4HoleIndex]);
+      },  [sortedEntrants, member1Id, member2Id, member3Id, member4Id, p1HoleIndex, p2HoleIndex, p3HoleIndex, p4HoleIndex]);
 
       //Data change in edit tee sheet
       const onChange = (event) => {
@@ -750,7 +752,9 @@ const [newTeeTime, setNewTeeTime] = useState({
         .then((response) => {
           setPendingApiCall(false)
           alert('Tee sheet updated');
-          setTimeout( window.location.reload(), 3000)
+          getEntrants();
+          getTeeTimes();
+          handleCloseEntrants();
         })
         .catch = (e) => {
           console.log(e)
@@ -1431,7 +1435,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                       dialogClassName="modal-content-full modal-dialog-full"
                       size="m"
                       centered
-                      responsive
+                      
                     >
                       <Scorecard entrant={entrant} holes={holes} pendingApiCall={pendingApiCall} courseSlope={courseSlope} event={props.event} />
                     </Modal>

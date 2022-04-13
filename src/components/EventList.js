@@ -4,6 +4,7 @@ import EventListItems from './EventListItems';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from './Spinner';
+import SyftRulesModal from './modal/SyftRulesModal';
 
 export const EventList = (props) => {
 
@@ -18,26 +19,27 @@ export const EventList = (props) => {
     const [loadError, setLoadError] = useState();
     const [pendingApiCall, setPendingApiCall] = useState(false);
 
+    const loadData = async (requestedPage = 0) => {
+      let id = props.loggedInUser.society.id
+      setPendingApiCall(true)
+      await apiCalls
+        .listEvents(id,{ page: requestedPage, size: 9 })
+        .then((response) => {
+          setPage(response.data);
+          setPendingApiCall(false)
+        })
+        .catch((error) => {
+          setLoadError("Event load failed" );
+          setPendingApiCall(false)
+        });
+    };
     
 
   useEffect(() => {
     loadData();
   }, []); 
 
-  const loadData = async (requestedPage = 0) => {
-    let id = props.loggedInUser.society.id
-    setPendingApiCall(true)
-    await apiCalls
-      .listEvents(id,{ page: requestedPage, size: 9 })
-      .then((response) => {
-        setPage(response.data);
-        setPendingApiCall(false)
-      })
-      .catch((error) => {
-        setLoadError("Event load failed" );
-        setPendingApiCall(false)
-      });
-  };
+  
 
     const onClickNext = () => {
         loadData(page.number + 1);
@@ -49,20 +51,40 @@ export const EventList = (props) => {
 
     const { content, first, last } = page;
 
+    const [showSyftRules, setShowSyftRules] = useState(false);
+    const handleShowSyftRules = () => {
+      setShowSyftRules(true);
+    }
+    const handleCloseSyftRules = () => {
+      setShowSyftRules(false);
+    }
+
     
   return (
           <div >
             <h3 className="card-title m-auto text-center">Events</h3>
-            
-            <Link
-                  to={`/previousEvent`}>
-                    <button  
-                      className="btn btn-primary tooltips float" 
-                      data-placement="left" 
-                      data-toggle="tooltip" 
-                      data-original-title="view"> Previous events
-                    </button>
-            </Link>
+            <div class="row">
+            <div className="col-6">
+              <Link
+                    to={`/previousEvent`}>
+                      <button  
+                        className="btn btn-primary tooltips float" 
+                        data-placement="left" 
+                        data-toggle="tooltip" 
+                        data-original-title="view"> Previous events
+                      </button>
+              </Link>
+            </div>
+            <div className="col-6">
+
+            <button className='btn btn-primary float-right' onClick={handleShowSyftRules}>Rules</button>
+            </div>
+            </div>
+
+            <SyftRulesModal
+                  handleCloseSyftRules={handleCloseSyftRules}
+                  showSyftRules = {showSyftRules}
+                   />
 
             <hr/>
           {pendingApiCall &&

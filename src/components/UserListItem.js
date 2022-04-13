@@ -197,48 +197,6 @@ const UserListItem = (props) => {
         });
       };
 
-      //Add win for member
-      const addWin = () => {
-
-        confirmAlert({
-          title: 'Add to this members win tally?',
-          buttons: [
-            {
-              label: 'Yes',
-              onClick: () => 
-                apiCalls.addWin(props.user.id)
-                .then (response => window.location.reload())
-                
-            },
-            {
-              label: 'No',
-              onClick: () => ''
-            }
-          ]
-        });
-      };
-
-      //Take win from member
-      const takeWin = () => {
-
-        confirmAlert({
-          title: 'Take away a win from this members win tally?',
-          buttons: [
-            {
-              label: 'Yes',
-              onClick: () => 
-                apiCalls.takeWin(props.user.id)
-                .then (response => window.location.reload())
-                
-            },
-            {
-              label: 'No',
-              onClick: () => ''
-            }
-          ]
-        });
-      };
-
 
    return (
               <div className="card col-12" style={{height:"100%", boxShadow: "15px 10px 5px lightgray"}}>
@@ -261,8 +219,6 @@ const UserListItem = (props) => {
                         <p className="m-0">Home club : {props.user.homeClub}</p>
                         <p className="m-0">Role : {props.user.role}</p>
                         <p className="m-0">Wins : {props.user.wins}</p> 
-                        {(props.loggedInUser.role === 'ADMIN' && <button className="btn btn-outline-success" onClick={addWin}>+</button> )} 
-                        {(props.loggedInUser.role === 'ADMIN' && <button className="btn btn-outline-danger" onClick={takeWin}>-</button> )}
                     </div>
                 </div>
                 <div>
