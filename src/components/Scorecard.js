@@ -527,8 +527,6 @@ const scoreCard = (props) => {
     let totalNett = front9NettScore + back9NettScore;
     let totalPoints = front9Points + back9Points;
 
-    console.log(Math.round(props.entrant.member.handicap/113*props.courseSlope)-props.entrant.member.socHcpRed)
-
     return (
         <>
         
@@ -548,7 +546,7 @@ const scoreCard = (props) => {
                           </div>}
                           {props.event.ninetyFivePercent &&
                           <div >{!previous ?
-                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (${Math.round(0.95*(props.entrant.member.handicap/113*props.courseSlope)-props.entrant.member.socHcpRed)})` :
+                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (${Math.round(0.95 * (Math.round(props.entrant.member.handicap / 113 * props.courseSlope) - props.entrant.member.socHcpRed))})` :
                             `${props.entrant.member.firstName} ${props.entrant.member.surname} (${props.entrant.coursehcp})` }
                           </div>}
                 </h3>

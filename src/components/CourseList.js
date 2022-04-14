@@ -48,6 +48,8 @@ export const CourseList = (props) => {
         setPage(response.data);
         if(Object.entries(response.data.content).length === 0) {
           setLoadError('No courses found');
+        } else {
+          setLoadError(null)
         }
       })
       .catch((error) => {
@@ -89,9 +91,7 @@ export const CourseList = (props) => {
     return (
       
       <div >
-      {pendingApiCall &&
-        <Spinner></Spinner>}
-        {!pendingApiCall &&
+      
       <div className="container">
         <div className="row">
           <div className="col-sm">
@@ -105,7 +105,8 @@ export const CourseList = (props) => {
           </div>
         </div>
       </div>
-        }
+      {pendingApiCall &&
+        <Spinner></Spinner>}
       
       <hr />
       
