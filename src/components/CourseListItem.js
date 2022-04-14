@@ -36,8 +36,9 @@ const CourseListItem = (props) => {
     const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
     const getWeatherIcon = async (postcode, country) => {
+      try {
       const url = `https://api.openweathermap.org/data/2.5/weather?zip=${postcode},${country}&units=metric&appid=8feabdd26e08ce9f20f50bf57d3caa22`
-    try {
+      
      await fetch(url)
       .then(res => res.json())
         .then(result => {

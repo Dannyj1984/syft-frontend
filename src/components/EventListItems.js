@@ -856,6 +856,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h18Score" : p1ScoreCardObj.h18P1Score,
     
     })
+    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
@@ -892,6 +893,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h18Score" : p2ScoreCardObj.h18P2Score,
     
     })
+    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p2HoleIndex + 1, scoreCardUpdate)
@@ -916,7 +918,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h6Score" : p3ScoreCardObj.h6P3Score,
       "h7Score" : p3ScoreCardObj.h7P3Score,
       "h8Score" : p3ScoreCardObj.h8P3Score,
-      "h9Score" : p3ScoreCardObj.h9P1Score,
+      "h9Score" : p3ScoreCardObj.h9P3Score,
       "h10Score" : p3ScoreCardObj.h10P3Score,
       "h11Score" : p3ScoreCardObj.h11P3Score,
       "h12Score" : p3ScoreCardObj.h12P3Score,
@@ -928,6 +930,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h18Score" : p3ScoreCardObj.h18P3Score,
     
     })
+    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
@@ -964,6 +967,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h18Score" : p4ScoreCardObj.h18P4Score,
     
     })
+    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
