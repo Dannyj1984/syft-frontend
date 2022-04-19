@@ -26,10 +26,10 @@ const EventListItems = (props) => {
 
   //Scorecar  d object for submitting to backend
   const [holeIndex, setHoleIndex] = useState(0);
-  const [p1HoleIndex, setP1HoleIndex] = useState(0);
-  const [p2HoleIndex, setP2HoleIndex] = useState(0);
-  const [p3HoleIndex, setP3HoleIndex] = useState(0);
-  const [p4HoleIndex, setP4HoleIndex] = useState(0);
+  const [p1HoleIndex, setP1HoleIndex] = useState(sessionStorage.getItem('p1HoleIndex') ? sessionStorage.getItem('p1HoleIndex') : 0);
+  const [p2HoleIndex, setP2HoleIndex] = useState(sessionStorage.getItem('p2HoleIndex') ? sessionStorage.getItem('p2HoleIndex') : 0);
+  const [p3HoleIndex, setP3HoleIndex] = useState(sessionStorage.getItem('p3HoleIndex') ? sessionStorage.getItem('p3HoleIndex') : 0);
+  const [p4HoleIndex, setP4HoleIndex] = useState(sessionStorage.getItem('p4HoleIndex') ? sessionStorage.getItem('p4HoleIndex') : 0);
   const [members, setMembers] = useState([{}]);
   const [membersId, setMembersId] = useState({})
   const [member1Id, setMember1Id] = useState()
@@ -451,8 +451,6 @@ const [newTeeTime, setNewTeeTime] = useState({
         checkIfUserEntered(props.loggedInUser.username)
         };
 
-      
-
       //Remove user from event
       const removeEntrant = () => {
         const event = {...props.event}
@@ -522,7 +520,6 @@ const [newTeeTime, setNewTeeTime] = useState({
           })
         }
         checkIfUserEntered(props.loggedInUser.username)
-        console.log(entered)
         };
 
       //update tee times, if success, show confirm message and reload window after 2 seconds
@@ -581,10 +578,6 @@ const [newTeeTime, setNewTeeTime] = useState({
                 setEntered(true)
               }
           }
-      }
-
-      const loadData = () => {
-        console.log('loaded')
       }
 
       const getEntrants = async () => {
@@ -775,44 +768,53 @@ const [newTeeTime, setNewTeeTime] = useState({
 
   const toP1NextHole = () => {
     if(p1HoleIndex+1 <=18) {
+      sessionStorage.setItem('p1HoleIndex', p1HoleIndex + 1)
       setP1HoleIndex(p1HoleIndex+1)
+      
     }
   }
   const toP1PrevHole = () => {
     if(p1HoleIndex+1 > 1){
+      sessionStorage.setItem('p1HoleIndex', p1HoleIndex - 1)
       setP1HoleIndex(p1HoleIndex-1)
     }
   }
 
   const toP2NextHole = () => {
     if(p2HoleIndex+1 <= 18){
+      sessionStorage.setItem('p2HoleIndex', p2HoleIndex + 1)
     setP2HoleIndex(p2HoleIndex+1)
     }
   }
   const toP2PrevHole = () => {
     if(p2HoleIndex+1 > 1){
+      sessionStorage.setItem('p2HoleIndex', p2HoleIndex - 1)
     setP2HoleIndex(p2HoleIndex-1)
     }
   }
 
   const toP3NextHole = () => {
     if(p3HoleIndex+1 <= 18){
+      sessionStorage.setItem('p3HoleIndex', p3HoleIndex + 1)
     setP3HoleIndex(p3HoleIndex+1)
     }
   }
   const toP3PrevHole = () => {
     if(p3HoleIndex+1 > 1){
+    sessionStorage.setItem('p3HoleIndex', p3HoleIndex - 1)
     setP3HoleIndex(p3HoleIndex-1)
     }
   }
 
   const toP4NextHole = () => {
     if(p4HoleIndex+1 <= 18){
+      sessionStorage.setItem('p4HoleIndex', p4HoleIndex + 1)
     setP4HoleIndex(p4HoleIndex+1)
     }
   }
   const toP4PrevHole = () => {
     if(p4HoleIndex+1 > 1){
+      sessionStorage.setItem('p4HoleIndex', p4HoleIndex - 1)
     setP4HoleIndex(p4HoleIndex-1)
     }
   }
@@ -836,24 +838,24 @@ const [newTeeTime, setNewTeeTime] = useState({
     const eventId = props.event.id;
     const memberId = member1Id.split(" ")[0];
     const scoreCardUpdate = ({
-      "h1Score" : p1ScoreCardObj.h1P1Score,
-      "h2Score" : p1ScoreCardObj.h2P1Score,
-      "h3Score" : p1ScoreCardObj.h3P1Score,
-      "h4Score" : p1ScoreCardObj.h4P1Score,
-      "h5Score" : p1ScoreCardObj.h5P1Score,
-      "h6Score" : p1ScoreCardObj.h6P1Score,
-      "h7Score" : p1ScoreCardObj.h7P1Score,
-      "h8Score" : p1ScoreCardObj.h8P1Score,
-      "h9Score" : p1ScoreCardObj.h9P1Score,
-      "h10Score" : p1ScoreCardObj.h10P1Score,
-      "h11Score" : p1ScoreCardObj.h11P1Score,
-      "h12Score" : p1ScoreCardObj.h12P1Score,
-      "h13Score" : p1ScoreCardObj.h13P1Score,
-      "h14Score" : p1ScoreCardObj.h14P1Score,
-      "h15Score" : p1ScoreCardObj.h15P1Score,
-      "h16Score" : p1ScoreCardObj.h16P1Score,
-      "h17Score" : p1ScoreCardObj.h17P1Score,
-      "h18Score" : p1ScoreCardObj.h18P1Score,
+      "h1Score" : sessionStorage.getItem('h1P1Score') ? sessionStorage.getItem('h1P1Score') : 0,
+      "h2Score" : sessionStorage.getItem('h2P1Score') ? sessionStorage.getItem('h2P1Score') : 0,
+      "h3Score" : sessionStorage.getItem('h3P1Score') ? sessionStorage.getItem('h3P1Score') : 0,
+      "h4Score" : sessionStorage.getItem('h4P1Score') ? sessionStorage.getItem('h4P1Score') : 0,
+      "h5Score" : sessionStorage.getItem('h5P1Score') ? sessionStorage.getItem('h5P1Score') : 0,
+      "h6Score" : sessionStorage.getItem('h6P1Score') ? sessionStorage.getItem('h6P1Score') : 0,
+      "h7Score" : sessionStorage.getItem('h7P1Score') ? sessionStorage.getItem('h7P1Score') : 0,
+      "h8Score" : sessionStorage.getItem('h8P1Score') ? sessionStorage.getItem('h8P1Score') : 0,
+      "h9Score" : sessionStorage.getItem('h9P1Score') ? sessionStorage.getItem('h9P1Score') : 0,
+      "h10Score" : sessionStorage.getItem('h10P1Score') ? sessionStorage.getItem('h10P1Score') : 0,
+      "h11Score" : sessionStorage.getItem('h11P1Score') ? sessionStorage.getItem('h11P1Score') : 0,
+      "h12Score" : sessionStorage.getItem('h12P1Score') ? sessionStorage.getItem('h12P1Score') : 0,
+      "h13Score" : sessionStorage.getItem('h13P1Score') ? sessionStorage.getItem('h13P1Score') : 0,
+      "h14Score" : sessionStorage.getItem('h14P1Score') ? sessionStorage.getItem('h14P1Score') : 0,
+      "h15Score" : sessionStorage.getItem('h15P1Score') ? sessionStorage.getItem('h15P1Score') : 0,
+      "h16Score" : sessionStorage.getItem('h16P1Score') ? sessionStorage.getItem('h16P1Score') : 0,
+      "h17Score" : sessionStorage.getItem('h17P1Score') ? sessionStorage.getItem('h17P1Score') : 0,
+      "h18Score" : sessionStorage.getItem('h18P1Score') ? sessionStorage.getItem('h18P1Score') : 0,
     
     })
     console.log(scoreCardUpdate)
@@ -873,27 +875,26 @@ const [newTeeTime, setNewTeeTime] = useState({
     const eventId = props.event.id;
     const memberId = member2Id.split(" ")[0];
     const scoreCardUpdate = ({
-      "h1Score" : p2ScoreCardObj.h1P2Score,
-      "h2Score" : p2ScoreCardObj.h2P2Score,
-      "h3Score" : p2ScoreCardObj.h3P2Score,
-      "h4Score" : p2ScoreCardObj.h4P2Score,
-      "h5Score" : p2ScoreCardObj.h5P2Score,
-      "h6Score" : p2ScoreCardObj.h6P2Score,
-      "h7Score" : p2ScoreCardObj.h7P2Score,
-      "h8Score" : p2ScoreCardObj.h8P2Score,
-      "h9Score" : p2ScoreCardObj.h9P2Score,
-      "h10Score" : p2ScoreCardObj.h10P2Score,
-      "h11Score" : p2ScoreCardObj.h11P2Score,
-      "h12Score" : p2ScoreCardObj.h12P2Score,
-      "h13Score" : p2ScoreCardObj.h13P2Score,
-      "h14Score" : p2ScoreCardObj.h14P2Score,
-      "h15Score" : p2ScoreCardObj.h15P2Score,
-      "h16Score" : p2ScoreCardObj.h16P2Score,
-      "h17Score" : p2ScoreCardObj.h17P2Score,
-      "h18Score" : p2ScoreCardObj.h18P2Score,
+      "h1Score" : sessionStorage.getItem('h1P2Score') ? sessionStorage.getItem('h1P2Score') : 0,
+      "h2Score" : sessionStorage.getItem('h2P2Score') ? sessionStorage.getItem('h2P2Score') : 0,
+      "h3Score" : sessionStorage.getItem('h3P2Score') ? sessionStorage.getItem('h3P2Score') : 0,
+      "h4Score" : sessionStorage.getItem('h4P2Score') ? sessionStorage.getItem('h4P2Score') : 0,
+      "h5Score" : sessionStorage.getItem('h5P2Score') ? sessionStorage.getItem('h5P2Score') : 0,
+      "h6Score" : sessionStorage.getItem('h6P2Score') ? sessionStorage.getItem('h6P2Score') : 0,
+      "h7Score" : sessionStorage.getItem('h7P2Score') ? sessionStorage.getItem('h7P2Score') : 0,
+      "h8Score" : sessionStorage.getItem('h82Score') ? sessionStorage.getItem('h182Score') : 0,
+      "h9Score" : sessionStorage.getItem('h9P2Score') ? sessionStorage.getItem('h9P2Score') : 0,
+      "h10Score" : sessionStorage.getItem('h10P2Score') ? sessionStorage.getItem('h10P2Score') : 0,
+      "h11Score" : sessionStorage.getItem('h11P2Score') ? sessionStorage.getItem('h11P2Score') : 0,
+      "h12Score" : sessionStorage.getItem('h12P2Score') ? sessionStorage.getItem('h12P2Score') : 0,
+      "h13Score" : sessionStorage.getItem('h13P2Score') ? sessionStorage.getItem('h13P2Score') : 0,
+      "h14Score" : sessionStorage.getItem('h14P2Score') ? sessionStorage.getItem('h14P2Score') : 0,
+      "h15Score" : sessionStorage.getItem('h15P2Score') ? sessionStorage.getItem('h15P2Score') : 0,
+      "h16Score" : sessionStorage.getItem('h16P2Score') ? sessionStorage.getItem('h16P2Score') : 0,
+      "h17Score" : sessionStorage.getItem('h17P2Score') ? sessionStorage.getItem('h17P2Score') : 0,
+      "h18Score" : sessionStorage.getItem('h18P2Score') ? sessionStorage.getItem('h18P2Score') : 0,
     
     })
-    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p2HoleIndex + 1, scoreCardUpdate)
@@ -930,7 +931,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h18Score" : p3ScoreCardObj.h18P3Score,
     
     })
-    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
@@ -967,7 +967,6 @@ const [newTeeTime, setNewTeeTime] = useState({
       "h18Score" : p4ScoreCardObj.h18P4Score,
     
     })
-    console.log(scoreCardUpdate)
     setPendingApiCall(true)
     apiCalls
     .updateScore(eventId, memberId, p1HoleIndex + 1, scoreCardUpdate)
@@ -1177,6 +1176,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       window.sessionStorage.removeItem('h16P1Score');
       window.sessionStorage.removeItem('h17P1Score');
       window.sessionStorage.removeItem('h18P1Score');
+      window.sessionStorage.removeItem('p1HoleIndex')
       setp1ScoreCardObj({
         h1P1Score: 0,
         h2P1Score: 0,
@@ -1224,6 +1224,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       window.sessionStorage.removeItem('h16P2Score');
       window.sessionStorage.removeItem('h17P2Score');
       window.sessionStorage.removeItem('h18P2Score');
+      window.sessionStorage.removeItem('p2HoleIndex')
       setp2ScoreCardObj({
         h1P2Score: 0,
         h2P2Score: 0,
@@ -1660,7 +1661,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                         onChangeMember1={onChangeMember1}
                         removeSessionStorageP1Name={removeSessionStorageP1Name}
                         p1HoleIndex={p1HoleIndex}
-                        toP1PrevHole={toP1PrevHole}
+                        toP1PrevHole={toP1PrevHole} 
                         toP1NextHole={toP1NextHole}
                         member1Id={member1Id}
                         updateP1ScoreCard={updateP1ScoreCard}

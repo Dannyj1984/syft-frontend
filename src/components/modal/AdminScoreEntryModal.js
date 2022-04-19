@@ -1,8 +1,14 @@
+import React, { useState } from 'react';
 import { Modal, Button, Container, Row } from "react-bootstrap";
 import Spinner from "../Spinner";
-import ButtonWithProgress from "../ButtonWithProgress";
 
 const AdminScoreEntryModal = (props) => {
+
+  const [p1HoleIndex, setP1HoleIndex] = useState(sessionStorage.getItem('p1HoleIndex') ? sessionStorage.getItem('p1HoleIndex') : 0)
+  const [p2HoleIndex, setP2HoleIndex] = useState(sessionStorage.getItem('p2HoleIndex') ? sessionStorage.getItem('p2HoleIndex') : 0)
+
+  
+
     return (
         <Modal 
                             show={props.showAdminScore} 
@@ -35,7 +41,14 @@ const AdminScoreEntryModal = (props) => {
                                   {window.sessionStorage.getItem('member1_id') === null &&
                                   <div className="col-6 mb-3">
                                       <label>Player 1</label>
-                                      <select  name="member1_id" id="member1_id" className={`form-control ${props.member1Selected ? "is-valid" : "is-invalid"} mt-4`}  label="Member1" placeholder="select" onChange={props.onChangeMember1} required>
+                                      <select  
+                                        name="member1_id" 
+                                        id="member1_id" 
+                                        className={`form-control ${props.member1Selected ? "is-valid" : "is-invalid"} mt-4`}  
+                                        label="Member1" placeholder="select" 
+                                        onChange={props.onChangeMember1} 
+                                        required
+                                      >
                                           <option selected disabled value="">Please select</option>
                                           {props.members[0].id && props.members.map((member) =>  (
                                           <option key={member.id}> {member.id} {member.firstName} {member.surname} </option>
@@ -56,14 +69,14 @@ const AdminScoreEntryModal = (props) => {
                                   </div>}
                                   <div className="col-6 mb-3">
                                   <div id='score-entry'>
-                                      {props.p1HoleIndex+1 < 19 &&
+                                      {p1HoleIndex < 19 &&
                                       <Row>
                                         <div className="col-4 mb-3">
                                         {props.p1HoleIndex+1 !== 1 &&
                                           <button onClick={props.toP1PrevHole} style={{fontSize:"24px", textAlign:"center"}}>{'<'}</button>}
                                         </div>
                                         <div className="col-4 mb-3">
-                                          <p style={{fontSize:"20px", textAlign:"center"}}>Hole {props.p1HoleIndex+1}</p>
+                                          <p style={{fontSize:"20px", textAlign:"center"}}>Hole {sessionStorage.getItem('p1HoleIndex') ? sessionStorage.getItem('p1HoleIndex') : props.p1HoleIndex + 1}</p>
                                         </div>
                                         <div className="col-4 mb-3">
                                         {props.p1HoleIndex+1 !== 19 && props.member1Id &&
@@ -74,7 +87,10 @@ const AdminScoreEntryModal = (props) => {
                                           <p style={{fontSize:"24px", textAlign:"center"}}>Complete</p>}
                                           <Row>
                                           <div className="col-4 mb-3">
-                                              <button onClick={props.p1ScoreTakeOne} style={{fontSize: "32px"}}>{'-'}</button>
+                                              <button 
+                                                onClick={props.p1ScoreTakeOne} 
+                                                style={{fontSize: "32px"}}>{'-'}
+                                              </button>
                                           </div>
                                           <div className="col-4 mb-3">
                                               <input className='scoreInput' 
@@ -128,14 +144,14 @@ const AdminScoreEntryModal = (props) => {
                                   </div>}
                                   <div className="col-6 mb-3">
                                   <div id='score-entry'>
-                                      {props.p2HoleIndex+1 < 19 &&
+                                      {p2HoleIndex < 19 &&
                                       <Row>
                                         <div className="col-4 mb-3">
                                         {props.p2HoleIndex+1 !== 1 &&
                                           <button onClick={props.toP2PrevHole} style={{fontSize:"24px", textAlign:"center"}}>{'<'}</button>}
                                         </div>
                                         <div className="col-4 mb-3">
-                                          <p style={{fontSize:"20px", textAlign:"center"}}>Hole {props.p2HoleIndex+1}</p>
+                                          <p style={{fontSize:"20px", textAlign:"center"}}>Hole {props.p2HoleIndex + 1}</p>
                                         </div>
                                         <div className="col-4 mb-3">
                                         {props.p2HoleIndex+1 !== 19 && props.member2Id &&
