@@ -335,6 +335,12 @@ export const updateTournament = (tournamentId, tournamentUpdate) => {
   return axios.put(url + '/api/1.0/management/tournament/update/' + tournamentId, tournamentUpdate);
 }
 
+//Matchplay calls
+
+export const getMatchplays = async () => {
+  return  await axios.get(url + '/api/1.0/matchPlays');
+}
+
 
 
 

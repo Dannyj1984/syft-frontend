@@ -646,15 +646,15 @@ const scoreCard = (props) => {
                     </div>
                     <div className="par">
                         <span className='holeSpanH'>Par</span>
-                        <span className='holeSpan'>{props.entrant.scoreCard.h1Par}</span>
-                        <span className='holeSpan'>{props.entrant.scoreCard.h2Par}</span>
-                        <span className='holeSpan'>{props.entrant.scoreCard.h3Par}</span>
-                        <span className='holeSpan'>{props.entrant.scoreCard.h4Par}</span>
-                        <span className='holeSpan'>{props.entrant.scoreCard.h5Par}</span>
-                        <span className='holeSpan'>{props.entrant.scoreCard.h6Par}</span>
-                        <span className='holeSpan'>{props.entrant.scoreCard.h7Par}</span>
-                        <span className='holeSpan'>{props.entrant.scoreCard.h8Par}</span>
-                        <span className='holeSpan'>{props.entrant.scoreCard.h9Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h10Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h11Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h12Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h13Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h14Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h15Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h16Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h17Par}</span>
+                        <span className='holeSpan'>{props.entrant.scoreCard.h18Par}</span>
                         <span className='holeSpan'>{back9Par}</span>
                         <span className='holeSpan'>{totalPar}</span>
                     </div>
