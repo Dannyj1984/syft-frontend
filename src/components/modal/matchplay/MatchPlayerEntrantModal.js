@@ -1,14 +1,30 @@
-
+import React, { useState } from 'react'
 import { Modal, Button, Table } from "react-bootstrap";
 import { connect } from "react-redux";
 import Spinner from "../../Spinner";
+import * as apiCalls from '../../../api/apiCalls';
+import ButtonWithProgress from '../../ButtonWithProgress';
+
 
 const MatchPlayerEntrantModal = (props) => {
 
-    
+  const [pendingApiCall, setPendingApiCall] = useState(false)
+  const [randomiseSuccess, setRandomiseSuccess] = useState(false);
 
+  const randomise = () => {
+    setPendingApiCall(true)
+    apiCalls.createMatchplayGroups(props.matchplay.id)
+    .then((response) => {
+      setPendingApiCall(false)
+      console.log(response)
+      setRandomiseSuccess(true);
+    }) 
+    .catch((error) => {
+      setPendingApiCall(false)
+      console.log(error)
+    });
+  }
     
-
   
     return (
 <Modal show={props.showEntrantsModal} onHide={props.handleCloseEntrantsModal}>
@@ -43,12 +59,13 @@ const MatchPlayerEntrantModal = (props) => {
         <Modal.Footer>
         
           {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'SUPERUSER' || props.loggedInUser.role === 'EVENTADMIN')  && 
-          <Button variant="secondary" disabled  >
-            Randomise
-          </Button>}
+          <ButtonWithProgress variant="secondary" pendingApiCall={pendingApiCall} text='Randomise' onClick={randomise}  >
+          </ButtonWithProgress>}
           <Button variant="secondary" onClick={props.handleCloseEntrantsModal}>
             Close
           </Button>
+          {randomiseSuccess &&
+          <div> <p className='text-success'>Groups created</p></div>}
         </Modal.Footer>
       </Modal>
     )

@@ -10,6 +10,7 @@ import Spinner from './Spinner';
 import MatchPlayList from './MatchPlayList';
 import GroupModal from './modal/matchplay/GroupModal';
 import MatchPlayerEntrantModal from './modal/matchplay/MatchPlayerEntrantModal';
+import ResultsModal from './modal/matchplay/ResultsModal';
 
 export const MatchplayListItems = (props) => {
 
@@ -37,6 +38,15 @@ export const MatchplayListItems = (props) => {
 
     const handleCloseEntrantsModal = () => {
         setShowEntrantsModal(false);
+    }
+
+    const [showResultsModal, setShowResultsModal] = useState(false);
+    const handleShowResultsModal = () => {
+        setShowResultsModal(true);
+    }
+
+    const handleCloseResultsModal = () => {
+        setShowResultsModal(false);
     }
 
     const group1 = [];
@@ -71,29 +81,26 @@ export const MatchplayListItems = (props) => {
             </div>
             <hr/>
             <div className="card-body">
-                <div className="float-left btn-group btn-group-m px-2 col-3">
-                    <Link
-                        to={`/matchplay/${name}`}>
-                            <button  
-                            className="btn btn-primary tooltips float-left" 
-                            data-placement="left" 
-                            data-toggle="tooltip" 
-                            title="view event"
-                            data-original-title="view"><i
-                            className="fa fa-eye"/>
-                            </button>
-                    </Link>
-                </div>
+                
                     <div className="float-left btn-group btn-group-m px-2 col-3">
                       <button  
                           className="btn btn-primary tooltips float-left" 
                           data-placement="left" 
                           data-toggle="tooltip" 
                           title="view results"
+                          onClick={handleShowResultsModal}
                           data-original-title="view"><i
                           className="fa fa-trophy"/>
                       </button>
                     </div>
+
+                    <ResultsModal
+                      pendingApiCall={pendingApiCall}
+                      showResultsModal={showResultsModal}
+                      handleCloseResultsModal={handleCloseResultsModal}
+                      matchplay={props.matchplay}
+                      player={players}
+                    />
 
                     <div className="float-left btn-group btn-group-m px-2 col-3">
                       <button  
@@ -112,6 +119,7 @@ export const MatchplayListItems = (props) => {
                         handleCloseEntrantsModal={handleCloseEntrantsModal}
                         matchplay={props.matchplay}
                         player={players}
+                        pendingApiCall={pendingApiCall}
                     />
 
                     <div className="float-left btn-group btn-group-m px-2 col-3">

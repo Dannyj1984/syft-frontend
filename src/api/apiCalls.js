@@ -341,6 +341,10 @@ export const getMatchplays = async () => {
   return  await axios.get(url + '/api/1.0/matchPlays');
 }
 
+export const createMatchplayGroups = async (matchplayId) => {
+  return await axios.put(url + '/api/1.0/management/matchplay/groups/' + matchplayId)
+}
+
 
 
 
