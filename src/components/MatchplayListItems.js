@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import * as apiCalls from '../api/apiCalls';
@@ -14,12 +14,16 @@ import ResultsModal from './modal/matchplay/ResultsModal';
 
 export const MatchplayListItems = (props) => {
 
+  console.log(props.matchplay)
+
     const { id, year, name, winner, players } = props.matchplay
 
     const [entrants] = useState(players);
     const [entryError, setEntryError] = useState()
     const [pendingApiCall, setPendingApiCall] = useState(false)
     const [entered, setEntered] = useState(false)
+    const [matches, setMatches] = useState();
+    const [matchError, setMatchError] = useState();
 
     //Modals
     const [showGroupModal, setShowGroupModal] = useState(false);
@@ -49,6 +53,31 @@ export const MatchplayListItems = (props) => {
         setShowResultsModal(false);
     }
 
+    const loadData = () => {
+      setPendingApiCall(true);
+      apiCalls
+      .getMatches(id)
+      .then((response) => {
+        setPendingApiCall(false)
+        console.log(response.data)
+        setMatches(response.data)
+      })
+      .catch((error) => {
+        setPendingApiCall(false)
+        setMatchError('Error loading matches');
+        console.log(error)
+      })
+
+    }
+
+    useEffect(() => {
+      loadData();
+    
+      return () => {
+      }
+    }, [])
+    
+
     const group1 = [];
     const group2 = [];
     const group3 = [];
@@ -65,8 +94,24 @@ export const MatchplayListItems = (props) => {
         }
     }
 
-    console.log(group1, group2, group3)
+    const round1 = [];
+    const round2 = [];
+    const round3 = [];
 
+    if(matches) {
+      for(let i = 0; i < matches.length; i++) {
+        if(matches[i].round === 1) {
+            round1.push(matches[i]);
+        }
+        if(matches[i].round === 2) {
+            round2.push(matches[i]);
+        }
+        if(matches[i].round === 3) {
+            round3.push(matches[i]);
+        }
+    }
+  }
+    
     return (
         <div className="card col-12" style={{height:"100%", backgroundColor: "white", boxShadow: "15px 10px 5px lightgray"}}>
             <div className="card-body">
@@ -100,6 +145,11 @@ export const MatchplayListItems = (props) => {
                       handleCloseResultsModal={handleCloseResultsModal}
                       matchplay={props.matchplay}
                       player={players}
+                      loggedInUser={props.loggedInUser}
+                      round1={round1}
+                      round2={round2}
+                      round3={round3}
+                      matchError={matchError}
                     />
 
                     <div className="float-left btn-group btn-group-m px-2 col-3">
@@ -142,6 +192,7 @@ export const MatchplayListItems = (props) => {
                         group1={group1}
                         group2={group2}
                         group3={group3}
+                        
                      />
 
                     <div className="float-right btn-group btn-group-m p-2">

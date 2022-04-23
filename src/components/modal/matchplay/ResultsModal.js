@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Modal, Table, Container, Row} from "react-bootstrap";
+import ButtonWithProgress from '../../ButtonWithProgress';
 import Spinner from '../../Spinner';
 
 const ResultsModal = (props) => {
+
+    const [pendingApiCall, setPendingApiCall] = useState(false)
 
     return (
         <Modal 
@@ -15,7 +18,7 @@ const ResultsModal = (props) => {
             <Modal.Header closeButton>
             <Modal.Title id='addEventModal'>
                 <Container>
-                    Results for
+                    Results for {props.matchplay.name}
                 </Container>
             </Modal.Title>
             </Modal.Header>
@@ -23,6 +26,11 @@ const ResultsModal = (props) => {
             <Spinner />}
             {!props.pendingApiCall &&
             <Modal.Body>
+            {props.matchError && 
+            <Container>
+                <h2 style={{fontSize:'20px', color:'red'}}>{props.matchError}</h2>
+            </Container>}
+            {!props.matchError &&
                 <Container>
                     <h2> Round 1</h2>
                     <Table striped bordered hover responsive>
@@ -34,45 +42,17 @@ const ResultsModal = (props) => {
                             <th >Away</th>
                             </tr>
                         </thead>
+                        {props.round1.map((match) => (
                         <tbody>
                             <tr>
-                            <th>Adam Carr</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Lee O'Connell</th>
-                            </tr>
-                            <tr>
-                            <th>Dan Cross</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Darren Bidwell</th>
-                            </tr>
-                            <tr>
-                            <th>Mark Hope</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Karl Healey</th>
-                            </tr>
-                            <tr>
-                            <th>David Oxborough</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Danny Jebb</th>
-                            </tr>
-                            <tr>
-                            <th>Ian</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Guy hamer</th>
-                            </tr>
-                            <tr>
-                            <th>Mike Dobson</th>
-                            <th>0</th>  
-                            <th>0</th>
-                            <th>Damien Hanlon</th>
+                            <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
+                            <th>{match.p1Score}</th>
+                            <th>{match.p2Score}</th>
+                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap})</th>
                             </tr>
                             
-                        </tbody>
+                            
+                        </tbody>))}
                     </Table>
                     <hr />
                     <h2> Round 2</h2>
@@ -85,45 +65,17 @@ const ResultsModal = (props) => {
                             <th >Away</th>
                             </tr>
                         </thead>
+                        {props.round2.map((match) => (
                         <tbody>
                             <tr>
-                            <th>Adam Carr</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Lee O'Connell</th>
-                            </tr>
-                            <tr>
-                            <th>Dan Cross</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Darren Bidwell</th>
-                            </tr>
-                            <tr>
-                            <th>Mark Hope</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Karl Healey</th>
-                            </tr>
-                            <tr>
-                            <th>David Oxborough</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Danny Jebb</th>
-                            </tr>
-                            <tr>
-                            <th>Ian</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Guy hamer</th>
-                            </tr>
-                            <tr>
-                            <th>Mike Dobson</th>
-                            <th>0</th>  
-                            <th>0</th>
-                            <th>Damien Hanlon</th>
+                            <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
+                            <th>{match.p1Score}</th>
+                            <th>{match.p2Score}</th>
+                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap})</th>
                             </tr>
                             
-                        </tbody>
+                            
+                        </tbody>))}
                     </Table>
                     <hr />
                     <h2> Round 3</h2>
@@ -136,47 +88,66 @@ const ResultsModal = (props) => {
                             <th >Away</th>
                             </tr>
                         </thead>
+                        {props.round3.map((match) => (
                         <tbody>
                             <tr>
-                            <th>Adam Carr</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Lee O'Connell</th>
-                            </tr>
-                            <tr>
-                            <th>Dan Cross</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Darren Bidwell</th>
-                            </tr>
-                            <tr>
-                            <th>Mark Hope</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Karl Healey</th>
-                            </tr>
-                            <tr>
-                            <th>David Oxborough</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Danny Jebb</th>
-                            </tr>
-                            <tr>
-                            <th>Ian</th>
-                            <th>0</th>
-                            <th>0</th>
-                            <th>Guy hamer</th>
-                            </tr>
-                            <tr>
-                            <th>Mike Dobson</th>
-                            <th>0</th>  
-                            <th>0</th>
-                            <th>Damien Hanlon</th>
+                            <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
+                            <th>{match.p1Score}</th>
+                            <th>{match.p2Score}</th>
+                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap})</th>
                             </tr>
                             
+                            
+                        </tbody>))}
+                    </Table>
+
+                    {props.loggedInUser.role === 'ADMIN' && <ButtonWithProgress pendingApiCall={pendingApiCall} text={'Complete Group Stages'}></ButtonWithProgress>}
+                    <hr />
+                    <h2> Semi finals</h2>
+                    <Table striped bordered hover responsive>
+                        <thead>  
+                            <tr>
+                            <th >Home</th>
+                            <th >Score</th>
+                            <th >Score</th>
+                            <th >Away</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <th>Winner Group 1</th>
+                            <th>0</th>
+                            <th>0</th>
+                            <th>Winner Group 2</th>
+                            </tr>
+                            <tr>
+                            <th>Winner Group 3</th>
+                            <th>0</th>
+                            <th>0</th>
+                            <th>Highest Runner up</th>
+                            </tr>
                         </tbody>
                     </Table>
-                </Container>
+                    <h2> Final</h2>
+                    <Table striped bordered hover responsive>
+                        <thead>  
+                            <tr>
+                            <th >Home</th>
+                            <th >Score</th>
+                            <th >Score</th>
+                            <th >Away</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <th>Winner Semi final 1</th>
+                            <th>0</th>
+                            <th>0</th>
+                            <th>Winner Semi final 2</th>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </Container>}
 
             </Modal.Body>}
             <Modal.Footer>
