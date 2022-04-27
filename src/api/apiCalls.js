@@ -349,6 +349,12 @@ export const getMatches = async (matchplayId) => {
   return await axios.get(url + `/api/1.0/matchplay/rounds/${matchplayId}`)
 }
 
+export const updateScores =  (matchPlayId, roundRobinId, p1Score, p2Score) => {
+  const path = url + `/api/1.0/matchplay/scores/${roundRobinId}/${matchPlayId}/${p1Score}/${p2Score}`
+  console.log(path)
+  return axios.put(path)
+}
+
 
 
 

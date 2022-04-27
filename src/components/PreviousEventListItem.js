@@ -1256,7 +1256,7 @@ const [newTeeTime, setNewTeeTime] = useState({
           dialogClassName="modal-content-full modal-dialog-full"
           size="m"
           centered
-          responsive
+          responsive="true"
         >
           <Scorecard entrant={entrant} holes={holes} pendingApiCall={pendingApiCall} event={props.event} />
         </Modal>

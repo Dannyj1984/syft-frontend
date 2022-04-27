@@ -2,10 +2,24 @@ import React, { useState } from 'react';
 import { Modal, Table, Container, Row} from "react-bootstrap";
 import ButtonWithProgress from '../../ButtonWithProgress';
 import Spinner from '../../Spinner';
+import ResultModal from './ResultModal'
 
 const ResultsModal = (props) => {
 
     const [pendingApiCall, setPendingApiCall] = useState(false)
+    const [showResultModal, setShowResultModal] = useState(false)
+    const [player1, setPlayer1] = useState();
+    const [player2, setPlayer2] = useState();
+    const [id, setId] = useState();
+    const handleShowResultModal = (id, p1, p2) => {
+        setShowResultModal(true);
+        setPlayer1(p1)
+        setPlayer2(p2)
+        setId(id)
+    }
+    const handleCloseResultModal = () => {
+        setShowResultModal(false);
+    }
 
     return (
         <Modal 
@@ -42,13 +56,16 @@ const ResultsModal = (props) => {
                             <th >Away</th>
                             </tr>
                         </thead>
-                        {props.round1.map((match) => (
-                        <tbody>
+                        {props.round1.map((match, index) => (
+                        <tbody key={index}>
                             <tr>
                             <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
                             <th>{match.p1Score}</th>
                             <th>{match.p2Score}</th>
-                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap})</th>
+                            <th>{match.players[1].member.firstName} 
+                                {match.players[1].member.surname} 
+                                ({match.players[1].member.handicap}) 
+                                {(match.players[1].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id, match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} {(match.players[0].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.players[0].member.username, match.players[1].member.username)}>Result</button></span>}</th>
                             </tr>
                             
                             
@@ -65,13 +82,14 @@ const ResultsModal = (props) => {
                             <th >Away</th>
                             </tr>
                         </thead>
-                        {props.round2.map((match) => (
-                        <tbody>
+                        {props.round2.map((match, index) => (
+                        <tbody key={index}>
                             <tr>
                             <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
                             <th>{match.p1Score}</th>
                             <th>{match.p2Score}</th>
-                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap})</th>
+                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap}) 
+                            {(match.players[1].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} {(match.players[0].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.players[0].member.username, match.players[1].member.username)}>Result</button></span>}</th>
                             </tr>
                             
                             
@@ -88,13 +106,14 @@ const ResultsModal = (props) => {
                             <th >Away</th>
                             </tr>
                         </thead>
-                        {props.round3.map((match) => (
-                        <tbody>
+                        {props.round3.map((match, index) => (
+                        <tbody key={index}>
                             <tr>
                             <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
                             <th>{match.p1Score}</th>
                             <th>{match.p2Score}</th>
-                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap})</th>
+                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap}) 
+                            {(match.players[1].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id, match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} {(match.players[0].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.id, match.players[0].member.username, match.players[1].member.username)}>Result</button></span>}</th>
                             </tr>
                             
                             
@@ -148,6 +167,16 @@ const ResultsModal = (props) => {
                         </tbody>
                     </Table>
                 </Container>}
+
+                <ResultModal
+                showResultModal={showResultModal} 
+                handleCloseResultModal={handleCloseResultModal}
+                matchplay={props.matchplay}
+                player1={player1}
+                player2={player2}
+                matches={props.matches}
+                id={id}
+                />
 
             </Modal.Body>}
             <Modal.Footer>

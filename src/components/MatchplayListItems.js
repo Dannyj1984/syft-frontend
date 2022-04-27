@@ -14,8 +14,6 @@ import ResultsModal from './modal/matchplay/ResultsModal';
 
 export const MatchplayListItems = (props) => {
 
-  console.log(props.matchplay)
-
     const { id, year, name, winner, players } = props.matchplay
 
     const [entrants] = useState(players);
@@ -59,7 +57,6 @@ export const MatchplayListItems = (props) => {
       .getMatches(id)
       .then((response) => {
         setPendingApiCall(false)
-        console.log(response.data)
         setMatches(response.data)
       })
       .catch((error) => {
@@ -146,6 +143,7 @@ export const MatchplayListItems = (props) => {
                       matchplay={props.matchplay}
                       player={players}
                       loggedInUser={props.loggedInUser}
+                      matches={matches}
                       round1={round1}
                       round2={round2}
                       round3={round3}
