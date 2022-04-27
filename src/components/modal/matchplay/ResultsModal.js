@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Table, Container, Row} from "react-bootstrap";
 import ButtonWithProgress from '../../ButtonWithProgress';
 import Spinner from '../../Spinner';
@@ -20,6 +20,33 @@ const ResultsModal = (props) => {
     const handleCloseResultModal = () => {
         setShowResultModal(false);
     }
+
+    
+
+    const round1 = [];
+    const round2 = [];
+    const round3 = [];
+
+    if(props.matches) {
+      for(let i = 0; i < props.matches.length; i++) {
+        if(props.matches[i].round === 1) {
+            round1.push(props.matches[i]);
+        }
+        if(props.matches[i].round === 2) {
+            round2.push(props.matches[i]);
+        }
+        if(props.matches[i].round === 3) {
+            round3.push(props.matches[i]);
+        }
+    }
+  }
+
+  useEffect(() => {
+    
+      
+}, [props.matches])
+    
+    
 
     return (
         <Modal 
@@ -56,7 +83,7 @@ const ResultsModal = (props) => {
                             <th >Away</th>
                             </tr>
                         </thead>
-                        {props.round1.map((match, index) => (
+                        {round1.map((match, index) => (
                         <tbody key={index}>
                             <tr>
                             <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
@@ -65,7 +92,7 @@ const ResultsModal = (props) => {
                             <th>{match.players[1].member.firstName} 
                                 {match.players[1].member.surname} 
                                 ({match.players[1].member.handicap}) 
-                                {(match.players[1].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id, match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} {(match.players[0].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.players[0].member.username, match.players[1].member.username)}>Result</button></span>}</th>
+                                {(match.players[1].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} {(match.players[0].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.players[0].member.username, match.players[1].member.username)}>Result</button></span>}</th>
                             </tr>
                             
                             
@@ -82,14 +109,14 @@ const ResultsModal = (props) => {
                             <th >Away</th>
                             </tr>
                         </thead>
-                        {props.round2.map((match, index) => (
+                        {round2.map((match, index) => (
                         <tbody key={index}>
                             <tr>
                             <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
                             <th>{match.p1Score}</th>
                             <th>{match.p2Score}</th>
                             <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap}) 
-                            {(match.players[1].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} {(match.players[0].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.players[0].member.username, match.players[1].member.username)}>Result</button></span>}</th>
+                            {(match.players[1].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} {(match.players[0].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.players[0].member.username, match.players[1].member.username)}>Result</button></span>}</th>
                             </tr>
                             
                             
@@ -106,14 +133,14 @@ const ResultsModal = (props) => {
                             <th >Away</th>
                             </tr>
                         </thead>
-                        {props.round3.map((match, index) => (
+                        {round3.map((match, index) => (
                         <tbody key={index}>
                             <tr>
                             <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
                             <th>{match.p1Score}</th>
                             <th>{match.p2Score}</th>
                             <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap}) 
-                            {(match.players[1].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id, match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} {(match.players[0].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.id, match.players[0].member.username, match.players[1].member.username)}>Result</button></span>}</th>
+                            {(match.players[1].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} {(match.players[0].member.username === props.loggedInUser.username) &&<span className='float-right'><button onClick={() => handleShowResultModal(match.id,  match.id, match.players[0].member.username, match.players[1].member.username)}>Result</button></span>}</th>
                             </tr>
                             
                             
@@ -175,7 +202,9 @@ const ResultsModal = (props) => {
                 player1={player1}
                 player2={player2}
                 matches={props.matches}
+                handleCloseResultsModal={props.handleCloseResultsModal}
                 id={id}
+                getMatches={props.getMatches}
                 />
 
             </Modal.Body>}

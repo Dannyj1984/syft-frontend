@@ -51,9 +51,11 @@ export const MatchplayListItems = (props) => {
         setShowResultsModal(false);
     }
 
-    const loadData = () => {
+    
+
+    const getMatches =  async() => {
       setPendingApiCall(true);
-      apiCalls
+      await apiCalls
       .getMatches(id)
       .then((response) => {
         setPendingApiCall(false)
@@ -68,10 +70,7 @@ export const MatchplayListItems = (props) => {
     }
 
     useEffect(() => {
-      loadData();
-    
-      return () => {
-      }
+      getMatches();
     }, [])
     
 
@@ -91,23 +90,7 @@ export const MatchplayListItems = (props) => {
         }
     }
 
-    const round1 = [];
-    const round2 = [];
-    const round3 = [];
-
-    if(matches) {
-      for(let i = 0; i < matches.length; i++) {
-        if(matches[i].round === 1) {
-            round1.push(matches[i]);
-        }
-        if(matches[i].round === 2) {
-            round2.push(matches[i]);
-        }
-        if(matches[i].round === 3) {
-            round3.push(matches[i]);
-        }
-    }
-  }
+    
     
     return (
         <div className="card col-12" style={{height:"100%", backgroundColor: "white", boxShadow: "15px 10px 5px lightgray"}}>
@@ -144,10 +127,8 @@ export const MatchplayListItems = (props) => {
                       player={players}
                       loggedInUser={props.loggedInUser}
                       matches={matches}
-                      round1={round1}
-                      round2={round2}
-                      round3={round3}
                       matchError={matchError}
+                      getMatches={getMatches}
                     />
 
                     <div className="float-left btn-group btn-group-m px-2 col-3">
