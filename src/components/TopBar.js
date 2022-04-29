@@ -422,6 +422,12 @@ const TopBar = (props) => {
                 <i className="fas fa-trophy text-info"/> Tournaments
               </Link>
               <Link
+                to={`/matchPlay`}
+                className="dropdown-item"
+              >
+                <i className="fas fa-trophy text-info"/> Matchplay
+              </Link>
+              <Link
                 to={`/syftCup`}
                 className="dropdown-item"
               >
