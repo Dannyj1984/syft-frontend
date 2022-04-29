@@ -5,18 +5,16 @@ import Spinner from '../../Spinner';
 
 const GroupModal = (props) => {
 
-const [newEvent, setNewEvent] = useState('')
-const [eventSelected, setEventSelected] = useState(false);
+const [group1] = useState(props.group1)
 
-const [group1, setGroup1] = useState(props.group1)
+const [group2] = useState(props.group2)
 
-const [group2, setGroup2] = useState(props.group2)
+const [group3] = useState(props.group3)
 
-const [group3, setGroup3] = useState(props.group3)
-
-group1.sort((a, b) => b.points - a.points)
-group2.sort((a, b) => b.points - a.points)
-group3.sort((a, b) => b.points - a.points)
+//Sort on points first and if equal then sort on score
+group1.sort((a, b) => b.points - a.points || b.score - a.score)
+group2.sort((a, b) => b.points - a.points || b.score - a.score)
+group3.sort((a, b) => b.points - a.points || b.score - a.score)
 
 
     return (

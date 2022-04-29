@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Modal, Table, Container, Row} from "react-bootstrap";
+import { Modal, Container} from "react-bootstrap";
 import ButtonWithProgress from '../../ButtonWithProgress';
-import Spinner from '../../Spinner';
 import Input from '../../Input';
 import * as apiCalls from '../../../api/apiCalls';
 
-const ResultsModal = (props) => {
+const SemiResultModal = (props) => {
     //Get the id of this match (roundrobin)
 
     const [pendingApiCall, setPendingApiCall] = useState(false);
@@ -14,18 +13,19 @@ const ResultsModal = (props) => {
     const [p2Score, setP2Score] = useState(0)
     const [errors, setErrors] = useState();
 
-    const submitScores = () => {
-        
+    const updateScore = () => {
         setPendingApiCall(true);
         apiCalls
-        .updateScores(props.matchplay.id, props.id, p1Score, p2Score)
+        .updateSemiScores(props.id, props.player1, props.player2, p1Score, p2Score)
         .then((response) => {
             setPendingApiCall(false)
             props.getMatches();
             props.getMatchPlays();
-            props.handleCloseResultModal();
+            props.getFinals();
+            props.handleCloseSemiResultModal();
         })
         .catch((error) => {
+            setPendingApiCall(false)
             console.log(error)
         })
     }
@@ -59,8 +59,8 @@ const ResultsModal = (props) => {
 
     return (
         <Modal 
-            show={props.showResultModal} 
-            onHide={props.handleCloseResultModal}
+            show={props.showSemiResultModal} 
+            onHide={props.handleCloseSemiResultModal}
             dialogClassName="modal-content-full modal-dialog-full"
             size="m"
             centered
@@ -103,12 +103,12 @@ const ResultsModal = (props) => {
             
             
             <Modal.Footer>
-                    <ButtonWithProgress className='btn btn-success' onClick={submitScores} pendingApiCall={pendingApiCall} disabled={pendingApiCall} text="Submit"></ButtonWithProgress>
-                    <button className='btn btn-primary' onClick={props.handleCloseResultModal}>Close</button>
+                    <ButtonWithProgress className='btn btn-success' onClick={updateScore} pendingApiCall={pendingApiCall} disabled={pendingApiCall} text="Submit"></ButtonWithProgress>
+                    <button className='btn btn-primary' onClick={props.handleCloseSemiResultModal}>Close</button>
             </Modal.Footer>
             </Modal>
     )
 
 };
 
-export default ResultsModal;
+export default SemiResultModal;

@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import * as apiCalls from '../api/apiCalls';
-import { Modal, Button, Container, Row } from "react-bootstrap";
 import * as authActions from '../redux/authActions';
 import { connect } from 'react-redux';
 import ButtonWithProgress from './ButtonWithProgress';
-import Spinner from './Spinner';
-import MatchPlayList from './MatchPlayList';
 import GroupModal from './modal/matchplay/GroupModal';
 import MatchPlayerEntrantModal from './modal/matchplay/MatchPlayerEntrantModal';
 import ResultsModal from './modal/matchplay/ResultsModal';
@@ -21,7 +17,11 @@ export const MatchplayListItems = (props) => {
     const [pendingApiCall, setPendingApiCall] = useState(false)
     const [entered, setEntered] = useState(false)
     const [matches, setMatches] = useState();
+    const [semiFinals, setSemiFinals] = useState([]);
+    const [finals, setFinals] = useState([]);
     const [matchError, setMatchError] = useState();
+    const [semiFinalError, setSemiFinalError] = useState();
+    const [finalError, setFinalError] = useState();
 
     //Modals
     const [showGroupModal, setShowGroupModal] = useState(false);
@@ -69,9 +69,46 @@ export const MatchplayListItems = (props) => {
 
     }
 
+    const getSemis =  () => {
+      setPendingApiCall(true);
+       apiCalls
+      .getSemiFinals(id)
+      .then((response) => {
+        setPendingApiCall(false)
+        setSemiFinals(response.data)
+      })
+      .catch((error) => {
+        setPendingApiCall(false)
+        setSemiFinalError('Error loading Semi-Finals');
+        console.log(error)
+      })
+
+    }
+
+    const getFinals =  () => {
+      setPendingApiCall(true);
+      apiCalls
+      .getFinals(id)
+      .then((response) => {
+        setPendingApiCall(false)
+        setFinals(response.data)
+        console.log(response.data)
+      })
+      .catch((error) => {
+        setPendingApiCall(false)
+        setFinalError('Error loading Final');
+        console.log(error)
+      })
+
+    }
+
     useEffect(() => {
       getMatches();
+      getSemis();
+      getFinals();
     }, [])
+
+    
     
 
     const group1 = [];
@@ -89,6 +126,8 @@ export const MatchplayListItems = (props) => {
             group3.push(entrants[i]);
         }
     }
+
+    console.log(semiFinals)
 
     
     
@@ -129,6 +168,14 @@ export const MatchplayListItems = (props) => {
                       matches={matches}
                       matchError={matchError}
                       getMatches={getMatches}
+                      getMatchPlays={props.getMatchPlays}
+                      matchplayId={id}
+                      semiFinals={semiFinals}
+                      finals={finals}
+                      finalError={finalError}
+                      semiFinalError={semiFinalError}
+                      getSemis={getSemis}
+                      getFinals={getFinals}
                     />
 
                     <div className="float-left btn-group btn-group-m px-2 col-3">

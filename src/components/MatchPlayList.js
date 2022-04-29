@@ -3,6 +3,7 @@ import * as apiCalls from '../api/apiCalls';
 import Spinner from './Spinner';
 import { Link } from 'react-router-dom';
 import MatchplayListItems from './MatchplayListItems';
+import MatchPlayRulesModal from './modal/matchplay/MatchPlayRulesModal';
 
 
 
@@ -18,7 +19,7 @@ export const MatchPlayList = (props) => {
         size: 9
     });
 
-    const loadData = async (requestedPage = 0) => {
+    const getMatchPlays = async (requestedPage = 0) => {
         setPendingApiCall(true)
         await apiCalls
           .getMatchplays({ page: requestedPage, size: 9 })
@@ -33,22 +34,22 @@ export const MatchPlayList = (props) => {
       };
 
     useEffect(() => {
-        loadData();
+      getMatchPlays();
       }, []);
 
       const onClickNext = () => {
-        loadData(page.number + 1);
+        getMatchPlays(page.number + 1);
     };
 
     const onClickPrevious = () => {
-        loadData(page.number - 1);
+      getMatchPlays(page.number - 1);
     };
 
-    const [showMatchplayRules, setShowMatchplayRules] = useState(false);
+    const [showMatchPlayRules, setShowMatchplayRules] = useState(false);
     const handleShowMatchplayRules = () => {
       setShowMatchplayRules(true);
     }
-    const handleCloseMatchplayRules = () => {
+    const handleCloseMatchPlayRules = () => {
       setShowMatchplayRules(false);
     }
     
@@ -72,6 +73,10 @@ export const MatchPlayList = (props) => {
                 <div className="col-6">
 
                 <button className='btn btn-primary float-right' onClick={handleShowMatchplayRules}>Rules</button>
+                <MatchPlayRulesModal
+                  showMatchPlayRules={showMatchPlayRules}
+                  handleCloseMatchPlayRules={handleCloseMatchPlayRules}
+                />
                 </div>
             </div>
             <hr/>
@@ -90,7 +95,7 @@ export const MatchPlayList = (props) => {
               <div className="row">
               {content.map((matchplay) => (
                   <div key={matchplay.id} className="col-xl-4 col-m-12 mb-4">
-                  <MatchplayListItems matchplay={matchplay} />
+                  <MatchplayListItems matchplay={matchplay} getMatchPlays={getMatchPlays} />
                   </div>
                 ))}
               </div>

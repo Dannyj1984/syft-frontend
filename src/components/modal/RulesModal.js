@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { Modal, Button, Table} from "react-bootstrap";
-import Input from '../Input';
+import { Modal, Button} from "react-bootstrap";
 import Spinner from '../Spinner';
-import ButtonWithProgress from '../ButtonWithProgress';
-import { confirmAlert } from 'react-confirm-alert';
-import * as apiCalls from '../../api/apiCalls';
 
 const RulesModal = (props) => {
     return (
