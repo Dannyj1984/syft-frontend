@@ -496,7 +496,7 @@ const AdminScoreEntryModal = (props) => {
         "h5Score" : sessionStorage.getItem('h5P3Score') ? sessionStorage.getItem('h5P3Score') : 0,
         "h6Score" : sessionStorage.getItem('h6P3Score') ? sessionStorage.getItem('h6P3Score') : 0,
         "h7Score" : sessionStorage.getItem('h7P3Score') ? sessionStorage.getItem('h7P3Score') : 0,
-        "h8Score" : sessionStorage.getItem('h8P3Score') ? sessionStorage.getItem('h183Score') : 0,
+        "h8Score" : sessionStorage.getItem('h8P3Score') ? sessionStorage.getItem('h83Score') : 0,
         "h9Score" : sessionStorage.getItem('h9P3Score') ? sessionStorage.getItem('h9P3Score') : 0,
         "h10Score" : sessionStorage.getItem('h10P3Score') ? sessionStorage.getItem('h10P3Score') : 0,
         "h11Score" : sessionStorage.getItem('h11P3Score') ? sessionStorage.getItem('h11P3Score') : 0,
