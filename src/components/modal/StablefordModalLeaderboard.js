@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Table} from "react-bootstrap";
 import Spinner from '../Spinner';
+import EditScoreModal from './EditScoreModal';
 
 const StablefordModalLeaderboard = (props) => {
+  const [showEditScores, setShowEditScores] = useState(false)
+  const handleShowEditScores = () => {
+    setShowEditScores(true)
+  }
+
+  const handleCloseEditScores = () => {
+    setShowEditScores(false)
+  }
 
   //Check if previous event
   let date = new Date(props.formatDate)
@@ -56,6 +65,16 @@ const StablefordModalLeaderboard = (props) => {
                       <Button variant="secondary" onClick={props.handleCloseLeader}>
                         Close
                       </Button>
+                      {props.loggedInUser.role === 'ADMIN' &&
+                      <Button className="btn btn-danger" onClick={handleShowEditScores}>Edit Scores</Button>}
+                      <EditScoreModal 
+                        showEditScores={showEditScores}
+                        event={props.event}
+                        sortedEntrants={props.sortedEntrants}
+                        handleCloseEditScores={handleCloseEditScores}
+                        loggedInUser={props.loggedInUser}
+                        getEntrants={props.getEntrants}
+                      />
                     </Modal.Footer>
                   </Modal>
     )

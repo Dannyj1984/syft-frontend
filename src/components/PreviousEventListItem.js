@@ -25,19 +25,13 @@ const PreviousEventListItem = (props) => {
   const [currentEntrant, setCurrentEntrant] = useState({})
   
   //Scorecard object for submitting to backend
-  const [p1HoleIndex, setP1HoleIndex] = useState(0);
-  const [p2HoleIndex, setP2HoleIndex] = useState(0);
-  const [p3HoleIndex, setP3HoleIndex] = useState(0);
-  const [p4HoleIndex, setP4HoleIndex] = useState(0);
-  const thisEventType = props.event.type;
+  const [p1HoleIndex, setP1HoleIndex] = useState(sessionStorage.getItem('p1HoleIndex') ? sessionStorage.getItem('p1HoleIndex') : 0);
+  const [p2HoleIndex, setP2HoleIndex] = useState(sessionStorage.getItem('p2HoleIndex') ? sessionStorage.getItem('p2HoleIndex') : 0);
+  const [p3HoleIndex, setP3HoleIndex] = useState(sessionStorage.getItem('p3HoleIndex') ? sessionStorage.getItem('p3HoleIndex') : 0);
+  const [p4HoleIndex, setP4HoleIndex] = useState(sessionStorage.getItem('p4HoleIndex') ? sessionStorage.getItem('p4HoleIndex') : 0);
+  const [members, setMembers] = useState([{}]);
   const [membersId, setMembersId] = useState({})
-  const [member1Id, setMember1Id] = useState()
-  const [member2Id, setMember2Id] = useState()
-  const [member3Id, setMember3Id] = useState()
-  const [member4Id, setMember4Id] = useState()
-  const [entrants, setEntrants] = useState([{}]);
-  const [scoreCardModal, setScoreCardModal] = useState(false);
-  const [entrant, setEntrant] = useState({})
+
   const handleOpenScoreCard = (entrant) => {
     setScoreCardModal(true);
     setEntrant(entrant);
@@ -66,7 +60,20 @@ const PreviousEventListItem = (props) => {
     h16Par: 0,
     h17Par: 0,
     h18Par: 0,
-  })
+  });
+  const [courseId, setCourseId] = useState();
+
+  const thisEventType = props.event.type;
+  const [member1Id, setMember1Id] = useState()
+  const [member2Id, setMember2Id] = useState()
+  const [member3Id, setMember3Id] = useState()
+  const [member4Id, setMember4Id] = useState()
+  const [entrants, setEntrants] = useState([{}]);
+  const [scoreCardModal, setScoreCardModal] = useState(false);
+  const [entrant, setEntrant] = useState({})
+  
+
+ 
   const [scoreCardObj, setScoreCardObj] = useState({
     h1Score: 0,
     h2Score: 0,
@@ -173,7 +180,6 @@ const PreviousEventListItem = (props) => {
 
   const [userScoreCard, setUserScoreCard] = useState({});
 
-  const [members, setMembers] = useState([{}]);
   const [errors, setErrors] = useState({});
   const [editErrors, setEditErrors] = useState();
   const [editConfirm, setEditConfirm] = useState();
@@ -422,51 +428,25 @@ const [newTeeTime, setNewTeeTime] = useState({
           }
       }
 
-      
-
-      //load data - get Course details of the event, and check if the logged in user has already entered the event
-      useEffect(() => {
-        const event = props.event;
-        const eventid = event.id;
-        const username = props.loggedInUser.username
-        setPendingApiCall(true)
-        apiCalls
-          .getCourseDetails(eventid)
-          .then((response) => {
-            setCourseName(response.data.course);
-            setCourseSlope(response.data.courseSlope)
-            setPendingApiCall(false)
-          })
-          .catch((e) => {
-            console.log(e)
-          })
-          apiCalls
-          .getListOfMembers(props.loggedInUser.society.id)
-          .then((response) => {
-            setMembers(response.data)
-            setPendingApiCall(false)
-          })
-          .catch = (e) => {
-            console.log(e)
-            setPendingApiCall(false)
-          }
-          let entrantIndex = null;
-          setPendingApiCall(true)
-          apiCalls.getEntrants(eventid)
+      const getEntrants = async () => {
+        let entrantIndex = null;
+        await apiCalls.getEntrants(props.event.id)
           .then((response) => {
             setPendingApiCall(false)
             setEntrants(response.data)
-            response.data.forEach((curEnt) => {
-              if(curEnt.member.id === props.loggedInUser.id) {
-                setCurrentEntrant(curEnt);
-              }
-            })
             function getUserIndex() {
               try{
                response.data.forEach((e, index) => {
                if(e.member.username === props.loggedInUser.username) {
                  entrantIndex = index;
                    } 
+                   //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
+        if(thisEventType === 'Medal') {
+          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
+        }
+        if(thisEventType === 'Stableford') {
+          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
+        }
                  })
                }catch(e) {}
              }
@@ -500,33 +480,60 @@ const [newTeeTime, setNewTeeTime] = useState({
           .catch((e) => {
             console.log(e)
           })
-        checkIfUserEntered(username)
-              //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
-      if(thisEventType === 'Medal') {
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
+          
       }
-      if(thisEventType === 'Multi round event - Medal') { 
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
+
+      const getMembers = async () => {
+        setPendingApiCall(true);
+        await apiCalls
+        .getListOfMembers(props.loggedInUser.society.id)
+        .then((response) => {
+          setMembers(response.data)
+          setPendingApiCall(false)
+        }) 
+        .catch((error) => {
+          console.log(error);
+          setPendingApiCall(false)
+        })
       }
-      if(thisEventType === 'Stableford') {
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
+
+      const getTeeTimes = async () => {
+        await apiCalls
+            .getTeesheet(props.event.id)
+            .then((response) => {
+              setTeeTimes(response.data)
+              setPendingApiCall(false)
+            })
+            .catch((e) => {
+              console.log(e)
+            });
       }
-      if(thisEventType === 'Multi round event - Stableford') {
-        setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
-      }
-      setPendingApiCall(true)
+
+      
+
+      //load data - get Course details of the event, and check if the logged in user has already entered the event
+      useEffect(() => {
+        const event = props.event;
+        const eventid = event.id;
+        const username = props.loggedInUser.username
+        setPendingApiCall(true)
         apiCalls
-          .getTeesheet(props.event.id)
+          .getCourseDetails(eventid)
           .then((response) => {
-            setTeeTimes(response.data)
+            setCourseName(response.data.course);
+            setCourseSlope(response.data.courseSlope)
             setPendingApiCall(false)
-          },
-           [])
-           .catch((e) => {
-             console.log(e)
-           });
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+          getEntrants();
+          getMembers();
+          checkIfUserEntered(username);
+              
+          getTeeTimes();
            
-      }, [props.event, p1HoleIndex, p2HoleIndex, p3HoleIndex, p4HoleIndex]);
+      }, [sortedEntrants, p1HoleIndex, p2HoleIndex, p3HoleIndex, p4HoleIndex]);
 
       //Data change in edit tee sheet
       const onChange = (event) => {
@@ -1235,6 +1242,8 @@ const [newTeeTime, setNewTeeTime] = useState({
           courseSlope={courseSlope}
           handleOpenScoreCard={handleOpenScoreCard}
           event={props.event}
+          loggedInUser={props.loggedInUser}
+          getEntrants={getEntrants}
         />}
 
         {thisEventType === 'Medal' &&
@@ -1247,6 +1256,8 @@ const [newTeeTime, setNewTeeTime] = useState({
           courseSlope={courseSlope}
           handleOpenScoreCard={handleOpenScoreCard}
           event={props.event}
+          loggedInUser={props.loggedInUser}
+          getEntrants={getEntrants}
         />}
 
         {/*Show Scorecard modal*/}

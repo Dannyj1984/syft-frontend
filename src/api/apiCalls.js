@@ -247,10 +247,14 @@ export const removeEntrant = (eventid, memberid) => {
   return axios.delete(path);
 }
 
-//Update an entrants score
+//Update an entrants score for scorecard
 export const updateScore = (eventid, memberid, currentHole, score) => {
   const path = url + `/api/1.0/event/entrants/scorecard/${eventid}/${memberid}/${currentHole}`;
   return axios.put(path, score);
+}
+
+export const updateEntrantScore = async(eventId, memberId, score) => {
+  return await axios.put(`/api/1.0/updateScore/${eventId}/${memberId}/${score}`)
 }
 
 //Get a list of previous events for a single entrant for profile card

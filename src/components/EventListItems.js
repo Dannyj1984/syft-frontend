@@ -10,7 +10,6 @@ import ButtonWithProgress from './ButtonWithProgress';
 import Spinner from './Spinner';
 import Scorecard from './Scorecard';
 import AddTeeModal from './modal/AddTeeModal.js';
-import EditTeeModal from './modal/EditTeeModal';
 import TeeTimeModal from './modal/TeeTimeModal';
 import MedalModalLeaderboard from './modal/MedalModalLeaderboard';
 import StablefordModalLeaderboard from './modal/StablefordModalLeaderboard';
@@ -24,7 +23,7 @@ const EventListItems = (props) => {
 
   const [currentEntrant, setCurrentEntrant] = useState({});
 
-  //Scorecar  d object for submitting to backend
+  //Scorecard object for submitting to backend
   const [holeIndex, setHoleIndex] = useState(0);
   const [p1HoleIndex, setP1HoleIndex] = useState(sessionStorage.getItem('p1HoleIndex') ? sessionStorage.getItem('p1HoleIndex') : 0);
   const [p2HoleIndex, setP2HoleIndex] = useState(sessionStorage.getItem('p2HoleIndex') ? sessionStorage.getItem('p2HoleIndex') : 0);
@@ -169,14 +168,7 @@ const [newTeeTime, setNewTeeTime] = useState({
         noOfSlots: 4
 })
 
-//Edit tee time inputs
-  const [editTeeTime, setEditTeeTime] = useState({
-      id: '',
-      teeTime: '',
-      noOfSlots: 4,
-      entrants : [{}]
-      }
-  )
+
 
   //Open the admin user panel for entering a user to an event
   const HandleOpenEnterUser = () => {
@@ -199,30 +191,7 @@ const [newTeeTime, setNewTeeTime] = useState({
   //Tee times array
   const [teeTimes, setTeeTimes] = useState([]);
 
-  //Edit Tee time modal setup
-  const [showEditTeeTime, setShowEditTeeTime] = useState(false);
   
-
-  const handleCloseEditTeeTime = () => setShowEditTeeTime(false);
-
-  const handleShowEditTeeTime = (teesheetid) => {
-    //Check if device is in portrait and if so, warn that using in Landscape is advisable for this task
-    if(window.innerHeight > window.innerWidth){
-      alert("Please use Landscape mode when editing tee times!");
-    }
-    apiCalls
-    .getSingleTeesheet(teesheetid)
-    .then((response) =>{
-        setEditTeeTime(response.data)
-        setPendingApiCall(false)
-    }
-    )
-    .catch((apiError) => {
-      setPendingApiCall(false);
-    });
-
-      setShowEditTeeTime(true);
-  }
 
   //Delete an event
     const deleteEvent = () => {
@@ -437,27 +406,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       //update tee times, if success, show confirm message and reload window after 2 seconds
       //If fail, show error message
 
-      const onClickUpdateTee = (teesheetid) => {
-        const teeSheetId = teesheetid
-        const teeSheetUpdate = {
-            teeTime: editTeeTime.teeTime
-        }
-        setPendingApiCall(true)
-        apiCalls
-        .updateTeeSheetCall(teeSheetId, teeSheetUpdate)
-        .then((response) => {
-            setPendingApiCall(false);
-            setEditConfirm(response.data.message)
-            setTimeout(() => window.location.reload(), 2000)
-        })
-        .catch((apiError) => {
-            if (apiError.response.data && apiError.response.data.validationErrors) {
-              setEditErrors(apiError.response.data.validationErrors);
-            }
-            setPendingApiCall(false);
-          });
-
-      };
+      
 
       //create new tee sheet
       const addTeeTime = () => {
@@ -598,7 +547,7 @@ const [newTeeTime, setNewTeeTime] = useState({
           getEntrants();
           checkIfUserEntered(username);
               
-        getTeeTimes();
+          getTeeTimes();
         return () => {
           // cancel the request before component unmounts
           source.cancel();
@@ -632,17 +581,7 @@ const [newTeeTime, setNewTeeTime] = useState({
       }
 
       //onChange edit fields
-      const onChangeEdit = (event, teesheetid) => {
-        const { value, name } = event.target;
-        
-        setEditTeeTime((previousEditTeeTime) => {
-            return {
-              ...previousEditTeeTime,
-              [name]: value
-            };
-          });
-          
-      }
+      
 
       //Randomise entrants
       const randomiseEntrants = () => {
@@ -815,6 +754,8 @@ const [newTeeTime, setNewTeeTime] = useState({
                       courseSlope={courseSlope}
                       handleOpenScoreCard={handleOpenScoreCard}
                       event={props.event}
+                      loggedInUser={props.loggedInUser}
+                      getEntrants={getEntrants}
                     />}
 
                     {thisEventType === 'Stableford' && 
@@ -827,6 +768,8 @@ const [newTeeTime, setNewTeeTime] = useState({
                       courseSlope={courseSlope}
                       handleOpenScoreCard={handleOpenScoreCard}
                       event={props.event}
+                      loggedInUser={props.loggedInUser}
+                      getEntrants={getEntrants}
                     />}
 
                     {/*Show Scorecard modal*/}
@@ -888,7 +831,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                       loggedInUser={props.loggedInUser}
                       handleShowTeeTime={handleShowTeeTime}
                       handleShowAddTeeTime={handleShowAddTeeTime}
-                      handleShowEditTeeTime={handleShowEditTeeTime}
+                      entrants={entrants}
                     />
 
                     <AddTeeModal 
@@ -901,20 +844,6 @@ const [newTeeTime, setNewTeeTime] = useState({
                       addTeeTime={addTeeTime}
                       event={props.event}
                       />
-
-                    <EditTeeModal
-                      showEditTeeTime={showEditTeeTime}
-                      handleCloseEditTeeTime={handleCloseEditTeeTime}
-                      handleShowEditTeeTime={handleShowEditTeeTime}
-                      formatDate={formatDate}
-                      event={props.event}
-                      pendingApiCall={pendingApiCall}
-                      editTeeTime={editTeeTime}
-                      onChangeEdit={onChangeEdit}
-                      onClickUpdateTee={onClickUpdateTee}
-                      editConfirm={editConfirm}
-                      editErrors={editErrors}
-                    />
                     {entered &&
                     <div className="float-left btn-group btn-group-m p-2 col-6">
                             <button  

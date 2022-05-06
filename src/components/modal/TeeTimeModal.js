@@ -5,15 +5,39 @@ import Spinner from '../Spinner';
 import ButtonWithProgress from '../ButtonWithProgress';
 import { confirmAlert } from 'react-confirm-alert';
 import * as apiCalls from '../../api/apiCalls';
+import EditTeeModal from './EditTeeModal';
 
 const TeeTimeModal = (props) => {
 
     const [pendingCall, setPendingCall] = useState(false);
 
+    const [teeSheet, setTeeSheet] = useState();
+
     let date = new Date(props.event.date)
     let today = new Date();
     today.setHours(0, 0, 0, 0);
     const previous = date < today
+
+    //Edit Tee time modal setup
+  const [showEditTeeTime, setShowEditTeeTime] = useState(false);
+  
+
+  const handleCloseEditTeeTime = () => setShowEditTeeTime(false);
+
+  const handleShowEditTeeTime = (teesheetid) => {
+    //Check if device is in portrait and if so, warn that using in Landscape is advisable for this task
+    if(window.innerHeight > window.innerWidth){
+      alert("Please use Landscape mode when editing tee times!");
+    }
+    setPendingCall(true)
+    apiCalls
+    .getSingleTeesheet(teesheetid)
+    .then((response) => {
+      setPendingCall(false)
+      setTeeSheet(response.data)
+    })
+      setShowEditTeeTime(true);
+  }
     
 
     //Delete a teesheet
@@ -100,7 +124,9 @@ const TeeTimeModal = (props) => {
               {props.loggedInUser.role === 'ADMIN' && !previous &&
               <td headers='admin'>
                   <ButtonWithProgress className="btn btn-danger m-2" onClick={() => deleteTeeSheet(teetime.id)} text='Delete'/>
-                  <button className="btn btn-warning m-2" disabled={props.pendingApiCall} onClick={() => props.handleShowEditTeeTime(teetime.id)}>Update</button>
+                  <button className="btn btn-warning m-2" disabled={true} onClick={() => handleShowEditTeeTime(teetime.id)}>Update</button>
+              
+              
               </td>}
               </tr>
         ))}   
@@ -108,7 +134,7 @@ const TeeTimeModal = (props) => {
       </Table>
       </Modal.Body>}
       <Modal.Footer>
-        {(props.loggedInUser.role === 'ADMIN' || props.loggedInUser.role === 'EVENTADMIN' || props.loggedInUser.role === 'SUPERUSER') && !previous &&
+        {(props.loggedInUser.role === 'ADMIN') && !previous &&
         <Button variant="success" disabled={props.pendingApiCall} onClick={props.handleShowAddTeeTime}>Add New Tee Time</Button>}
         <Button variant="secondary" onClick={props.handleCloseTeeTime}>
           Close
