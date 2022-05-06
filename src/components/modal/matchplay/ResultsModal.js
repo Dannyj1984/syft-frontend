@@ -114,7 +114,7 @@ const ResultsModal = (props) => {
             </Container>}
             {!props.matchError &&
                 <Container>
-                    <h2> Round 1</h2>
+                    <h2 className='text-center'> Round 1</h2>
                     <Table striped bordered hover responsive>
                         <thead>  
                             <tr>
@@ -127,10 +127,10 @@ const ResultsModal = (props) => {
                         {round1.map((match, index) => (
                         <tbody key={index}>
                             <tr>
-                            <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
+                            <th className={match.p1Score > match.p2Score && 'text-success'}>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
                             <th>{match.p1Score}</th>
                             <th>{match.p2Score}</th>
-                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap})
+                            <th className={match.p2Score > match.p1Score && 'text-success'}>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap})
                                 {(match.players[1].member.username === props.loggedInUser.username) &&
                                     <span className='float-right'><button onClick={() => handleShowResultModal(match.id, match.players[0].member.username, match.players[1].member.username)}>Result</button></span>}
                                 {(match.players[0].member.username === props.loggedInUser.username) &&
@@ -141,7 +141,7 @@ const ResultsModal = (props) => {
                         </tbody>))}
                     </Table>
                     <hr />
-                    <h2> Round 2</h2>
+                    <h2 className='text-center'> Round 2</h2>
                     <Table striped bordered hover responsive>
                         <thead>  
                             <tr>
@@ -154,10 +154,10 @@ const ResultsModal = (props) => {
                         {round2.map((match, index) => (
                         <tbody key={index}>
                             <tr>
-                            <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
+                            <th className={match.p1Score > match.p2Score && 'text-success'}>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
                             <th>{match.p1Score}</th>
                             <th>{match.p2Score}</th>
-                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap}) 
+                            <th className={match.p2Score > match.p1Score && 'text-success'}>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap}) 
                             {(match.players[1].member.username === props.loggedInUser.username) &&
                                 <span className='float-right'><button onClick={() => handleShowResultModal(match.id, match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} 
                             {(match.players[0].member.username === props.loggedInUser.username) &&
@@ -168,7 +168,7 @@ const ResultsModal = (props) => {
                         </tbody>))}
                     </Table>
                     <hr />
-                    <h2> Round 3</h2>
+                    <h2 className='text-center'> Round 3</h2>
                     <Table striped bordered hover responsive>
                         <thead>  
                             <tr>
@@ -181,10 +181,10 @@ const ResultsModal = (props) => {
                         {round3.map((match, index) => (
                         <tbody key={index}>
                             <tr>
-                            <th>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
+                            <th className={match.p1Score > match.p2Score && 'text-success'}>{match.players[0].member.firstName} {match.players[0].member.surname} ({match.players[0].member.handicap})</th>
                             <th>{match.p1Score}</th>
                             <th>{match.p2Score}</th>
-                            <th>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap}) 
+                            <th className={match.p2Score > match.p1Score && 'text-success'}>{match.players[1].member.firstName} {match.players[1].member.surname} ({match.players[1].member.handicap}) 
                             {(match.players[1].member.username === props.loggedInUser.username) &&
                                 <span className='float-right'><button onClick={() => handleShowResultModal(match.id, match.players[0].member.username, match.players[1].member.username)}>Result</button></span>} 
                             {(match.players[0].member.username === props.loggedInUser.username) &&
@@ -197,7 +197,7 @@ const ResultsModal = (props) => {
 
                     {props.loggedInUser.role === 'ADMIN' && <ButtonWithProgress pendingApiCall={pendingApiCall} onClick={completeGroups} text={'Complete Group Stages'}></ButtonWithProgress>}
                     <hr />
-                    <h2> Semi finals</h2>
+                    <h2 className='text-center'> Semi finals</h2>
                         <Table striped bordered hover responsive>
                         <thead>  
                             <tr>
@@ -210,20 +210,20 @@ const ResultsModal = (props) => {
                         {props.semiFinals.length === 4 &&
                         <tbody>
                             <tr>
-                            <th>{props.semiFinals[0].member.firstName} {props.semiFinals[0].member.surname} ({props.semiFinals[0].member.handicap})</th>
+                            <th className={props.semiFinals[0].sfScore > props.semiFinals[1].sfScore && 'text-success'}>{props.semiFinals[0].member.firstName} {props.semiFinals[0].member.surname} ({props.semiFinals[0].member.handicap})</th>
                             <th>{props.semiFinals[0].sfScore}</th>
                             <th>{props.semiFinals[1].sfScore}</th>  
-                            <th>{props.semiFinals[1].member.firstName} {props.semiFinals[1].member.surname} ({props.semiFinals[1].member.handicap})
+                            <th className={props.semiFinals[1].sfScore > props.semiFinals[0].sfScore && 'text-success'}>{props.semiFinals[1].member.firstName} {props.semiFinals[1].member.surname} ({props.semiFinals[1].member.handicap})
                             {(props.semiFinals[0].member.username === props.loggedInUser.username) &&
                                     <span className='float-right'><button onClick={() => handleShowSemiResultModal(props.semiFinals[0].member.username, props.semiFinals[1].member.username)}>Result</button></span>}
                                 {(props.semiFinals[1].member.username === props.loggedInUser.username) &&
                                     <span className='float-right'><button onClick={() => handleShowSemiResultModal(props.semiFinals[0].member.username, props.semiFinals[1].member.username)}>Result</button></span>}</th>
                             </tr>
                             <tr>
-                            <th>{props.semiFinals[2].member.firstName} {props.semiFinals[2].member.surname} ({props.semiFinals[2].member.handicap})</th>
+                            <th className={props.semiFinals[2].sfScore > props.semiFinals[3].sfScore && 'text-success'}>{props.semiFinals[2].member.firstName} {props.semiFinals[2].member.surname} ({props.semiFinals[2].member.handicap})</th>
                             <th>{props.semiFinals[2].sfScore}</th>
                             <th>{props.semiFinals[3].sfScore}</th>
-                            <th>{props.semiFinals[3].member.firstName} {props.semiFinals[3].member.surname} ({props.semiFinals[3].member.handicap})
+                            <th className={props.semiFinals[3].sfScore > props.semiFinals[2].sfScore && 'text-success'}>{props.semiFinals[3].member.firstName} {props.semiFinals[3].member.surname} ({props.semiFinals[3].member.handicap})
                             {/* {(props.semiFinals[2].member.username === props.loggedInUser.username) && */}
                                     <span className='float-right'><button onClick={() => handleShowSemiResultModal(props.semiFinals[2].member.username, props.semiFinals[3].member.username)}>Result</button></span>
                                 {(props.semiFinals[3].member.username === props.loggedInUser.username) &&
@@ -243,7 +243,7 @@ const ResultsModal = (props) => {
                         />
                         
                     </Table>
-                    <h2> Final</h2>
+                    <h2 className='text-center'> Final</h2>
                     <Table striped bordered hover responsive>
                         <thead>  
                             <tr>
@@ -256,10 +256,10 @@ const ResultsModal = (props) => {
                         {props.finals.length === 2 &&
                         <tbody>
                             <tr>
-                            <th>{props.finals[0].member.firstName} {props.finals[0].member.surname} ({props.finals[0].member.handicap})</th>
+                            <th className={props.finals[0].fscore > props.finals[1].fscoree && 'text-success'}>{props.finals[0].member.firstName} {props.finals[0].member.surname} ({props.finals[0].member.handicap})</th>
                             <th>{props.finals[0].fscore}</th>
                             <th>{props.finals[1].fscore}</th>  
-                            <th>{props.finals[1].member.firstName} {props.finals[1].member.surname} ({props.finals[1].member.handicap})
+                            <th className={props.finals[1].fscore > props.finals[1].fscoree && 'text-success'}>{props.finals[1].member.firstName} {props.finals[1].member.surname} ({props.finals[1].member.handicap})
                             {(props.finals[0].member.username === props.loggedInUser.username) &&
                                 <span className='float-right'><button onClick={() => handleShowFinalResultModal(props.finals[0].member.username, props.finals[1].member.username)}>Result</button></span>}
                             {(props.finals[1].member.username === props.loggedInUser.username) &&
