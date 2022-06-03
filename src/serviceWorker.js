@@ -10,9 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-let version = "1.1.16";
-
-const webpush = require('web-push');
+let version = "1.1.15";
 
 const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
@@ -23,29 +21,6 @@ const isLocalhost = Boolean(
         /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
       )
   );
-
-  function determineAppServerKey() {
-    var vapidPublicKey = webpush.generateVAPIDKeys();
-    return urlBase64Toint8Array(vapidPublicKey);
-  }
-
-  function urlBase64Toint8Array(base64String) {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-    const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/');
-
-    const rawData = window.atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
-
-    for(let i = 0; i < rawData.length; ++i){
-      outputArray[i] = rawData.charCodeAt(i)
-    }
-
-    return outputArray;
-  }
-
-
   
   export function register(config) {
     if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
@@ -76,7 +51,6 @@ const isLocalhost = Boolean(
         } else {
           // Is not localhost. Just register service worker
           registerValidSW(swUrl, config);
-
         }
       });
     }
@@ -86,13 +60,6 @@ const isLocalhost = Boolean(
     navigator.serviceWorker
       .register(swUrl)
       .then(registration => {
-        registration.pushManager.getSubscription()
-        .then(function(subscription){
-          return registration.pushManager.subscribe({
-            userVisibleOnly:true,
-            applicationServerKey:determineAppServerKey()
-          });
-        })
         registration.onupdatefound = () => {
           const installingWorker = registration.installing;
           if (installingWorker == null) {

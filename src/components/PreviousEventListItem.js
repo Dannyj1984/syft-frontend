@@ -22,6 +22,8 @@ import AdminScoreEntryModal from './modal/AdminScoreEntryModal';
 
 const PreviousEventListItem = (props) => {
 
+  
+
   const [currentEntrant, setCurrentEntrant] = useState({})
   
   //Scorecard object for submitting to backend

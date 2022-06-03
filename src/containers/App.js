@@ -29,10 +29,14 @@ import MatchPlayPage from '../pages/MatchplayPage';
 
 
 function App() {
+
+  
+  
   return (
     <div>
       <TopBar />
       <div className="container">
+      
       {/* When using switch need it will try each route in order. If two routes match it will show the first one. */}
         <Switch>
           <Redirect exact from="/" to="/login" />

@@ -23,6 +23,7 @@ export const PreviousEventList = (props) => {
     loadData();
   }, []);
 
+
   const loadData = async (requestedPage = 0) => {
     let id = props.user.society.id;
     setPendingApiCall(true)
