@@ -6,7 +6,6 @@ import ButtonWithProgress from '../ButtonWithProgress';
 import * as apiCalls from '../../api/apiCalls';
 
 const EditScoreModal = (props) => {
-    console.log(props)
     const [pendingApiCall, setPendingApiCall] = useState(false);
     const [entrants] = useState(props.sortedEntrants)
     const [scores, setScores] = useState([]);
