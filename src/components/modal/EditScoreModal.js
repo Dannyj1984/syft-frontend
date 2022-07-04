@@ -40,9 +40,8 @@ const EditScoreModal = (props) => {
         .updateEntrantScore(props.event.id, id, scores[index])
         .then((response) => {
             setPendingApiCall(false) 
-            console.log(response.data.message)
             //Set the response message to show for 3 seconds
-            setResponse(response.data.message)
+            setResponse("Scores updated");
             setTimeout(() => setResponse(), 3000)
         })
         .catch((error)=> {
