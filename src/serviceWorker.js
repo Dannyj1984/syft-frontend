@@ -10,7 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-let version = "1.1.15";
+let version = "1.1.16";
 
 const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
