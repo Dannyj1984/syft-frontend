@@ -107,7 +107,6 @@ class EventInfoPage extends React.Component{
             ninetyFivePercent: event.ninetyFivePercent,
             major: event.major
           };
-          console.log(eventUpdate)
           this.setState({ pendingUpdateCall: true });
         apiCalls
           .updateEvent(eventId, eventUpdate)
@@ -253,7 +252,6 @@ class EventInfoPage extends React.Component{
           originalNinetyFive = event.ninetyFivePercent;
         }
           const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-          console.log(value)
           event.ninetyFivePercent = value;
           const errors = { ...this.state.errors };  
           errors.originalNinetyFive = undefined;
@@ -271,7 +269,6 @@ class EventInfoPage extends React.Component{
           const errors = { ...this.state.errors };  
           errors.originalMajor = undefined;
           this.setState({ event, originalMajor, errors });
-          console.log(event.major)
         };
         
     

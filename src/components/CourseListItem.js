@@ -48,7 +48,6 @@ const CourseListItem = (props) => {
           setWind((previousWind) => {return `${result.wind.speed}`});
           setTemp((previousTemp) => {return `${result.main.temp_max}`});
           }
-          console.log(result)
         })
       } catch(error) {
         console.log(error)

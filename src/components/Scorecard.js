@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { Modal } from "react-bootstrap";
-import Spinner from './Spinner';
 
 const scoreCard = (props) => {
 
      //Check if previous event
-   let date = new Date(props.formatDate)
+   let date = new Date(props.event.date)
+   date.setHours(0,0,0,0);
    let today = new Date();
    today.setHours(0,0,0,0);
-   const previous = date < today
+   let previous = date.getTime() < today.getTime();
 
     let grossScoreClassnameh1 = 'holeSpan';
 
@@ -526,13 +526,14 @@ const scoreCard = (props) => {
     let totalPar = front9Par + back9Par;
     let totalNett = front9NettScore + back9NettScore;
     let totalPoints = front9Points + back9Points;
+    let courseHcp = props.entrant.coursehcp;
 
     return (
         <>
         
         <Modal.Header closeButton>
         <Modal.Title id='scoreCardModal'>
-          Score Card for {props.event.name}
+          Score Card for {props.event.name} {previous}
           
         </Modal.Title>
       </Modal.Header>
@@ -541,13 +542,17 @@ const scoreCard = (props) => {
                 <h3> 
                 {!props.event.ninetyFivePercent &&
                           <div >{!previous ?
-                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (${Math.round(props.entrant.member.handicap/113*props.courseSlope)-props.entrant.member.socHcpRed})` :
-                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (${props.entrant.coursehcp})` }
+                          //If future event show the players hcp at the current moment
+                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (Current playing hcp : ${Math.round(0.95 * (Math.round(props.entrant.member.handicap / 113 * props.courseSlope) - props.entrant.member.socHcpRed))} ` :
+                            //If past event show course handicap for the event at the time it was played
+                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (Exact Playing hcp : ${courseHcp})` }
                           </div>}
                           {props.event.ninetyFivePercent &&
                           <div >{!previous ?
-                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (${Math.round(0.95 * (Math.round(props.entrant.member.handicap / 113 * props.courseSlope) - props.entrant.member.socHcpRed))})` :
-                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (${props.entrant.coursehcp})` }
+                          //If future event show the players playing hcp at the current time
+                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (Current playing hcp : ${Math.round(0.95 * (Math.round(props.entrant.member.handicap / 113 * props.courseSlope) - props.entrant.member.socHcpRed))}) ` :
+                            //If past event show course handicap for the event at the time it was played
+                            `${props.entrant.member.firstName} ${props.entrant.member.surname} (Exact Playing hcp : ${courseHcp})` }
                           </div>}
                 </h3>
                 <article className="front9">

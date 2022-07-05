@@ -8,7 +8,6 @@ import SemiResultModal from './SemiResultModal';
 import FinalResultModal from './FinalResultModal';
 
 const ResultsModal = (props) => {
-    console.log(props.finals)
 
     const [pendingApiCall, setPendingApiCall] = useState(false)
     const [showResultModal, setShowResultModal] = useState(false);
@@ -54,7 +53,6 @@ const ResultsModal = (props) => {
         .then((response) => {
             setPendingApiCall(false)
             props.getSemis();
-            console.log(response.data)
         })
         .catch((error) => {
             setPendingApiCall(false)

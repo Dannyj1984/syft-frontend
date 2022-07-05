@@ -20,15 +20,14 @@ import AdminScoreEntryModal from './modal/AdminScoreEntryModal';
 import axios from 'axios';
 
 const EventListItems = (props) => {
-
-  const [currentEntrant, setCurrentEntrant] = useState({});
+  
 
   //Scorecard object for submitting to backend
   const [holeIndex, setHoleIndex] = useState(0);
-  const [p1HoleIndex, setP1HoleIndex] = useState(sessionStorage.getItem('p1HoleIndex') ? sessionStorage.getItem('p1HoleIndex') : 0);
-  const [p2HoleIndex, setP2HoleIndex] = useState(sessionStorage.getItem('p2HoleIndex') ? sessionStorage.getItem('p2HoleIndex') : 0);
-  const [p3HoleIndex, setP3HoleIndex] = useState(sessionStorage.getItem('p3HoleIndex') ? sessionStorage.getItem('p3HoleIndex') : 0);
-  const [p4HoleIndex, setP4HoleIndex] = useState(sessionStorage.getItem('p4HoleIndex') ? sessionStorage.getItem('p4HoleIndex') : 0);
+  const [p1HoleIndex] = useState(sessionStorage.getItem('p1HoleIndex') ? sessionStorage.getItem('p1HoleIndex') : 0);
+  const [p2HoleIndex] = useState(sessionStorage.getItem('p2HoleIndex') ? sessionStorage.getItem('p2HoleIndex') : 0);
+  const [p3HoleIndex] = useState(sessionStorage.getItem('p3HoleIndex') ? sessionStorage.getItem('p3HoleIndex') : 0);
+  const [p4HoleIndex] = useState(sessionStorage.getItem('p4HoleIndex') ? sessionStorage.getItem('p4HoleIndex') : 0);
   const [members, setMembers] = useState([{}]);
   const [membersId, setMembersId] = useState({})
   
@@ -44,7 +43,7 @@ const EventListItems = (props) => {
     setScoreCardModal(false);
   }
 
-  const [holes, setHoles] = useState({
+  const [holes] = useState({
     h1Par: 0,
     h2Par: 0,
     h3Par: 0,
@@ -747,6 +746,8 @@ const [newTeeTime, setNewTeeTime] = useState({
                     {thisEventType === 'Medal' &&
                     <MedalModalLeaderboard
                       showModalLeader={showModalLeader}
+                      scoreCardModal = {scoreCardModal}
+                      handleCloseScoreCard = {handleCloseScoreCard}
                       handleCloseLeader={handleCloseLeader}
                       pendingApiCall={pendingApiCall}
                       formatDate={formatDate}

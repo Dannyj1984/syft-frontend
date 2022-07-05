@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Modal, Button, Table} from "react-bootstrap";
-import Input from '../Input';
+import Scorecard from '../Scorecard';
 import Spinner from '../Spinner';
 import EditScoreModal from './EditScoreModal';
 
@@ -17,10 +17,11 @@ const MedalModalLeaderboard = (props) => {
   }
 
    //Check if previous event
-   let date = new Date(props.formatDate)
+   let date = new Date(props.event.date);
+   date.setHours(0,0,0,0);
    let today = new Date();
    today.setHours(0,0,0,0);
-   const previous = date < today
+   const previous = date.getTime() < today.getTime();
     return (
             <Modal 
                     show={props.showModalLeader} 
@@ -49,15 +50,20 @@ const MedalModalLeaderboard = (props) => {
                         <tr key={entrant.member.id}>
                           {!props.event.ninetyFivePercent &&
                             <th>{!previous ?
+                            //if future event, set as the current shots they will get
                               `${entrant.member.firstName} ${entrant.member.surname} (${Math.round(entrant.member.handicap / 113 * props.courseSlope) - entrant.member.socHcpRed})` :
+                              //if past event set as the shots they got at the time of the event.
                               `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp})`}
                             </th>}
                           {props.event.ninetyFivePercent &&
                             <th>{!previous ?
                               `${entrant.member.firstName} ${entrant.member.surname} (${Math.round(0.95 * (Math.round(entrant.member.handicap / 113 * props.courseSlope) - entrant.member.socHcpRed))})` :
-                              `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp})`}
+                              `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp}) `}
                             </th>}
-                          <th>{Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}<span style={{ marginLeft: "10px" }}><button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant, props.courseSlope)}>View</button></span> </th>
+                          <th>{Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}<span style={{ marginLeft: "10px" }}><button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant)}>View</button></span> </th>
+                          
+                          {/*Show Scorecard modal*/}
+                    
                         </tr>
                       ))}
                       </tbody>

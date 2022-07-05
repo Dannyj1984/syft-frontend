@@ -47,7 +47,6 @@ export const TournamentRegistrationPage = (props) => {
           startDate: form.startDate,
           endDate: form.endDate
       };
-      console.log(tournament)
       
         setPendingApiCall(true);
           apiCalls

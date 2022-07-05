@@ -33,6 +33,8 @@ const PreviousEventListItem = (props) => {
   const [p4HoleIndex, setP4HoleIndex] = useState(sessionStorage.getItem('p4HoleIndex') ? sessionStorage.getItem('p4HoleIndex') : 0);
   const [members, setMembers] = useState([{}]);
   const [membersId, setMembersId] = useState({})
+  
+  const [entrant, setEntrant] = useState({})
 
   const handleOpenScoreCard = (entrant) => {
     setScoreCardModal(true);
@@ -72,7 +74,6 @@ const PreviousEventListItem = (props) => {
   const [member4Id, setMember4Id] = useState()
   const [entrants, setEntrants] = useState([{}]);
   const [scoreCardModal, setScoreCardModal] = useState(false);
-  const [entrant, setEntrant] = useState({})
   
 
  
@@ -1250,6 +1251,8 @@ const [newTeeTime, setNewTeeTime] = useState({
 
         {thisEventType === 'Medal' &&
         <MedalModalLeaderboard
+          scoreCardModal = {scoreCardModal}
+          handleCloseScoreCard={handleCloseScoreCard}
           showModalLeader={showModalLeader}
           handleCloseLeader={handleCloseLeader}
           pendingApiCall={pendingApiCall}

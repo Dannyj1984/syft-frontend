@@ -14,10 +14,11 @@ const StablefordModalLeaderboard = (props) => {
   }
 
   //Check if previous event
-  let date = new Date(props.formatDate)
+  let date = new Date(props.event.date);
+  date.setHours(0,0,0,0);
   let today = new Date();
   today.setHours(0,0,0,0);
-  const previous = date < today
+  const previous = date.getTime() < today.getTime();
     return (
         <Modal 
                     show={props.showModalLeader} 

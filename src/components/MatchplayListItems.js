@@ -92,7 +92,6 @@ export const MatchplayListItems = (props) => {
       .then((response) => {
         setPendingApiCall(false)
         setFinals(response.data)
-        console.log(response.data)
       })
       .catch((error) => {
         setPendingApiCall(false)
@@ -126,8 +125,6 @@ export const MatchplayListItems = (props) => {
             group3.push(entrants[i]);
         }
     }
-
-    console.log(semiFinals)
 
     
     

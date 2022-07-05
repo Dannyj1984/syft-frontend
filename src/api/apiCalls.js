@@ -355,37 +355,36 @@ export const getMatches = async (matchplayId) => {
 
 export const updateScores =  (matchPlayId, roundRobinId, p1Score, p2Score) => {
   const path = url + `/api/1.0/matchplay/scores/${roundRobinId}/${matchPlayId}/${p1Score}/${p2Score}`
-  console.log(path)
   return axios.put(path)
 }
 
 export const completeGroups = async(matchPlayId) => {
   const path = url + `/api/1.0/matchplay/complete/groups/${matchPlayId}`
-  console.log(path)
+  
   return await axios.put(path);
 }
 
 export const getSemiFinals = async(matchPlayId) => {
   const path = url + `/api/1.0/matchplay/getSemis/${matchPlayId}`
-  console.log(path)
+  
   return await axios.get(path);
 }
 
 export const updateSemiScores = async(matchPlayId, player1, player2, p1Score, p2Score) => {
   const path = url + `/api/1.0/matchplay/semiScores/${matchPlayId}/${player1}/${player2}/${p1Score}/${p2Score}`
-  console.log(path)
+  
   return await axios.put(path)
 }
 
 export const updateFinalScores = async(matchPlayId, player1, player2, p1Score, p2Score) => {
   const path = url + `/api/1.0/matchplay/finalScores/${matchPlayId}/${player1}/${player2}/${p1Score}/${p2Score}`
-  console.log(path)
+  
   return await axios.put(path)
 }
 
 export const getFinals = async(matchPlayId) => {
   const path = url + `/api/1.0/matchplay/getFinals/${matchPlayId}`
-  console.log(path)
+  
   return await axios.get(path);
 }
 

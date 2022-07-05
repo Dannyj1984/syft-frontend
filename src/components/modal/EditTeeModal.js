@@ -3,7 +3,6 @@ import { Modal, Button, Table} from "react-bootstrap";
 import Spinner from '../Spinner';
 
 const EditTeeModal = (props) => {
-    console.log(props)
 
     //const [entrants, setEntrants] = useState(props.teeSheet.entrants);
 

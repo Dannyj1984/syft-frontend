@@ -119,7 +119,6 @@ export const EventSignupPage = (props) => {
           props.actions
             .postSignupEvent(event, societyId, courseId)
             .then((response) => {
-              console.log(response)
             setPendingApiCall(false);
           props.history.push('/events');
           })
