@@ -69,7 +69,7 @@ const MedalModalLeaderboard = (props) => {
                                 {Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}
                                 <span style={{ marginLeft: "10px" }}>
                                   <button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant)}>
-                                    iew
+                                    View
                                   </button>
                                 </span> 
                               </th>
