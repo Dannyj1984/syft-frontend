@@ -976,6 +976,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                         onChangeMember={onChangeMember}
                         adminAddMember={adminAddMember}
                         adminRemoveEntrant={adminRemoveEntrant}
+                        
                       />
 
                       <AdminScoreEntryModal
@@ -989,7 +990,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                         p4HoleIndex={p4HoleIndex}
                         adminUpdateScorecard={adminUpdateScorecard}
                         event={props.event}
-
+                        handleOpenAdminScore={handleOpenAdminScore}
                       />
 
                         

@@ -1453,6 +1453,7 @@ const [newTeeTime, setNewTeeTime] = useState({
         onChangeP4ScoreCard={onChangeP4ScoreCard}
         removeSessionStorageP4Scores={removeSessionStorageP4Scores}
         adminUpdateScorecard={adminUpdateScorecard}
+        event={props.event}
 
       />
 </div>

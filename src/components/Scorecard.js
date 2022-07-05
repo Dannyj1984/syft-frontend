@@ -4,6 +4,8 @@ import { Modal } from "react-bootstrap";
 
 const scoreCard = (props) => {
 
+    console.log(props.entrant)
+
      //Check if previous event
    let date = new Date(props.event.date)
    date.setHours(0,0,0,0);
@@ -687,7 +689,7 @@ const scoreCard = (props) => {
                         <span className={grossScoreClassnameh17}>{props.entrant.scoreCard.h17Score}</span>
                         <span className={grossScoreClassnameh18}>{props.entrant.scoreCard.h18Score}</span>
                         <span className="sub">{back9Score}</span>
-                        <span className="total">{front9Score + back9Score}</span>
+                        <span className="total">{props.entrant.nr ? 'NR' : front9Score + back9Score}</span>
                     </div>
                     <div className="score">
                         <span className='holeSpanH'>Nett</span>
@@ -701,7 +703,7 @@ const scoreCard = (props) => {
                         <span className={NettScoreClassnameh17}>{props.entrant.scoreCard.h17NettScore}</span>
                         <span className={NettScoreClassnameh18}>{props.entrant.scoreCard.h18NettScore}</span>
                         <span className="sub">{back9NettScore}</span>
-                        <span className="total">{totalNett}</span>
+                        <span className="total">{props.entrant.nr ? 'NR' : totalNett}</span>
                     </div>
 
                     <div className="points">

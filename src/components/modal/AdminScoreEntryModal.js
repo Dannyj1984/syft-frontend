@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Modal, Button, Container, Row } from "react-bootstrap";
 import Spinner from "../Spinner";
 import * as apiCalls from '../../api/apiCalls';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const AdminScoreEntryModal = (props) => {
 
@@ -12,17 +14,17 @@ const AdminScoreEntryModal = (props) => {
     const [p1HoleIndex, setP1HoleIndex] = useState(sessionStorage.getItem('p1HoleIndex') ? sessionStorage.getItem('p1HoleIndex') : 0);
     const [member1Id, setMember1Id] = useState(sessionStorage.getItem('member1_id') ? sessionStorage.getItem('member1_id') : null);
     const [member1Selected, setMember1Selected] = useState(sessionStorage.getItem('p1MemberSelected') ? true : false);
-    const p1ScoreAddOne = () => {
-      let score = 0;
-      let newScore = score + 1;
-      window.sessionStorage.setItem(`h${p1HoleIndex+1}P1Score`, newScore);
-    }
+    // const p1ScoreAddOne = () => {
+    //   let score = 0;
+    //   let newScore = score + 1;
+    //   window.sessionStorage.setItem(`h${p1HoleIndex+1}P1Score`, newScore);
+    // }
   
-    const p1ScoreTakeOne = () => {
-      let score = parseInt(window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`));
-      let newScore = score - 1;
-      window.sessionStorage.setItem(`h${p1HoleIndex+1}P1Score`, newScore);
-    }
+    // const p1ScoreTakeOne = () => {
+    //   let score = parseInt(window.sessionStorage.getItem(`h${p1HoleIndex+1}P1Score`));
+    //   let newScore = score - 1;
+    //   window.sessionStorage.setItem(`h${p1HoleIndex+1}P1Score`, newScore);
+    // }
 
     const [p1ScoreCardObj, setp1ScoreCardObj] = useState({
       h1P1Score: 0,
@@ -798,8 +800,8 @@ const AdminScoreEntryModal = (props) => {
                               min={"0"} 
                               max={"15"} 
                             />
+                            
                         </div>
-                        <div className="col-4"></div>
                         {/* <div className="col-4 mb-3">
                             <button  onClick={p1ScoreAddOne} style={{fontSize:"32px"}}> {'+'}</button>
                         </div> */}

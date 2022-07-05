@@ -49,20 +49,44 @@ const MedalModalLeaderboard = (props) => {
                       {props.sortedEntrants.map((entrant) => (
                         <tr key={entrant.member.id}>
                           {!props.event.ninetyFivePercent &&
-                            <th>{!previous ?
+                            <th>
+                            {!previous ?
                             //if future event, set as the current shots they will get
                               `${entrant.member.firstName} ${entrant.member.surname} (${Math.round(entrant.member.handicap / 113 * props.courseSlope) - entrant.member.socHcpRed})` :
                               //if past event set as the shots they got at the time of the event.
-                              `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp})`}
-                            </th>}
+                              `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp})` 
+                              
+                              }
+                            </th>
+                            }
                           {props.event.ninetyFivePercent &&
                             <th>{!previous ?
                               `${entrant.member.firstName} ${entrant.member.surname} (${Math.round(0.95 * (Math.round(entrant.member.handicap / 113 * props.courseSlope) - entrant.member.socHcpRed))})` :
                               `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp}) `}
                             </th>}
-                          <th>{Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}<span style={{ marginLeft: "10px" }}><button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant)}>View</button></span> </th>
+                            {!entrant.nr &&
+                              <th>
+                                {Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}
+                                <span style={{ marginLeft: "10px" }}>
+                                  <button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant)}>
+                                    iew
+                                  </button>
+                                </span> 
+                              </th>
+                            }
+
+                            {entrant.nr &&
+                              <th>
+                                NR {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}
+                                <span style={{ marginLeft: "10px" }}>
+                                  <button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant)}>
+                                    View
+                                  </button>
+                                </span> 
+                              </th>
+                            }
                           
-                          {/*Show Scorecard modal*/}
+                          
                     
                         </tr>
                       ))}
