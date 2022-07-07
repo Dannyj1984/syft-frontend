@@ -12,6 +12,8 @@ const MedalModalLeaderboard = (props) => {
     setShowEditScores(true)
   }
 
+  
+
   const handleCloseEditScores = () => {
     setShowEditScores(false)
   }
@@ -22,6 +24,8 @@ const MedalModalLeaderboard = (props) => {
    let today = new Date();
    today.setHours(0,0,0,0);
    const previous = date.getTime() < today.getTime();
+
+
     return (
             <Modal 
                     show={props.showModalLeader} 
@@ -77,7 +81,8 @@ const MedalModalLeaderboard = (props) => {
 
                             {entrant.nr &&
                               <th>
-                                NR {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}
+                              {/* Show NR and the nettScore */}
+                                NR({entrant.scoreCard.totalNettScore}) {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}
                                 <span style={{ marginLeft: "10px" }}>
                                   <button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant)}>
                                     View

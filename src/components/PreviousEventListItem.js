@@ -431,6 +431,8 @@ const [newTeeTime, setNewTeeTime] = useState({
           }
       }
 
+      
+
       const getEntrants = async () => {
         let entrantIndex = null;
         await apiCalls.getEntrants(props.event.id)
@@ -445,10 +447,72 @@ const [newTeeTime, setNewTeeTime] = useState({
                    } 
                    //Check if medal or stableford using score and sort by low to high for medal and high to low for stableford
         if(thisEventType === 'Medal') {
-          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? -1 : 1));
+          //If a.score is less than b.score a goes down one place. or else b goes down one place. 
+          setSortedEntrants(props.event.entrants.sort(
+                (a, b) => (a.score < b.score) ? 
+                      -1 
+                      //If scores are level, use back9 score
+                      : (a.score === b.score ? 
+                        (a.scoreCard.back9Score > b.scoreCard.back9Score ? 
+                          -1 
+                          //If back 9 scores are level, use back 6 scores
+                            : (a.scoreCard.back9Score === b.scoreCard.back9Score ?
+                              (a.scoreCard.back6Score > b.scoreCard.back6Score ?
+                                -1
+                                -1
+                                //if back6 scores are level, use back 3 scores
+                                  : (a.scoreCard.back6Score === b.scoreCard.back6Score ?
+                                    (a.scoreCard.back3Score > b.scoreCard.back3Score ?
+                                    -1
+                                    -1
+                                    //if back 3 scores are level, use score for last hole
+                                      :(a.scoreCard.back3Score === b.scoreCard.back3Score ?
+                                        (a.scoreCard.lastScore > b.scoreCard.lastScore ?
+                                        -1
+                                        -1
+                                        : 1)
+                                        : 1)
+                                    )
+                                    :1)
+                              )
+                              :1)
+                        )
+                        :1)
+              )
+          )
         }
         if(thisEventType === 'Stableford') {
-          setSortedEntrants(props.event.entrants.sort((a, b) => (a.score < b.score) ? 1 : -1));
+          setSortedEntrants(props.event.entrants.sort(
+            (a, b) => (a.score > b.score) ? 
+                  -1 
+                  : (a.score === b.score ? 
+                    (a.scoreCard.back9Score > b.scoreCard.back9Score ? 
+                      -1 
+                      //If back 9 scores are level, use back 6 scores
+                        : (a.scoreCard.back9Score === b.scoreCard.back9Score ?
+                          (a.scoreCard.back6Score > b.scoreCard.back6Score ?
+                            -1
+                            -1
+                            //if back6 scores are level, use back 3 scores
+                              : (a.scoreCard.back6Score === b.scoreCard.back6Score ?
+                                (a.scoreCard.back3Score > b.scoreCard.back3Score ?
+                                -1
+                                -1
+                                //if back 3 scores are level, use score for last hole
+                                  :(a.scoreCard.back3Score === b.scoreCard.back3Score ?
+                                    (a.scoreCard.lastScore > b.scoreCard.lastScore ?
+                                    -1
+                                    -1
+                                     : 1)
+                                     : 1)
+                                )
+                                :1)
+                          )
+                          :1)
+                    )
+                    :1)
+              )
+          )
         }
                  })
                }catch(e) {}
@@ -1188,6 +1252,8 @@ const [newTeeTime, setNewTeeTime] = useState({
 
       let yourDate = props.event.date;
       let formatDate = new Date(yourDate).toString().substring(0,15)
+
+      
 
 
   return (
