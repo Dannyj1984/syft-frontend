@@ -895,6 +895,7 @@ const [newTeeTime, setNewTeeTime] = useState({
                       handleShowTeeTime={handleShowTeeTime}
                       handleShowAddTeeTime={handleShowAddTeeTime}
                       entrants={entrants}
+                      getTeeTimes={getTeeTimes}
                     />
 
                     <AddTeeModal 

@@ -11,7 +11,15 @@ const TeeTimeModal = (props) => {
 
     const [pendingCall, setPendingCall] = useState(false);
 
+    const [response, setResponse] = useState();
+
     const [teeSheet, setTeeSheet] = useState();
+
+    const [teeSheetId, setTeeSheetId] = useState();
+
+    const [has4, setHas4] = useState(props.teeTimes.noofSlots === 4);
+
+    
 
     let date = new Date(props.event.date)
     let today = new Date();
@@ -34,9 +42,27 @@ const TeeTimeModal = (props) => {
     .getSingleTeesheet(teesheetid)
     .then((response) => {
       setPendingCall(false)
+      setTeeSheetId(teesheetid);
       setTeeSheet(response.data)
     })
       setShowEditTeeTime(true);
+  }
+
+  //Remove single entrant from the teesheet
+  const removeTeeSheetEntrant = (teesheetid, memberid) => {
+    setPendingCall(true);
+    apiCalls
+    .removeEntrantFromTeeSheet(teesheetid, memberid)
+    .then((response) => {
+      props.getTeeTimes();
+      setResponse(response.data.message)
+      //return response to empty after 3 seconds
+      setTimeout(() => setResponse(), 3000)
+      pendingCall(false);
+    })
+    .catch((apiError) => {
+      setPendingCall(false);
+    })
   }
     
 
@@ -80,6 +106,8 @@ const TeeTimeModal = (props) => {
         });
 
     }
+
+    
     return (
     <Modal 
       show={props.showTeeTime} 
@@ -119,19 +147,43 @@ const TeeTimeModal = (props) => {
               <tr key={teetime.id}>
               <td>{teetime.teeTime}</td>
               {teetime.entrants.map((entrant) =>  (
-                <td key={entrant.member.id}>{entrant.member['firstName']} {entrant.member['surname']} ({entrant.member['handicap']})</td>
+                  <td 
+                    key={entrant.member.id}>{entrant.member['firstName']} {entrant.member['surname']} ({entrant.member['handicap']})
+                    <br></br>
+                    <button 
+                      className='btn btn-warning' onClick={() => removeTeeSheetEntrant(teetime.id, entrant.member.id)}>
+                      Remove
+                    </button>
+                  </td>
+                
               ))}
+              
               {props.loggedInUser.role === 'ADMIN' && !previous &&
               <td headers='admin'>
                   <ButtonWithProgress className="btn btn-danger m-2" onClick={() => deleteTeeSheet(teetime.id)} text='Delete'/>
-                  <button className="btn btn-warning m-2" disabled={true} onClick={() => handleShowEditTeeTime(teetime.id)}>Update</button>
+                  <button className="btn btn-warning m-2" disabled={false} onClick={() => handleShowEditTeeTime(teetime.id)}>Update</button>
               
               
               </td>}
               </tr>
         ))}   
+
+        <EditTeeModal 
+          showEditTeeTime={showEditTeeTime}
+          handleCloseEditTeeTime={handleCloseEditTeeTime}
+          event={props.event}
+          pendingApiCall={props.pendingApiCall}
+          teeTimes={props.teeTimes}
+          loggedInUser={props.loggedInUser}
+          entrants={props.entrants}
+          teeSheet={teeSheet}
+          teeSheetId ={teeSheetId}
+        />
+        
         </tbody>
+        
       </Table>
+      {response && <div className='text-success text-center'>{response}</div>}
       </Modal.Body>}
       <Modal.Footer>
         {(props.loggedInUser.role === 'ADMIN') && !previous &&

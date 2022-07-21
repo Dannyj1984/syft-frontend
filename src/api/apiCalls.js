@@ -117,6 +117,10 @@ export const randomiseEntrants = (eventId, perTee) => {
   return axios.put(path);
 }
 
+export const removeEntrantFromTeeSheet = (teeSheetId, memberId) => {
+  return axios.delete(url + '/api/1.0/management/teeSheet/entrant/remove/' + teeSheetId + "/" + memberId);
+}
+
 
 //course calls
 
@@ -201,6 +205,10 @@ export const completeEvent = (eventId) => {
 export const updateTeeSheetCall = (teeSheetId, body) => {
   return axios.put(url + '/api/1.0/management/events/teesheet/update/' + teeSheetId, body);
 };
+
+export const updateTeeSheetEntrant = (teeSheetId, newId, oldId) => {
+  return axios.put(url + '/api/1.0/management/teeSheet/update/' + teeSheetId + "/" + newId + "/" + oldId);
+}
 
 export const deleteTeeSheet = (teeSheetId) => {
   return axios.delete(url + '/api/1.0/management/teeSheet/' + teeSheetId);

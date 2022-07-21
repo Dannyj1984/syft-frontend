@@ -63,7 +63,7 @@ export const EventList = (props) => {
   return (
           <div >
             <h3 className="card-title m-auto text-center">Events</h3>
-            <div class="row">
+            <div className="row">
             <div className="col-6">
               <Link
                     to={`/previousEvent`}>
