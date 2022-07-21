@@ -5,20 +5,16 @@ import * as apiCalls from '../../api/apiCalls';
 
 
 const EditTeeModal = (props) => {
+    const [slot1, setSlot1] = useState();
+    const [slot2, setSlot2] = useState();
+    const [slot3, setSlot3] = useState();
+    const [slot4, setSlot4] = useState();
+    const [newSlot1, setNewSlot1] = useState();
+    const [newSlot2, setNewSlot2] = useState();
+    const [newSlot3, setNewSlot3] = useState();
+    const [newSlot4, setNewSlot4] = useState();
 
-    //const [entrants, setEntrants] = useState(props.teeSheet.entrants);
-
-    const [inEditMode, setInEditMode] = useState(false)
-
-    const [teeSheet, setTeeSheet] = useState()
-    const [slot1, setSlot1] = useState()
-    const [slot2, setSlot2] = useState()
-    const [slot3, setSlot3] = useState()
-    const [slot4, setSlot4] = useState()
-    const [newSlot1, setNewSlot1] = useState()
-    const [newSlot2, setNewSlot2] = useState()
-    const [newSlot3, setNewSlot3] = useState()
-    const [newSlot4, setNewSlot4] = useState()
+    const [response, setResponse] = useState();
     
     
     const [pendingApiCall, setPendingApiCall] = useState(false);
@@ -27,37 +23,44 @@ const EditTeeModal = (props) => {
       const { value } = e.target;
 
       setNewSlot1(value);
+      setSlot1(props.teeSheet.entrants[0].member.id)
     }
 
     const changeNewSlot2 = (e) => {
       const { value } = e.target;
 
       setNewSlot2(value);
+      setSlot2(props.teeSheet.entrants[1].member.id)
     }
 
     const changeNewSlot3 = (e) => {
       const { value } = e.target;
 
       setNewSlot3(value);
+      setSlot3(props.teeSheet.entrants[2].member.id)
     }
 
     const changeNewSlot4 = (e) => {
       const { value } = e.target;
 
       setNewSlot4(value);
+      setSlot4(props.teeSheet.entrants[3].member.id)
     }
     
 
    const updateTeeSheet1 = () => {
+    console.log(props.teeSheetId + " " + newSlot1 + " " + slot1)
     setPendingApiCall(true)
     apiCalls
     .updateTeeSheetEntrant(props.teeSheetId, newSlot1, slot1)
     .then((response) => {
+      props.getTeeTimes();
       setPendingApiCall(false);
-      console.log(response.data)
+      console.log(response.data);
+      setResponse(response.data.message);
+      setTimeout(() => setResponse(), props.handleCloseEditTeeTime(), 3000);
     })
     .catch((error) => {
-      
       setPendingApiCall(false);
       console.log(error)
     })
@@ -67,10 +70,13 @@ const EditTeeModal = (props) => {
    const updateTeeSheet2 = () => {
     setPendingApiCall(true)
     apiCalls
-    .updateTeeSheetEntrant(props.teeSheetId, newSlot2, slot3)
+    .updateTeeSheetEntrant(props.teeSheetId, newSlot2, slot2)
     .then((response) => {
+      props.getTeeTimes();
       setPendingApiCall(false);
-      console.log(response.data)
+      console.log(response.data);
+      setResponse(response.data.message);
+      setTimeout(() => setResponse(), props.handleCloseEditTeeTime(), 3000);
     })
     .catch((error) => {
       
@@ -86,7 +92,10 @@ const EditTeeModal = (props) => {
     .updateTeeSheetEntrant(props.teeSheetId, newSlot3, slot3)
     .then((response) => {
       setPendingApiCall(false);
-      console.log(response.data)
+      props.getTeeTimes();
+      console.log(response.data);
+      setResponse(response.data.message);
+      setTimeout(() => setResponse(), props.handleCloseEditTeeTime(), 3000)
     })
     .catch((error) => {
       
@@ -102,7 +111,10 @@ const EditTeeModal = (props) => {
     .updateTeeSheetEntrant(props.teeSheetId, newSlot4, slot4)
     .then((response) => {
       setPendingApiCall(false);
-      console.log(response.data)
+      props.getTeeTimes();
+      console.log(response.data);
+      setResponse(response.data.message);
+      setTimeout(() => setResponse(), props.handleCloseEditTeeTime(), 3000);
     })
     .catch((error) => {
       
@@ -111,27 +123,6 @@ const EditTeeModal = (props) => {
     })
     
    }
-
-    useEffect(() => {
-      setPendingApiCall(true)
-    apiCalls
-    .getSingleTeesheet(props.teeSheetId)
-    .then((response) => {
-      console.log(response.data)
-      setPendingApiCall(false)
-      setTeeSheet(response.data)
-    
-
-      setSlot1(response.data.entrants[0].member.id)
-      setSlot2(response.data.entrants[1].member.id)
-      setSlot3(response.data.entrants[2].member.id)
-      setSlot4(response.data.entrants[3].member.id)
-    })
-    .catch((error) => {
-      setPendingApiCall(false)
-      console.log(error)
-    })
-    }, [setSlot1, setSlot2, setSlot3, setSlot4, teeSheet])
     
 
     return (
@@ -210,6 +201,7 @@ const EditTeeModal = (props) => {
                     
                   </tr>
             </tbody>}
+            {response && <div className='text-success text-center'>{response}</div>}
           </Table>
           </Modal.Body>}
           <Modal.Footer>

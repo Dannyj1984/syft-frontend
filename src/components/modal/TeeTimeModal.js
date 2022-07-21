@@ -107,7 +107,7 @@ const TeeTimeModal = (props) => {
 
     }
 
-    
+
     return (
     <Modal 
       show={props.showTeeTime} 
@@ -178,6 +178,7 @@ const TeeTimeModal = (props) => {
           entrants={props.entrants}
           teeSheet={teeSheet}
           teeSheetId ={teeSheetId}
+          getTeeTimes={props.getTeeTimes}
         />
         
         </tbody>
