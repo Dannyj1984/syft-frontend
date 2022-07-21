@@ -144,7 +144,9 @@ const EditTeeModal = (props) => {
           {!props.pendingApiCall &&
           <Modal.Body>
           
-          
+          {props.loggedInUser.role === 'ADMIN' &&
+            <p>Choose the member who will be moved into this tee sheet in the place of the member to be removed.</p>  
+          }
           <Table striped bordered hover responsive>
             <thead>
               <tr>
@@ -162,41 +164,46 @@ const EditTeeModal = (props) => {
                     <td>{props.teeSheet.teeTime}</td>
                     <td>
                         <select onChange={changeNewSlot1}>
+                        <option selected disabled value="">Please select</option>
                         {props.entrants.map((entrant) =>  (
+                          
                             <option key={entrant.member.id} value={entrant.member.id} >{entrant.member.firstName} {entrant.member.surname} {entrant.member.handicap}</option>
                         ))}
                         </select>
                         {props.loggedInUser.role === 'ADMIN' &&
-                        <Button disabled={pendingApiCall} onClick={updateTeeSheet1}>Update</Button>}
+                        <Button className='ml-3' disabled={pendingApiCall} onClick={updateTeeSheet1}>Update</Button>}
                     </td>
                     
                     <td>
                         <select onChange={changeNewSlot2}>
+                        <option selected disabled value="">Please select</option>
                         {props.entrants.map((entrant) =>  (
                             <option key={entrant.member.id} value={entrant.member.id} >{entrant.member.firstName} {entrant.member.surname} {entrant.member.handicap}</option>
                         ))}
                         </select>
                         {props.loggedInUser.role === 'ADMIN' &&
-                        <Button disabled={pendingApiCall} onClick={updateTeeSheet2}>Update</Button>}
+                        <Button className='ml-3' disabled={pendingApiCall} onClick={updateTeeSheet2}>Update</Button>}
                     </td>
                     <td>
                         <select onChange={changeNewSlot3}>
+                        <option selected disabled value="">Please select</option>
                         {props.entrants.map((entrant) =>  (
                             <option key={entrant.member.id} value={entrant.member.id} >{entrant.member.firstName} {entrant.member.surname} {entrant.member.handicap}</option>
                         ))}
                         </select>
                         {props.loggedInUser.role === 'ADMIN' &&
-                        <Button disabled={pendingApiCall} onClick={updateTeeSheet3}>Update</Button>}
+                        <Button className='ml-3' disabled={pendingApiCall} onClick={updateTeeSheet3}>Update</Button>}
                     </td>
                     {props.teeTimes[0].noOfSlots === 4 &&
                     <td>
                         <select onChange={changeNewSlot4}>
+                        <option selected disabled value="">Please select</option>
                         {props.entrants.map((entrant) =>  (
                             <option key={entrant.member.id} value={entrant.member.id}>{entrant.member.firstName} {entrant.member.surname} {entrant.member.handicap}</option>
                         ))}
                         </select>
                         {props.loggedInUser.role === 'ADMIN' &&
-                        <Button disabled={pendingApiCall} onClick={updateTeeSheet4}>Update</Button>}
+                        <Button className='ml-3' disabled={pendingApiCall} onClick={updateTeeSheet4}>Update</Button>}
                     </td>}
                     
                   </tr>
