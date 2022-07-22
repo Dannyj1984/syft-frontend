@@ -6,6 +6,7 @@ import ButtonWithProgress from '../ButtonWithProgress';
 import { confirmAlert } from 'react-confirm-alert';
 import * as apiCalls from '../../api/apiCalls';
 import EditTeeModal from './EditTeeModal';
+import AddTeeSheetEntrant from './AddTeeSheetEntrant';
 
 const TeeTimeModal = (props) => {
 
@@ -28,6 +29,8 @@ const TeeTimeModal = (props) => {
 
     //Edit Tee time modal setup
   const [showEditTeeTime, setShowEditTeeTime] = useState(false);
+
+  const [showAddTeeTimeEntrant, setShowAddTeeTImeEntrant] = useState(false);
   
 
   const handleCloseEditTeeTime = () => setShowEditTeeTime(false);
@@ -46,6 +49,29 @@ const TeeTimeModal = (props) => {
       setTeeSheet(response.data)
     })
       setShowEditTeeTime(true);
+  }
+
+
+
+  const handleShowAddTeeTimeEntrant = (teesheetid) => {
+    //Check if device is in portrait and if so, warn that using in Landscape is advisable for this task
+    if(window.innerHeight > window.innerWidth){
+      alert("Please use Landscape mode when editing tee times!");
+    }
+    setPendingCall(true)
+    apiCalls
+    .getSingleTeesheet(teesheetid)
+    .then((response) => {
+      setPendingCall(false)
+      setTeeSheetId(teesheetid);
+      setTeeSheet(response.data)
+    })
+    
+    setShowAddTeeTImeEntrant(true);
+  }
+
+  const handleCloseAddTeeTimeEntrant = () => {
+    setShowAddTeeTImeEntrant(false);
   }
 
   //Remove single entrant from the teesheet
@@ -162,6 +188,7 @@ const TeeTimeModal = (props) => {
               <td headers='admin'>
                   <ButtonWithProgress className="btn btn-danger m-2" onClick={() => deleteTeeSheet(teetime.id)} text='Delete'/>
                   <button className="btn btn-warning m-2" disabled={false} onClick={() => handleShowEditTeeTime(teetime.id)}>Update</button>
+                  <button className="btn btn-success m-2" disabled={false} onClick={() => handleShowAddTeeTimeEntrant(teetime.id)}>Add</button>
               
               
               </td>}
@@ -180,6 +207,19 @@ const TeeTimeModal = (props) => {
           teeSheetId ={teeSheetId}
           getTeeTimes={props.getTeeTimes}
         />
+
+        <AddTeeSheetEntrant
+          showAddTeeTimeEntrant={showAddTeeTimeEntrant}
+          pendingApiCall={props.pendingApiCall}
+          teeTImes={props.teeTImes}
+          loggedInUser={props.loggedInUser}
+          entrants={props.entrants}
+          teeSheetId={teeSheetId}
+          event={props.event}
+          teeSheet={teeSheet}
+          handleCloseAddTeeTimeEntrant={handleCloseAddTeeTimeEntrant}
+          getTeeTimes={props.getTeeTimes}
+         />
         
         </tbody>
         

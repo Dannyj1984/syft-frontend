@@ -121,6 +121,10 @@ export const removeEntrantFromTeeSheet = (teeSheetId, memberId) => {
   return axios.delete(url + '/api/1.0/management/teeSheet/entrant/remove/' + teeSheetId + "/" + memberId);
 }
 
+export const addEntrantToTeeSheet = (teeSheetId, memberId) => {
+  return axios.put(url + '/api/1.0/teeSheet/addEntrant/' + teeSheetId + "/" + memberId);
+}
+
 
 //course calls
 
