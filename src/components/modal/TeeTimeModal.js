@@ -176,10 +176,11 @@ const TeeTimeModal = (props) => {
                   <td 
                     key={entrant.member.id}>{entrant.member['firstName']} {entrant.member['surname']} ({entrant.member['handicap']})
                     <br></br>
+                    {props.loggedInUser.role === 'ADMIN' &&
                     <button 
                       className='btn btn-warning' onClick={() => removeTeeSheetEntrant(teetime.id, entrant.member.id)}>
                       Remove
-                    </button>
+                    </button>}
                   </td>
                 
               ))}
