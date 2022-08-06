@@ -54,6 +54,22 @@ const loadFilter = async (requestedPage = 0) => {
     setPendingApiCall(false);
 };
 
+const loadUsersWithReduction = (requestedPage = 0) => {
+  let id = props.user.society.id;
+  setPendingApiCall(true);
+  apiCalls
+    .listUsersWithReduction(id, { page: requestedPage, size: 9 })
+    .then((response) => {
+      setPendingApiCall(false);
+      setPage(response.data);
+      setLoadError();
+    })
+    .catch((error) => {
+      setLoadError("User load failed")
+      setPendingApiCall(false)
+    });
+};
+
   const loadData = (requestedPage = 0) => {
     let id = props.user.society.id  
     setPendingApiCall(true)
@@ -61,6 +77,7 @@ const loadFilter = async (requestedPage = 0) => {
       .listUsers(id, { page: requestedPage, size: 9 })
       .then((response) => {
         setPage(response.data);
+        console.log(response.data)
         setLoadError();
         setPendingApiCall(false)
       })
@@ -103,6 +120,8 @@ const loadFilter = async (requestedPage = 0) => {
           
           <div className="col-sm">
           <ExportCSV />
+          <button className="btn btn-primary" onClick={loadUsersWithReduction}>Society reduction only</button>
+
           </div>
         </div>
       </div>}

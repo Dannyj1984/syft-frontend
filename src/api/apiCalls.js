@@ -45,6 +45,11 @@ export const listUsers = (id, param = { page: 0, size: 9 }) => {
   return axios.get(path);
 };
 
+export const listUsersWithReduction = (id, param = { page: 0, size: 9 }) => {
+  const path = url + `/api/1.0/members/reduction/${id}?page=${param.page || 0}&size=${param.size || 9}&sort=username,asc`;
+  return axios.get(path);
+};
+
 export const getMemberByFedExRanking = (societyId) => {
   const path = url + `/api/1.0/members/fedex/${societyId}`;
   return axios.get(path);
