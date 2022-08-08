@@ -14,6 +14,9 @@ export const UserList = (props) => {
   });
 
   const [pendingApiCall, setPendingApiCall] = useState(false);
+  const [showMembers, setShowMembers] = useState(true);
+  const [showReductions, setShowReductions] = useState(false);
+
 
   //Name filter when filtering users
   const [nameFilter, setNameFilter] = useState('');
@@ -63,6 +66,8 @@ const loadUsersWithReduction = (requestedPage = 0) => {
       setPendingApiCall(false);
       setPage(response.data);
       setLoadError();
+      setShowMembers(false);
+      setShowReductions(true)
     })
     .catch((error) => {
       setLoadError("User load failed")
@@ -79,6 +84,8 @@ const loadUsersWithReduction = (requestedPage = 0) => {
         setPage(response.data);
         console.log(response.data)
         setLoadError();
+        setShowMembers(true);
+        setShowReductions(false)
         setPendingApiCall(false)
       })
       .catch((error) => {
@@ -111,7 +118,7 @@ const loadUsersWithReduction = (requestedPage = 0) => {
           <div className="col-sm">
             <div className="row">
               <Input name="nameFilter" value={nameFilter} type="text" placeholder="Search by firstname" onChange={onChange} />
-              <button className="btn btn-primary" onClick={clearFilter} >Clear</button>
+              <button className="btn btn-primary" style={{'margin':'10px'}} onClick={clearFilter} >Clear</button>
             </div>
           </div>
           <div className="col-sm">
@@ -119,9 +126,18 @@ const loadUsersWithReduction = (requestedPage = 0) => {
           </div>
           
           <div className="col-sm">
-          <ExportCSV />
-          <button className="btn btn-primary" onClick={loadUsersWithReduction}>Society reduction only</button>
-
+            <ExportCSV />
+            {showMembers &&
+            <button 
+              className="btn btn-primary" 
+              onClick={loadUsersWithReduction}>Society reduction only
+            </button>}
+            {showReductions &&
+            <button 
+              className="btn btn-primary" 
+              style={{'margin':'6px'}}
+              onClick={loadFilter}>Members
+            </button>}
           </div>
         </div>
       </div>}

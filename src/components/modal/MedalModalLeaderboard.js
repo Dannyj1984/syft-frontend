@@ -82,7 +82,7 @@ const MedalModalLeaderboard = (props) => {
                             {entrant.nr &&
                               <th>
                               {/* Show NR and the nettScore */}
-                                NR({entrant.scoreCard.totalNettScore}) {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}
+                                NR {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}
                                 <span style={{ marginLeft: "10px" }}>
                                   <button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant)}>
                                     View
