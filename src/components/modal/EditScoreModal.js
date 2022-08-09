@@ -41,12 +41,12 @@ const EditScoreModal = (props) => {
         .then((response) => {
             setPendingApiCall(false) 
             //Set the response message to show for 3 seconds
+            console.log(response)
             setResponse(response.data.message);
             setTimeout(() => setResponse(), 3000)
         })
         .catch((error)=> {
             console.log(error)
-            setErrors(error);
         })
         
         props.getEntrants();
