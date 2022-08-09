@@ -54,6 +54,11 @@ a {
   height: 100%;
 }
 
+th.entrantScore {
+  display: flex;
+  justify-content: flex-end;
+}
+
 
 
 

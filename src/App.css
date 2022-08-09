@@ -179,6 +179,11 @@ input[type=number] {
   width: 2.4em;
 }
 
+th.entrantScore {
+  display: flex;
+  justify-content: flex-end;
+}
+
  /* Responsiveness */
  @media (min-width: 900px) {
   .holeSpan {

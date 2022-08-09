@@ -69,7 +69,7 @@ const MedalModalLeaderboard = (props) => {
                               `${entrant.member.firstName} ${entrant.member.surname} (${entrant.coursehcp}) `}
                             </th>}
                             {!entrant.nr &&
-                              <th>
+                              <th className='entrantScore'>
                                 {Math.round(entrant.score)} {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}
                                 <span style={{ marginLeft: "10px" }}>
                                   <button className="btn btn-primary" onClick={() => props.handleOpenScoreCard(entrant)}>
@@ -80,7 +80,7 @@ const MedalModalLeaderboard = (props) => {
                             }
 
                             {entrant.nr &&
-                              <th>
+                              <th className='entrantScore'>
                               {/* Show NR and the nettScore */}
                                 NR {entrant.currentHole < 18 ? `(${entrant.currentHole})` : ''}
                                 <span style={{ marginLeft: "10px" }}>
