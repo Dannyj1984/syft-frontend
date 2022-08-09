@@ -47,6 +47,8 @@ const EditScoreModal = (props) => {
         })
         .catch((error)=> {
             console.log(error)
+            setErrors("Error : Please try again.")
+            setPendingApiCall(false)
         })
         
         props.getEntrants();
