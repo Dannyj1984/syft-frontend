@@ -41,11 +41,12 @@ const EditScoreModal = (props) => {
         .then((response) => {
             setPendingApiCall(false) 
             //Set the response message to show for 3 seconds
-            setResponse("Scores updated");
+            setResponse(response.data.message);
             setTimeout(() => setResponse(), 3000)
         })
         .catch((error)=> {
-            console.log(`error : ${error}`)
+            console.log(error)
+            setErrors(error);
         })
         
         props.getEntrants();
@@ -65,6 +66,7 @@ const EditScoreModal = (props) => {
             <Spinner></Spinner>
             </Modal.Body>
             }
+
             {!props.pendingApiCall &&
             <Modal.Body>
             {props.sortedEntrants.map((entrant, index) => (
@@ -92,6 +94,7 @@ const EditScoreModal = (props) => {
             </div>
             ))}
             {response && <div className='text-success text-center'>{response}</div>}
+            {errors && <div className='text-danger text-center'>{errors}</div>}
             
             </Modal.Body>}
             <Modal.Footer>
