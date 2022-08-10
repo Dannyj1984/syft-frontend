@@ -273,7 +273,7 @@ export const updateScore = (eventid, memberid, currentHole, score) => {
 }
 
 export const updateEntrantScore = (eventId, memberId, score) => {
-  return  axios.put(`/api/1.0/updateEntrantsScore/${eventId}/${memberId}/${score}`)
+  return  axios.put(url + `/api/1.0/updateEntrantsScore/${eventId}/${memberId}/${score}`)
 }
 
 //Get a list of previous events for a single entrant for profile card
