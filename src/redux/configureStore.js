@@ -16,6 +16,7 @@ const configureStore = (addLogger = true) => {
     wins: '',
     handicap: '',
     role: '',
+    lastWin: '',
     image: '',
     cdh: '',
     homeclub: '',

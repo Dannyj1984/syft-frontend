@@ -8,7 +8,7 @@ const Footer = () => {
             <div className="row">
               <div className="col-12 text-center">
                 <ul>
-                  Copyright SYFTGOLF {new Date().getFullYear()} v1.1.7
+                  Copyright SYFTGOLF {new Date().getFullYear()} v1.1.8
                 </ul>
               </div>
             </div>

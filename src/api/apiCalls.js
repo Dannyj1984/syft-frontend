@@ -59,7 +59,6 @@ export const getMemberByFedExRanking = (societyId) => {
 
 export const listFilteredUsers = (param = { page: 0, size: 9 }, id, nameFilter) => {
   const path = url + `/api/1.0/societyFilteredUsers/${id}?query=${nameFilter}&page=${param.page || 0}&size=${param.size || 9}&sort=username,asc`;
-  console.log(path)
   return axios.get(path);
 };
 

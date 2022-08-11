@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 
 const UserListItem = (props) => {
 
+  console.log(props.user)
+
     //
     const [userHcpDetails, setUserHcpDetails] = useState({
         originalHandicap: props.user.handicap,
@@ -218,13 +220,13 @@ const UserListItem = (props) => {
                         {props.loggedInUser.role === 'ADMIN' &&
                         <p className='m-0'>Qualifiers since win : {props.user.qualiesSinceWin}</p>
                         }
-
-                        
                         <p className="m-0">WHS : {props.user.handicap}</p>
                         <p className="m-0">Society Handicap : {Number(props.user.handicap - props.user.socHcpRed).toFixed(1)}</p> {/*Show society handicap to 1dp*/}
                         <p className="m-0">Home club : {props.user.homeClub}</p>
                         <p className="m-0">Role : {props.user.role}</p>
                         <p className="m-0">Wins : {props.user.wins}</p> 
+                        {props.user.lastWin !== null &&
+                        <p className="m-0">Last win : {props.user.lastWin}</p>}
                     </div>
                 </div>
                 <div>

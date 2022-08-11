@@ -13,6 +13,7 @@ const initialState = {
   societyHcp: '',
   password: '',
   wins: '',
+  lastWin: '',
   society: {
     id: ''
   },

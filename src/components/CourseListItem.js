@@ -5,7 +5,6 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import * as apiCalls from '../api/apiCalls';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 const CourseListItem = (props) => {
 
