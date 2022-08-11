@@ -213,7 +213,13 @@ const UserListItem = (props) => {
                     <div className="col-12 card-title align-self-center mb-0">
                         <h5>{props.user.firstName} {props.user.surname}</h5>
                         {props.loggedInUser.role === 'ADMIN' &&
-                        <p className="m-0">ID : {props.user.id}</p>}
+                        <p className="m-0">ID : {props.user.id}</p>
+                        }
+                        {props.loggedInUser.role === 'ADMIN' &&
+                        <p className='m-0'>Qualifiers since win : {props.user.qualiesSinceWin}</p>
+                        }
+
+                        
                         <p className="m-0">WHS : {props.user.handicap}</p>
                         <p className="m-0">Society Handicap : {Number(props.user.handicap - props.user.socHcpRed).toFixed(1)}</p> {/*Show society handicap to 1dp*/}
                         <p className="m-0">Home club : {props.user.homeClub}</p>

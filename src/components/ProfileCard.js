@@ -10,7 +10,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const ProfileCard = (props) => {
-  const { username, firstName, surname, handicap, email, image, mobile, cdh, homeClub, wins } = props.user
+  const { username, firstName, surname, qualiesSinceWin, socHcpRed, handicap, email, image, mobile, cdh, homeClub, wins } = props.user
   const [errors, setErrors] = useState({});
   const [pendingApiCall, setPendingApiCall] = useState(false);
 
@@ -125,6 +125,9 @@ const ProfileCard = (props) => {
       <h5>{`CDH: ${cdh}`}</h5>
       <h5>{`Home club: ${homeClub}`}</h5>
       <h5>{`Wins: ${wins}`}</h5>
+      <h5>{`Society reduction : ${socHcpRed}`}</h5>
+      {socHcpRed > 0 &&
+      <h5> {`${qualiesSinceWin} ${qualiesSinceWin === 1 ? `qualifier` : `qualifiers`} played since last win`}</h5>}
         {props.inEditMode && (
           <div className="mb-2">
             <Input
